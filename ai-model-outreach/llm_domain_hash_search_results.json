@@ -1,0 +1,117 @@
+{
+  "openai.com": {
+    "has_more": false,
+    "limit": 50,
+    "result": [
+      "22ee2a57fd52ed0c4f74c0cc512a9aa64ed595abca7d9558e5d7a816fe87b94b"
+    ],
+    "status": "OK"
+  },
+  "api.openai.com": {
+    "has_more": false,
+    "limit": 50,
+    "result": [
+      "44bb34706769ec9e5fd58ce5b8565605e8bd649594e98b925220a726abcc6e18"
+    ],
+    "status": "OK"
+  },
+  "anthropic.com": {
+    "results": []
+  },
+  "api.anthropic.com": {
+    "results": []
+  },
+  "claude.ai": {
+    "results": []
+  },
+  "googleapis.com": {
+    "results": []
+  },
+  "generativelanguage.googleapis.com": {
+    "results": []
+  },
+  "vertex.googleapis.com": {
+    "results": []
+  },
+  "aiplatform.googleapis.com": {
+    "results": []
+  },
+  "googleusercontent.com": {
+    "results": []
+  },
+  "copilot.microsoft.com": {
+    "has_more": false,
+    "limit": 50,
+    "result": [
+      "66bf4d3c08efb66bb65fe163e9eb5117367e823b1b71375b93e43a200cfae295",
+      "a4f88453cd31440a3eccb4c1fef57cfc6def4572bfe146e3e6d404051ea96de4",
+      "64cbb394a3356e6376ee397f7d97e8be8efc41944379241951e71570038d9932",
+      "6049a008212bc6edf86d3913403127758e17e7e9dc475a22b19e5a25a7014fd0",
+      "7e1ca447598220ae4e89374b6ae50970cfe863063ce50c2dec4388873cc092c6",
+      "dde8f260065321d6b6a9ba2d074ce080e11e71d9a0b79de963ec4797e5c96acc",
+      "073041d8afe64f1d44764759ce5e79e150d1394b46e42dd420c507be0424461d",
+      "94d963d5254cb106eca0f5b94476f25f1e5291e5caea8d9c1983fd3737427d1e"
+    ],
+    "status": "OK"
+  },
+  "api.copilot.microsoft.com": {
+    "results": []
+  },
+  "bingcopilot.microsoft.com": {
+    "results": []
+  },
+  "meta.com": {
+    "results": []
+  },
+  "meta.ai": {
+    "results": []
+  },
+  "llama.meta.com": {
+    "results": []
+  },
+  "llama-api.fe.meta.com": {
+    "results": []
+  },
+  "bedrock.aws": {
+    "results": []
+  },
+  "runtime.bedrock.amazonaws.com": {
+    "results": []
+  },
+  "bedrock-runtime.amazonaws.com": {
+    "results": []
+  },
+  "mistral.ai": {
+    "results": []
+  },
+  "api.mistral.ai": {
+    "results": []
+  },
+  "cohere.ai": {
+    "results": []
+  },
+  "api.cohere.ai": {
+    "results": []
+  },
+  "huggingface.co": {
+    "has_more": false,
+    "limit": 50,
+    "result": [
+      "23713d20740792b7f5fa25e5bae3cbf4cffffe7f4219e0e0997dba48ad937cbf",
+      "755105d27ba007d55b26615bb3a6c7f1da452b46800cb6347fd5d81a0c554261",
+      "acec8c3dc9a857c90f66e75c5da50f6473903896de5810762c0342a45b2b4925",
+      "7e536181fe254d0db6e48c91e9b5a42acee73862fda88841dc6dc6d7b2d3e38d",
+      "e088de65b15f2072a8988783599ad40389bf2326aa7d7ccf4cb60e1902c0b411"
+    ],
+    "status": "OK"
+  },
+  "hf.space": {
+    "results": []
+  },
+  "perplexity.ai": {
+    "results": []
+  },
+  "api.perplexity.ai": {
+    "results": []
+  }
+}
