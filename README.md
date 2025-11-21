@@ -23,7 +23,7 @@ These scripts work together as a simple pipeline to move high quality PolySwarm 
 **Folder Contents:**
 1. **script1_polyswarm_ioc_collector.py:** 
 Fetches recent malware samples from PolySwarm, extracts IPs, URLs and TTPs, and saves everything into a timestamped JSON file.
-Delete any existing JSON in the folder, add your PolySwarm API key, and run.
+Delete any existing JSON in the folder, add your PolySwarm API key, and run. There is a QUERY value in the script, edit that to track your desired malware families. 
 2. **script2_threatconnect_importer.py:**
 Reads the JSON file created by Script 1 and creates indicators in ThreatConnect (IP Addresses and URLs only).
 Add your ThreatConnect API credentials and run.
