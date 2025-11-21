@@ -1,0 +1,5773 @@
+[
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "3d370ea2380d84765f4d30505fe247df39f009c79aaafd83c9c6ec6cd825cbcc",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus",
+            "injector"
+        ],
+        "ips": [
+            "185.62.56.182",
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "151.101.62.172",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "db7030cfa0f7889ad37670cddc51a9bcf7f85a644055df9908e2aee5d0383513",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "74.179.77.204",
+            "72.145.35.144",
+            "51.11.168.232",
+            "150.171.22.17",
+            "199.232.54.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "cdb4c31d46cc881a968a5ce003b26898b0a55c734768832709e2084af90d4d3c",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.58.172",
+            "74.179.77.204",
+            "51.11.168.232",
+            "72.145.35.144",
+            "52.167.17.97",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "c850ffcf374f7b6cb443499b6d8fe940eeb7e5cb9394e67a5422b8abe470418f",
+        "extension": "dll",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "135.232.92.137",
+            "72.145.35.144",
+            "2.21.64.146",
+            "85.234.74.60",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "ce4e2440045f3e4c3ad0b91b3f3671e8a11fa5851ba10786eaab0841c6b25147",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus",
+            "injector"
+        ],
+        "ips": [
+            "185.62.56.182",
+            "74.178.76.44",
+            "142.251.36.14",
+            "23.38.111.119",
+            "51.11.168.232",
+            "199.232.58.172",
+            "74.179.77.204",
+            "52.167.17.97",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "c314b8a785e5e2f0e3a3803c078cdcf06fd1c1871e433c3e83fe7d90aca6c4c1",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.58.172",
+            "51.11.168.232",
+            "74.179.77.204",
+            "72.145.35.144",
+            "52.167.17.97",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "ee45a0625cabd66af6636517d233a2b6766369f31a2820521a66365019d304a4",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "3358976d1862cd63fa7e405c6d3ca8ecbc8aa99c58b239fad6c8af0de9a4a034",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "e3bd7fc7aecead61c514a6cabcf5b9be09ec48275a181b017a3ceb155c4bcee1",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "199.232.58.172",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "df56041888e5b69a99097b74e0c865c10394ea040922f1984b1c14fd4dc97357",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "a95553c33d09076c0c8617ad174aac1817f4fa952f35dc26720addc635b82015",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "downloader",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.183.220.149",
+            "2.21.64.187",
+            "135.232.92.137",
+            "85.234.77.60",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "82731b2ecdbb81008c6b9913c29994eb1b381fd0688a6a03cf5a5d26883e2a88",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "trojan",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "52.167.17.97",
+            "199.232.58.172",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "8a302555c2caeecce331b8f7ab892b856acb15c060e2c83327729b2574c5c3cd",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "trojan",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "74.179.77.204",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "b91e607d3c55705f65d22f9dc6687bb53cede362314296720df8f2729cc1e1db",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "74.179.77.204",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "0198adfe0103b294b6fd022841c721ede9381fb990d95f46c93e41a9fff557c5",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "74.179.77.204",
+            "72.145.35.144",
+            "51.11.168.232",
+            "151.101.62.172",
+            "199.232.54.172",
+            "34.107.243.93"
+        ],
+        "urls": [
+            "http://webcdns.com:2083/static-directory/lt.mp3"
+        ],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1057",
+            "T1012",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "1c5f91aaaa25d87b405ab7fed06f8116608d2818b19076912bf487e16d1abe9e",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "72.145.35.144",
+            "2.21.64.146",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "8d664cdbdb26c06a4b1359138d809afe606a51f53f88accdd82879936ddaa1fa",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "23.38.111.119",
+            "74.178.76.44",
+            "52.191.219.104",
+            "85.234.77.60",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1003",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "0fa3d0503bb86fe84aaacf1ac9a38f1fa1ba290bcc6b6b0bb27decb16dafb03c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "135.232.92.137",
+            "52.191.219.104",
+            "85.234.77.60",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "678cc99ce39b75bea1dc372ce065a7f71bf81985e2fc0bb9293d05b552834ef2",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "59bcbd7885e58adc7a4a1a7e73c8a057ac833bd753dd027f300612c890b14acc",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "85.234.77.60",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1055",
+            "T1027.002",
+            "T1027",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "99ce35d4de036caabed32d24f94dc3cbf12a337ef1f38c325415957f77c3848d",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "cryptominer",
+            "trojan",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "72.145.35.144",
+            "151.101.62.172",
+            "2.21.64.146",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "869665f5f68c4fe310da4846f9ffa3e398b745ab3eabaa1efdbce7ee00737c40",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "downloader",
+            "banker",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.187",
+            "13.71.55.58",
+            "135.233.95.144",
+            "72.145.35.144",
+            "151.101.62.172",
+            "52.123.242.27"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "06166b3c206e160a400cb20018184aabd719932334e0aea6bf4d1c09b590db3e",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "151.101.62.172",
+            "2.21.64.187",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "b30ad8acfd2948f4a58f161a8157e745c729263f661367fcb9777024c52563e0",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "cryptominer",
+            "trojan",
+            "banker"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "ab8abd69662dbc14ec2a9e25f065371fbbf6a7983fc4ea36b50781f1529e72e8",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "downloader",
+            "banker",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "72.145.35.144",
+            "151.101.62.172",
+            "2.21.64.187",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1202",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "9e8b6d244df545c583403521d196110e38972a002de912ea754ad8844fe9ad3c",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "2.21.64.146",
+            "72.145.35.144",
+            "2.21.64.187",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "7e0f297fa6eeff4b782260079e4c408393db732ef8500f1bf74f66676b5a41a1",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "135.232.92.137",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "52.167.17.97",
+            "2.21.64.146"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "438e03ea31752c385ff054a54f27fb34d4a69f56839a569fc2813d1d4cd83005",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "142.251.36.14",
+            "23.38.111.119",
+            "85.234.77.60",
+            "52.191.219.104",
+            "135.232.92.137",
+            "2.21.64.187",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "12401af5f4dc1b68c58b844971be055036f608a1eb26ae4ca72d5a94480d7734",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "135.232.92.137",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "85.234.77.60"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1003"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "08fab21a3661b7c97bcd6a3858622a756455c444cc16067f273ba00b663b0b68",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "135.232.92.137",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "52.167.17.97",
+            "2.21.64.187"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1003"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "ec80420116cd5f01a4d9d7cda8c0f543ce2900e2aac69c8913a754663b7fc661",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "trojan",
+            "banker",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.146",
+            "135.233.95.144",
+            "13.71.55.58",
+            "72.145.35.144",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1496",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "9214061dec3603a6623c3ac0fdc8daf5122dfbbeb437301c386f9c2b1c46f74c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "2.21.64.187",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1055",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "9debf079df5e93b0e7097cc4a87dbac54c15a71c48efa5d14c756917d5d62da0",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "2.21.64.146",
+            "135.232.92.137",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2d4237255d45db83844ef0b6cc7f4cbd66d55052ff457598960dfed20e1fbb8e",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "135.232.92.137",
+            "52.191.219.104",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "85.234.77.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2fe6cbdb8c6e84192b82d17397d6b24dfd94b3f1eda6d5af739fe04e027832d1",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "trojan",
+            "banker",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "72.147.149.16",
+            "52.140.118.28",
+            "151.101.74.172",
+            "23.217.118.210",
+            "52.123.250.46"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "6b8b48a40fe42a46d27a440047d2b398174ef69f36103bb651653101df28f395",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "135.232.92.137",
+            "72.145.35.144",
+            "2.21.64.187",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "43c5f130857c71406a7bf02d975f78b2675bbe448ae56617c681c2451caea5f3",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.77.60",
+            "135.232.92.137",
+            "52.191.219.104",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "2.21.64.146"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "9cb21f543ccaaa19dbb0f7c4b85c99fbc1370d6c3e02066518896c338c7e10df",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "72.145.35.144",
+            "151.101.62.172",
+            "2.21.64.187"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "c67e858e3f2105810ddce784ec3c1979f86bfb84340a8160222146aee5ce5359",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "135.232.92.137",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1003"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "d89e35981a8434cbb93e3c2c1ffd9b8db2100218c899e2773f51e015173a8fe8",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "2.21.64.187",
+            "135.232.92.137",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "28465fcb6f83ed1a53ce2ff7dc1b27a9a10d6f5471a3212823adac495aaf361d",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "500d0d3b348e197d6b3339546f62438a71dc87603da2091350597886b3a37b26",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.77.60",
+            "135.232.92.137",
+            "52.191.219.104",
+            "52.167.17.97",
+            "151.101.62.172",
+            "2.21.64.146"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "b62667bc7fcbb8f73de5cf544d2822cc64ca68122210223ae06b0f303c1f62e1",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.187",
+            "74.179.77.204",
+            "52.167.249.196",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1003",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "25c46f55023d70b4fb999ac669ffe00f1a80b9635e5c16688edb2e2169db7071",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.72.205.209",
+            "72.145.35.144",
+            "52.167.249.196",
+            "2.21.64.146",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "6574caf454dd74c896043a9575714da1b8954383165489fe7e0cba211ff821ab",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.187",
+            "74.178.76.128",
+            "52.167.249.196",
+            "72.147.149.16",
+            "199.232.54.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1003"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "6860358096de43547eedd87f876df7db83b6887a96d1d0abbdf1c5be243a04e9",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.249.196",
+            "151.101.62.172",
+            "2.21.64.187",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "a42891a8561f21e58c7df43ccd7f7622f34bdd2ab8cc8f8a02840ee6774faee8",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "95.101.35.27",
+            "23.38.111.119",
+            "52.167.249.196",
+            "151.101.62.172",
+            "20.165.94.63",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "199.232.54.172"
+        ],
+        "urls": [
+            "http://webcdns.com:2083/static-directory/lt.mp3"
+        ],
+        "ttps": [
+            "T1071",
+            "T1539",
+            "T1057"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "5450dffd0db1d16c200af418f10caaa69621f38fb408daa88b7c842efea54ac3",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.146",
+            "74.179.77.204",
+            "52.167.249.196",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1202",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "8361f4fb2a2f315b8636f22e070fb3806d236186b667b2422f77a8389b08e372",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "banker",
+            "downloader"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "255aa122a79aad29855fc96ed214aba5ef99af392a48e47e7d7fffc5f82a8ad6",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "trojan",
+            "cryptominer"
+        ],
+        "ips": [
+            "23.38.111.119",
+            "74.178.76.44",
+            "52.191.219.104",
+            "95.101.35.26",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "f7daa859580488cf597c22125d6362f68c265f101d669a190a6a20534aaec748",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "199.232.54.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.249.196",
+            "2.21.64.187",
+            "74.179.77.204",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "2.21.64.146"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "6739ea7aae2f145ab443087fabbf98f55ecd8cec61d3b4a3386b3e2638951536",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "151.101.62.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.72.205.209",
+            "2.21.64.187",
+            "72.145.35.144",
+            "199.232.54.172",
+            "150.171.22.17",
+            "2.21.64.146"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "d9caa01f2d7b8b9341f965596bc15313b3b3b2e53f06823b73ed9c82af2fe526",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.187",
+            "20.72.205.209",
+            "72.145.35.144",
+            "199.232.54.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "de1077f5b199185d3590d7d52213fb827262db749599b9155675a7432412d7d1",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.187",
+            "74.179.77.204",
+            "52.183.220.149",
+            "72.145.35.144",
+            "85.234.77.60",
+            "2.21.64.146"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "d4e7cd581af9dadd0d8ccfdbf3a5e09834ad89998ce54162ca7332471fc0ec53",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.187",
+            "20.72.205.209",
+            "72.145.35.144",
+            "199.232.54.172",
+            "150.171.22.17",
+            "2.21.64.146"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1003",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2c0d80025eb595152b4648daaca9d7679bd9810f2858af862df05a6cb1295a90",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "downloader",
+            "banker",
+            "trojan"
+        ],
+        "ips": [
+            "23.38.111.119",
+            "74.178.76.44",
+            "40.119.249.228",
+            "135.233.95.144",
+            "72.145.35.144",
+            "151.101.62.172",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "a45b8701c067683db4776a7c5cabf866a8e7ec7a19c94acdae4a1ca51c4b29bb",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "downloader",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "135.233.95.144",
+            "52.140.118.28",
+            "199.232.58.172",
+            "150.171.22.17",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1202",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2bcc4ad9e5a33d2251426530fdb798ad450e0611c73bff94e8bcacf66df5d7a7",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "cryptominer",
+            "downloader",
+            "banker",
+            "trojan"
+        ],
+        "ips": [
+            "104.82.247.32",
+            "74.178.76.44",
+            "199.232.58.172",
+            "23.38.111.119",
+            "52.183.220.149",
+            "151.101.62.172",
+            "150.171.22.17",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "222925de811ac2eeabdac7fdbc7e81754e944322f6c32348a2afd48ab8ef4e86",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.77.60",
+            "52.183.220.149",
+            "72.145.35.144",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://192.168.10.151:80/Rpc"
+        ],
+        "ttps": [
+            "T1071",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "a16f397e87cc087a2fe51ceb4413d0b87be5a9c5edb19bfa6c3c05bc3f91c18c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "downloader",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "135.233.95.144",
+            "72.145.35.144",
+            "52.140.118.28",
+            "199.232.58.172",
+            "85.234.77.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "07fa34cf612180057d222ef8c24867719a9cbf05bd0f4f9b5eae1402da5c4a74",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "downloader",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "142.251.36.14",
+            "23.38.111.119",
+            "85.234.77.60",
+            "52.183.220.149",
+            "135.233.95.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1202",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "1bc1e64f38765f53010eda80f7a2610faceeda17137d1bef42ba92abf810176b",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.77.60",
+            "135.233.95.144",
+            "52.183.220.149",
+            "72.145.35.144",
+            "151.101.62.172",
+            "85.234.74.60",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "508082e92f18a693d264d29ef17262edf5cb506b6826fa33851f11d998157321",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "40.119.249.228",
+            "135.233.95.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2fc60165703cb42849bd10aadcc5ef86863705f0b9e115548e0ebfaff5d98108",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "23.38.111.119",
+            "74.178.76.44",
+            "52.183.220.149",
+            "72.145.35.144",
+            "150.171.22.17",
+            "85.234.77.60"
+        ],
+        "urls": [
+            "http://ns1.fake.com:53/fwlink",
+            "http://ns2.fake.com:53/pixel",
+            "http://ns1.fake.com:0/fwlink",
+            "http://ns2.fake.com:0/pixel"
+        ],
+        "ttps": [
+            "T1071",
+            "T1055",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "8e9e2f7b689015dc19f2c3462d1aacde5a49316126d17628b8854520d9fb5e43",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "104.219.214.23",
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.77.60",
+            "51.11.168.232",
+            "72.145.35.144",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://104.219.214.23:80/4iQo"
+        ],
+        "ttps": [
+            "T1055",
+            "T1071",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "58f0df7bf0a07ee3af1b34d95ccad4df918020a112e72416604e10d00d4b4ede",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.74.60",
+            "135.233.95.144",
+            "52.183.220.149",
+            "85.234.77.60",
+            "199.232.58.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "7cd91758cad26d19fc4ef9f0c744de4c48fc6e71f9eef2e92bdd19aef10983d9",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "224.0.0.251",
+            "49.12.233.88"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "18a9a34661d3922f35bd5afd2e052608b55d6fc23f611e6699b8b968c6843f55",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "13.71.55.58",
+            "85.234.77.60",
+            "74.178.76.128",
+            "72.145.35.144",
+            "92.123.236.177",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "88a10fc3e6a9ea098c80b2ab0977f4c7a30b138d59784a8bab9d529806e0c1cb",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "151.101.62.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "13.71.55.58",
+            "85.234.77.60",
+            "74.178.76.128",
+            "92.123.236.177",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "dea7eae97848d90f412e9bedb544b259edc5074385f68dfba84709726ff2dbaa",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.77.60",
+            "52.185.211.133",
+            "72.145.35.144",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "fc7b615f56c6fa7df24374bba73baec71a9c3631f06086996d10da797eb990df",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.77.60",
+            "52.185.211.133",
+            "72.145.35.144",
+            "92.123.236.177",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "5f70b39e51b17e650d865888d8d8829a4f89fa5bd6e98fef20870d2315d17944",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "6e26b7561db3f9712c7994f570a3bbcacac1cb3fb119d97138e1d483b24816c1",
+        "extension": "txt",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "injector",
+            "security_assessment_tool"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "135.232.92.137",
+            "72.145.35.144",
+            "85.234.77.60",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1059",
+            "T1106",
+            "T1064",
+            "T1057",
+            "T1564",
+            "T1071",
+            "T1564.003",
+            "T1059.001",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "cd1c6eb5239c5a174fe0250846c0e49afbf3549ab110db8964f7572ff2c45498",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "104.21.92.223",
+            "74.178.76.44",
+            "142.251.36.14",
+            "23.38.111.119",
+            "172.67.199.40",
+            "51.11.168.232",
+            "135.233.95.144",
+            "85.234.74.60",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://dataplane.theyardservice.com/jquery-3.3.1.min.woff2"
+        ],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1027",
+            "T1003",
+            "T1027.002",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "dba9c8fe70843b89c2aac85134f27e370349265fdc81e2420ca2f3b83e719485",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "trojan",
+            "cryptominer"
+        ],
+        "ips": [
+            "199.232.54.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "13.71.55.58",
+            "72.145.35.144",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "9a15153ec150cda59dd29ee2003cf15012b0341abddc841007f3945b235af4a6",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "trojan",
+            "cryptominer"
+        ],
+        "ips": [
+            "172.66.171.73",
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.54.172",
+            "51.11.168.232",
+            "135.233.95.144",
+            "85.234.77.60",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "lockbit",
+        "hash": "d457602578999f8668999485be37d6674e22a7713b7d4ddfc214d51c890930c6",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "ransomware"
+        ],
+        "ips": [
+            "23.55.48.32",
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.72.205.209",
+            "199.232.58.172",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://lockbitapt6vx57t3eeqjofwgcglmutr3a35nygvokja5uuccip4ykyd.onion",
+            "https://bigblog.at",
+            "http://lockbitsup4yezcd5enk5unncx3zcy7kw6wllyqmiyhvanjj352jayid.onion",
+            "http://lockbitsap2oaqhcun3syvbqt6n5nzt7fqosc6jdlmsfleu3ka4k2did.onion",
+            "https://decoding.at",
+            "https://decoding.at/",
+            "http://lockbitsap2oaqhcun3syvbqt6n5nzt7fqosc6jdlmsfleu3ka4k2did.onion/or"
+        ],
+        "ttps": [
+            "T1547.001",
+            "T1012",
+            "T1057",
+            "T1486",
+            "T1071",
+            "T1074",
+            "T1497",
+            "T1003",
+            "T1112",
+            "T1082",
+            "T1055",
+            "T1547"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "a572d1b4c0e91fd671f448193e03089032791fd0b775df2ee11bdba023995df4",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "trojan",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "135.233.95.144",
+            "72.145.35.144",
+            "85.234.74.60",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "ba07a6745062f48105cbdb6f548bf72a2b29452f053512710c72985e43389a2e",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "trojan",
+            "virus",
+            "injector"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "185.62.56.182",
+            "23.38.111.119",
+            "20.49.150.241",
+            "135.233.95.144",
+            "52.191.219.104",
+            "151.101.62.172",
+            "85.234.77.60",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "f73b19e3306613b38516b0a153bd5a70a7cfae2346ec4aca8ef55fe92f0a3493",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "13.71.55.58",
+            "135.233.95.144",
+            "72.145.35.144"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1055",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "b0e73bb9e47355fe9746e3c442d139878c461e3cb1b7238510fa58d5188b83c8",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "199.232.58.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.54.172",
+            "51.11.168.232",
+            "135.233.95.144",
+            "13.71.55.58",
+            "85.234.74.60",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1055",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "b132930f5965c42d08430e264ad518539e0052e3b9f8d2e4a23cbce6d07ca78c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.54.172",
+            "51.11.168.232",
+            "135.233.95.144",
+            "72.145.35.144",
+            "13.71.55.58",
+            "85.234.74.60",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1055",
+            "T1027.002",
+            "T1027",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "lockbit",
+        "hash": "d51ee567b98cf6f9aea9e90ae978ffb985aaa99be5a859c93f36010fe0758bba",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "ransomware",
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "74.178.240.61",
+            "72.147.149.16",
+            "51.11.168.232",
+            "146.75.94.172",
+            "150.171.22.17",
+            "93.123.17.252",
+            "52.110.7.48"
+        ],
+        "urls": [
+            "https://roaming.svc.cloud.microsoft/rs/RoamingSoapService.svc"
+        ],
+        "ttps": [
+            "T1543.003",
+            "T1562",
+            "T1057",
+            "T1486",
+            "T1071",
+            "T1074",
+            "T1543",
+            "T1562.001",
+            "T1497",
+            "T1027",
+            "T1003",
+            "T1489",
+            "T1027.002",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "7beff7727ce00168d9ca05bef1324806a84c58fd2f7cbaaaa222f592bd2ff184",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.137.106.217",
+            "151.101.62.172",
+            "72.145.35.144",
+            "20.44.239.154",
+            "92.123.236.177",
+            "52.123.242.29"
+        ],
+        "urls": [
+            "http://webcdns.com:2083/static-directory/lt.mp3"
+        ],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1539",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "5a65c8c82b3fca9a9bc57cd2278a19390eea3fc8029cfb7484d3e733d050e0ac",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "96.17.47.5",
+            "23.38.111.119",
+            "142.250.189.174",
+            "51.11.168.232",
+            "199.232.54.172",
+            "135.233.95.144",
+            "72.145.35.144",
+            "52.109.76.240",
+            "52.182.143.210",
+            "85.234.74.60",
+            "74.178.76.44"
+        ],
+        "urls": [
+            "http://evcs-ocsp.ws.symantec.com/MFEwTzBNMEswSTAJBgUrDgMCGgUABBQckPwgwK2Thdm9JYVwXQ4ERz3XDQQUo47PGUI9MeGrIYmEbcvZeaKysloCEHX7Uch2jvaSe%2FQdoaI0odk%3D",
+            "http://evcs-crl.ws.symantec.com/evcs.crl"
+        ],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1036",
+            "T1497",
+            "T1027",
+            "T1003",
+            "T1548",
+            "T1027.002",
+            "T1082",
+            "T1012",
+            "T1202"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "f15b65cb38b050b52cee9d4973782c6834426cd511165b14feca8196b8d62c7b",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "downloader",
+            "cryptominer",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "bf545b29f1dc916a2ba1c5d20111636d6132abe08f44ced852b63276740a21d2",
+        "extension": "dll",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.54.172",
+            "52.185.211.133",
+            "199.232.58.172",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "d048fe1dc7efc041ce9c5079c372acac63a840358a05ab784e7ca9829a1a08cd",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "74.178.240.61",
+            "151.101.62.172",
+            "52.167.17.97",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "7d742f045e17f5c166e52b752c84b94c82fcf5e4bdaa695a3a93dd5849b69021",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.58.172",
+            "151.101.62.172",
+            "20.165.94.63",
+            "52.167.17.97",
+            "72.145.35.144",
+            "199.232.54.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1202",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "7304a98eac9ab660e9ececb78358fe7a7af2562c8811bfec53f49db4deadfd3c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "85.234.74.60",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1055",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "6a8beb3a5e69ae2c90b409fed952fbe3bcd16657f23e8c280a3515c899fbf405",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "104.21.5.130",
+            "23.38.111.119",
+            "142.251.36.14",
+            "172.67.133.120",
+            "20.44.239.154",
+            "72.145.35.144",
+            "151.101.62.172",
+            "85.234.74.60",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://hello.tgllsy.bar/jquery-3.3.1.min.js",
+            "http://hello.tgllsy.bar:80/jquery-3.3.1.min.js"
+        ],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1027",
+            "T1003",
+            "T1027.002",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "16317658243c97dcc787b57295e90f9d8424686b5d45b50bbc396490afd18609",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "backdoor",
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.191.219.104",
+            "74.178.76.128",
+            "199.232.58.172",
+            "72.145.35.144",
+            "20.106.86.13",
+            "85.234.77.60",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1055"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "5097d3c561d29b24934e027cf2da8f7cb142f3a3527c625e64a6035912b93c77",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "52.167.17.97",
+            "72.145.35.144",
+            "199.232.54.172",
+            "23.55.48.18"
+        ],
+        "urls": [
+            "http://192.168.31.66:80/oFCe"
+        ],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1055",
+            "T1057",
+            "T1012",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "LockBit",
+        "hash": "a6e6bc785fe0caafd040efa9ac644cd6d67dd59ebbe1e15729549dffe40a3c1f",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "ransomware"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.54.172",
+            "20.165.94.63",
+            "13.71.55.58",
+            "23.55.48.32",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1070",
+            "T1071",
+            "T1027",
+            "T1027.002",
+            "T1070.006"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "a98baea41a4a2734cce3be58e2fa22e985b14549b36bcf7acbb90fe3203b7a50",
+        "extension": "dll",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "20.165.94.63",
+            "72.145.35.144",
+            "151.101.62.172",
+            "85.234.74.60",
+            "150.171.22.17",
+            "123.57.237.30"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1036",
+            "T1055",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "7e6c4c8c9beab04cfbe4fdf09f583d1f268e214c9c726e6f2796bf63083cbe0b",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.58.172",
+            "40.119.249.228",
+            "23.55.48.18",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "e41b82c731d9f1bf7d22ca13df9296350766d2f28f4e9990a42c753bd697a2c7",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "20.165.94.63",
+            "52.167.17.97",
+            "72.145.35.144",
+            "52.167.249.196",
+            "199.232.54.172",
+            "23.55.48.32",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "e5f599abe36b1ed94265f29588a79a6c8ccdf285d38547924d32b23e1963bc26",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "13.71.55.58",
+            "72.145.35.144",
+            "40.119.249.228",
+            "23.55.48.18",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "a27120fd4e78b2f6132f44984667fa1c2105032989813431fe6cf687c56befab",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "72.145.35.144",
+            "151.101.62.172",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "79b8b5e8222f85402857d649d55e6ac22132987ca91a2a9d962b97c5d854f7ee",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "151.101.62.172",
+            "135.232.92.137",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1202",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "cb68bc27093683f7982487fca409f2a7759e4ab2182a69c67d641e064c17d2ed",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "142.251.36.14",
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "135.232.92.137",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "lockbit",
+        "hash": "6cffc9271d6cd5805884f87b8ccee96ddc039679ee779d9b9513125762c9221d",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "virus",
+            "ransomware"
+        ],
+        "ips": [
+            "199.232.54.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.183.220.149",
+            "85.234.77.60",
+            "72.145.35.144",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1562",
+            "T1543.003",
+            "T1082",
+            "T1486",
+            "T1071",
+            "T1074",
+            "T1562.001",
+            "T1027",
+            "T1003",
+            "T1489",
+            "T1027.002",
+            "T1543",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "SystemBC",
+        "hash": "fabd7991ed344b56f70373ba877913a459673f4b44d1ea158850116f0cb46143",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "20.106.86.13",
+            "74.178.240.61",
+            "72.145.35.144",
+            "85.234.74.60",
+            "150.171.22.17",
+            "2.16.153.13"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1003",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "637519014b6e5412b81d8c230f03e5e2b022f5da15fa3733e70a5d07c17b8bbc",
+        "extension": "dll",
+        "petype": "PE32",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.106.86.13",
+            "72.145.35.144",
+            "85.234.77.60",
+            "150.171.22.17",
+            "199.232.54.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "c5a2652333d5288bab26c6ea91688aba2589e9c2c3ef7ccc24adca2886bc1b0c",
+        "extension": "dll",
+        "petype": "PE32",
+        "labels": [
+            "backdoor",
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "85.234.74.60",
+            "51.11.168.232",
+            "72.145.35.144",
+            "20.72.205.209",
+            "23.55.48.170",
+            "150.171.22.17",
+            "85.234.77.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1055",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "49c61c9b3c556757bf50f3aff62c156687599156436d427be2ad9eb38bfb410c",
+        "extension": "dll",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "backdoor",
+            "virus"
+        ],
+        "ips": [
+            "184.29.199.32",
+            "23.55.48.155",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "74.178.76.128",
+            "72.153.5.112",
+            "85.234.77.60",
+            "13.71.55.58",
+            "150.171.22.17",
+            "85.234.74.60"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1055",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "373dd68b7649d6d4eba58da2adb87a65d6c122742deb509f9de0372275565d23",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "104.93.20.9",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.185.211.133",
+            "72.145.35.144",
+            "52.167.17.97",
+            "151.101.62.172",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "99392b73e744e8e4c076d386a64958c49a85164c6976e544f4e2eaf39a488e41",
+        "extension": "dll",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.140.118.28",
+            "74.178.76.128",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17",
+            "85.234.74.60",
+            "184.25.59.141"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1003",
+            "T1071",
+            "T1057"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "d6c94dff7d47347921770bafe5a9a5ac9ecd961b1d2daa3219baf7d8fbd43ba5",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "199.232.58.172",
+            "23.38.111.119",
+            "92.123.239.10",
+            "85.234.74.60",
+            "20.165.94.63",
+            "52.185.211.133",
+            "72.145.35.144",
+            "85.234.77.60"
+        ],
+        "urls": [
+            "http://webcdns.com:2083/static-directory/lt.mp3"
+        ],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1057",
+            "T1012",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "039e6db924c996417ea801d56845b88e1836345a01de17a4dcb4ac9b7e059681",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.41.91",
+            "54.203.60.161",
+            "13.107.213.69",
+            "63.140.37.151",
+            "13.89.179.13",
+            "150.171.27.10",
+            "35.190.72.216",
+            "85.234.77.60",
+            "52.140.118.28",
+            "72.153.5.112",
+            "199.232.58.172",
+            "23.217.135.108",
+            "199.232.53.91",
+            "35.161.33.12",
+            "34.107.243.93",
+            "13.107.246.42",
+            "23.205.97.197",
+            "13.107.226.51",
+            "13.107.253.51",
+            "54.212.240.95",
+            "63.140.37.103",
+            "20.50.201.204",
+            "40.118.171.167",
+            "224.0.0.251",
+            "23.192.229.102"
+        ],
+        "urls": [
+            "https://learn.microsoft.com/dotnet/framework/install/application-not-started?version=(null)&processName=039e6db924c996417ea801d56845b88e1836345a01de17a4dcb4ac9b7e059681.exe&platform=0009&osver=6&isServer=0&shimver=4.0.30319.0",
+            "https://learn.microsoft.com/en-us/dotnet/framework/install/application-not-started?version=(null)&processName=039e6db924c996417ea801d56845b88e1836345a01de17a4dcb4ac9b7e059681.exe&platform=0009&osver=6&isServer=0&shimver=4.0.30319.0",
+            "https://learn.microsoft.com/static/third-party/adobe-target/at-js/2.9.0/at.js",
+            "https://learn.microsoft.com/static/assets/0.4.03239.7319-c76ed203/styles/site-ltr.css",
+            "https://learn.microsoft.com/_themes/docs.theme/master/en-us/_themes/global/deprecation.js",
+            "https://learn.microsoft.com/static/assets/0.4.03239.7319-c76ed203/scripts/en-us/index-docs.js",
+            "https://learn.microsoft.com/en-us/dotnet/framework/install/media/application-not-started/app-could-not-be-started.png",
+            "https://learn.microsoft.com/en-us/dotnet/framework/install/media/application-not-started/app-could-not-be-started-details.png",
+            "https://learn.microsoft.com/en-us/content-nav/site-header/site-header.json?",
+            "https://learn.microsoft.com/en-us/content-nav/MSDocsHeader-DotNet.json?",
+            "https://learn.microsoft.com/en-us/feature-rollout.json",
+            "https://learn.microsoft.com/api/recommendations/b8aa5a1c-2f8d-db8d-1dfb-d6da8ce4f66f/batch",
+            "https://learn.microsoft.com/en-us/dotnet/framework/toc.json",
+            "https://learn.microsoft.com/en-us/dotnet/breadcrumb/toc.json",
+            "https://learn.microsoft.com/en-us/dotnet/framework/install/media/application-not-started/repair-tool-recommended-changes.png",
+            "https://learn.microsoft.com/en-us/dotnet/framework/install/media/application-not-started/repair-tool-changes-complete.png",
+            "https://learn.microsoft.com/en-us/dotnet/framework/install/media/application-not-started/repair-tool-no-resolution.png",
+            "https://learn.microsoft.com/media/logos/logo_net.svg",
+            "https://learn.microsoft.com/en-us/banners/index.json",
+            "https://learn.microsoft.com/static/third-party/MathJax/3.2.2/tex-mml-chtml.js",
+            "https://learn.microsoft.com/static/assets/0.4.03239.7319-c76ed203/styles/docons.c76ed20.ee0da862.woff2",
+            "https://learn.microsoft.com/en-us/media/logos/logo_net.svg",
+            "https://learn.microsoft.com/api/taxonomies?name=devlang&locale=en-us",
+            "https://learn.microsoft.com/en-us/media/ask-learn/meet-ask-learn-base.png",
+            "https://learn.microsoft.com/en-us/media/ask-learn/check-for-accuracy-base.png",
+            "https://learn.microsoft.com/favicon.ico",
+            "https://target.microsoft.com/rest/v1/delivery?client=microsoftmscompoc&sessionId=7030585d8a60410b94441664d8be07f6&version=2.9.0",
+            "https://mdec.nelreports.net/api/report?cat=mdocs"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1082",
+            "T1562.001",
+            "T1071",
+            "T1055",
+            "T1562",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "d47da28f6c64455362ba2341d0b2ef873bdcff4c74058597ecd48fa456d8ee99",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251",
+            "195.96.135.237"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "83e12a989f190473be130ff7fa6f5ae86e2eabbe6aa789f643c2b80add1596f0",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251",
+            "65.222.202.53"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "ca6762c497c4eb066ddfb37d9649bd5a9f341aa4ec0a23280fa02465f46efc5c",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251",
+            "143.20.185.102"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "cc0ad7868dae274635835cb3d7fba9cbbb7e7c31d59e2b358decb18502679502",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "20.72.205.209",
+            "2.18.190.140",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "eec3321596c2e482d9cd5d73b5eeec4c4112db05dc086b70eb22bbca46719564",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.183.220.149",
+            "199.232.58.172",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "40d6f63e2b9a9c6455bac6b1576dcc954ba4adb32c2a9c4bf45faf9f5df5f82d",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "40.119.249.228",
+            "2.21.64.187",
+            "20.44.239.154",
+            "2.23.210.7",
+            "2.21.64.146",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "dc455f7bddcd144b3b2649b17a708b052362fdbf0ee34fc92e726d0be68e54d8",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "2.21.64.146",
+            "40.119.249.228",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "07f3d8e6956c55f8175e67a30315ff82d73a68fb951fa573dda013b3c60fd7eb",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "23.217.135.108",
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.72.205.209",
+            "2.21.64.146",
+            "72.145.35.144",
+            "20.44.239.154",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "306c6ceaa775114e95990ab196560e6a5edd75a7121a9cad233543929f5aa42e",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "199.232.54.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.146",
+            "74.178.240.61",
+            "20.72.205.209",
+            "72.147.149.16",
+            "20.44.239.154",
+            "151.101.62.172",
+            "2.21.64.187",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "c8946c45146c2a61d244de2cb9622966bb1ab583a8b07c8f3b6d16643ad41603",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.200.87.216",
+            "23.38.111.119",
+            "2.21.64.146",
+            "20.44.239.154",
+            "72.145.35.144",
+            "40.119.249.228",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "5d77323882d207a1cf32542bd41d0b5fc3503dfaf48fdf8780d37b28ab795bda",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "23.217.118.209",
+            "20.44.239.154",
+            "2.21.64.146",
+            "72.145.35.144",
+            "2.23.210.7",
+            "2.21.64.187",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "42aa75a085091265d58908d4c2175a290891b0c9e7923efc49deacb45c4ba35d",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "199.232.54.172",
+            "23.38.111.119",
+            "2.21.64.187",
+            "20.44.239.154",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "afe4887cbee32eaa7f140e963fb6cce44a12afdfc2a7f4cbc1e7a73b2a9b4e81",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "trojan",
+            "cryptominer",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "40.119.249.228",
+            "74.178.240.61",
+            "2.23.210.17",
+            "2.21.64.146",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1202",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "cd7d1ce22de19629b46ee3a5441febea66007976527af1dce81e0bbbedb28aec",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "23.200.86.194",
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "2.21.64.187",
+            "20.165.94.63",
+            "2.23.210.17",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "182181a0919112ea5c84a43dabad31bc36dd6e81113ccecb52320d8bd0e5466c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "199.232.58.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.146",
+            "74.178.240.61",
+            "20.72.205.209",
+            "72.147.149.16",
+            "150.171.22.17",
+            "20.44.239.154"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "ddb4c188219a40ea61a0aaa2d92fc76a74633d5af4057c53bf62ac331c251549",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "banker",
+            "downloader",
+            "trojan"
+        ],
+        "ips": [
+            "199.232.58.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "2.21.64.187",
+            "74.178.240.61",
+            "72.145.35.144",
+            "40.119.249.228",
+            "2.23.210.17",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "f25d5dff933ff84bdcb87db79eedb0c4be9b153e0940470974f5df1be71f95ff",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "downloader",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "23.200.87.216",
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.187",
+            "20.44.239.154",
+            "72.145.35.144",
+            "40.119.249.228",
+            "2.23.210.7",
+            "150.171.22.17",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "f57d7d036ff068ba70ee17e1e0eba5d9c5eb8479df43588a89715a475b5dca1f",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "13.71.55.58",
+            "23.200.86.194",
+            "20.165.94.63",
+            "72.145.35.144",
+            "23.200.87.23",
+            "150.171.22.17",
+            "23.200.87.216"
+        ],
+        "urls": [
+            "http://webcdns.com:2083/static-directory/lt.mp3"
+        ],
+        "ttps": [
+            "T1071",
+            "T1539",
+            "T1057"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "0362480e296f96470305ae29bf32a2a99d3ca01b7003aa5d8155763be5b0bb05",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "downloader",
+            "cryptominer",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.54.172",
+            "40.119.249.228",
+            "20.165.94.63",
+            "72.145.35.144",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "257421fc45c241fc58eed685df0f7a0257f5d774495da448d9d641b6eb34c662",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "trojan",
+            "banker",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "74.179.77.204",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "35f0f26baf14926e7512a74ea4401be2b675daf8eb996409d1a68ca0c2f5fd6f",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "trojan",
+            "banker",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "151.101.62.172",
+            "74.179.77.204",
+            "52.167.249.196",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2f2e28ee317854dd35f499aadb342ad83964059bec88abf9675ca3634de88bb5",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "trojan",
+            "banker",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "51.11.168.232",
+            "52.167.249.196",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "akira",
+        "hash": "4391dd816e99cec4240ea8d8cdcc4149e4a4cb974959af078e76868a8983393c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "ransomware"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.200.87.20",
+            "23.200.86.235",
+            "2.16.165.114",
+            "23.38.111.119",
+            "52.167.249.196",
+            "199.232.58.172",
+            "72.145.35.144",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "https://akiral2iz6a7qgd3ayp3l6yub7xx2uep76idk3u2kollpj5z3z636bad.onion",
+            "https://akiralkzxzq2dsrzsrvbr2xgbbu2wgsmxryd4csgfameg52n7efvr2id.onion/d/4147889645-CYEIP"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1057",
+            "T1012",
+            "T1486",
+            "T1485"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "bed68871b7df18fe5e706fc76fd96bb601b4fc07f83847dd5abb57c5d204cf1e",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "virus"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119"
+        ],
+        "urls": [
+            "http://webcdns.com:2083/static-directory/lt.mp3"
+        ],
+        "ttps": [
+            "T1082",
+            "T1497",
+            "T1071",
+            "T1202",
+            "T1057",
+            "T1012",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "a0352e0a236bbe39efa28eca5e593797d3c7aade8d8dd60b850390e2f3849780",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.72.205.209",
+            "151.101.62.172",
+            "72.145.35.144",
+            "20.44.239.154",
+            "199.232.54.172",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1055",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "606f32714f9f26b59a0b7f5601e51335f394b899f35d7d0ab002b207cc7ad4b0",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "trojan",
+            "virus",
+            "injector"
+        ],
+        "ips": [
+            "45.9.148.22"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "e4b97798c86c0e60c9a76814e8d5d350956a216dd7137c10088e66a813d788ef",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "cryptominer",
+            "trojan",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "135.232.92.137",
+            "72.145.35.144",
+            "199.232.54.172",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "77910056a29fdcb900d000c736d59aba8d9ecde6de3881e72ffd9a03889d90c1",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "35.190.72.216",
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "74.179.77.204",
+            "72.145.35.144",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "9cfbcfcc9c30ea15ce417be991485db2067d6999107b8fc34ae916d111b8b1a0",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "23.200.86.235",
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "20.72.205.209",
+            "135.232.92.137",
+            "72.145.35.144",
+            "20.44.239.154",
+            "199.232.58.172",
+            "199.232.54.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2a7869e94ed4f5442b49a8e2ca6527cbdb75cb491d2efc908f7a6e3cdf919b30",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.72.205.209",
+            "135.232.92.137",
+            "72.145.35.144",
+            "199.232.58.172",
+            "199.232.54.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://192.168.10.151:80/Rpc"
+        ],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1539",
+            "T1082",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "29d9c510d14f63f3b78b720394fb14889e018b86e9aca50c92ed2c353324d857",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.140.118.28",
+            "135.232.92.137",
+            "72.145.35.144",
+            "20.72.205.209",
+            "151.101.62.172",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "35844d4b03b25e03df7266739e1a0d49f044ba40e903281dc8d97b215457dcfd",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "23.200.87.12",
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "20.72.205.209",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "47725f244fd4c70c198e5dbe4501bd6a76f742ad22dba76ec44e453d92472da5",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "23.200.87.22",
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.72.205.209",
+            "151.101.62.172",
+            "135.232.92.137",
+            "199.232.54.172",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "aad30f8e0a72dd96399f6539f8b836474a86e86d4b19f3314987750c36ec4b34",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "74.179.77.204",
+            "72.145.35.144",
+            "23.200.86.248",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "137a62a30a5f1f3ea5fbab0f05994f1c94ebb8d65571580b648846aa31727b07",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.140.118.28",
+            "135.232.92.137",
+            "72.145.35.144",
+            "20.72.205.209",
+            "151.101.62.172",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1202",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "d9ab05ccf189f368ec0b645090c4c3c1310bba24eff8f04748db375d3fe50f4a",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "74.179.77.204",
+            "72.145.35.144",
+            "23.200.86.250",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "f37765d0c9d5fd1dea8893705027ce792b0f46cf33c732a94a905a2e52056582",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.200.86.248",
+            "23.38.111.119",
+            "151.101.62.172",
+            "199.232.58.172",
+            "20.44.239.154",
+            "135.232.92.137",
+            "72.145.35.144",
+            "199.232.54.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "c08cd014c167643cd3c604905bcee2cd3fe311fb9dc356b905b83976523e872e",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "199.232.58.172",
+            "20.44.239.154",
+            "135.232.92.137",
+            "72.145.35.144",
+            "199.232.54.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "35a123f553ca3d9a3845caa7578dbf4dbace8b6f91f7545f0a1b605beda80331",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "downloader",
+            "cryptominer"
+        ],
+        "ips": [
+            "23.200.86.248",
+            "74.178.76.44",
+            "23.38.111.119",
+            "135.232.92.137",
+            "20.72.205.209",
+            "151.101.62.172",
+            "72.145.35.144",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1202",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "21190da7fbd9732c99ab573bf869bbec55d9fb9a1d75c73dea8beff1e06205be",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "23.200.86.235",
+            "2.22.122.8",
+            "23.214.158.178",
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "135.232.92.137",
+            "20.72.205.209",
+            "72.145.35.144",
+            "199.232.54.172",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "faba5f3a799821692c597fbed89722b44caf06d79ff932ccb39a79b74be4a8e4",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "72.145.35.144",
+            "23.200.86.250",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "35a83c939f0f806c4cabe106068d751cd17287e8651ec630b4e9091b02fdced4",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.106.86.13",
+            "199.232.58.172",
+            "74.178.76.128",
+            "72.145.35.144",
+            "51.11.168.232",
+            "23.200.86.250",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1202",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "26094e3fd05fb82aa48257d28420431fc7d91888196a7f3447e032b9c01ccd00",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "23.200.87.23",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.140.118.28",
+            "20.49.150.241",
+            "23.210.249.74",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "464edf6c27a0ec2407e11ad82f7ad0a87f0e2edb7b6f0fe3842d6bf79a67ba70",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.49.150.241",
+            "199.232.58.172",
+            "23.200.86.240",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "0f4de5614670d05204f6f593c0234df77c69766e7361b100406f75eae1269008",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "184.85.78.223",
+            "20.106.86.13",
+            "199.232.58.172",
+            "74.178.76.128",
+            "23.210.249.74",
+            "72.145.35.144",
+            "52.123.242.1",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1202",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "d4f16c6467681ff824253f59db67a0f27032e2b3824df4be2ac1b9a196bd9c77",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "23.200.86.194",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "20.165.94.63",
+            "72.153.5.112",
+            "20.49.150.241",
+            "151.101.198.172",
+            "150.171.22.17",
+            "52.140.118.28",
+            "23.217.118.209"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1496",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "3321871f741adf175c34f2b4aaa7357f679a7b7fe50498bc1c145b9c06e6f420",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.106.86.13",
+            "74.178.76.128",
+            "199.232.58.172",
+            "72.145.35.144",
+            "23.210.249.27",
+            "52.123.242.54"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "2553179d639ba7c09767890e09179c38bb3a7abc4d1269782e5fe6047907c662",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "146.75.94.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.140.118.28",
+            "74.178.76.128",
+            "20.49.150.241",
+            "23.210.249.74",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "5f62e79ed0cdaf5507e6845ad8f7c4a6a5f638eedaef8b7ec5811877497be2b7",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "72541d6ca7c17359d9694921110073928ccf16b02d04b01b40dce36a6a963582",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "23.210.249.74",
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.49.150.241",
+            "23.200.87.22",
+            "199.232.58.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "0dbe91eb20ffd9975a61182db9619965259138e9fd97efe5e48306c0d47e0011",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "20.165.94.63",
+            "20.49.150.241",
+            "151.101.198.172",
+            "150.171.22.17",
+            "23.217.118.210"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "062561eb40ca24f16627d965b3715e07c4212133be5f2fccf7baa9bcbcacaf75",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan",
+            "greyware"
+        ],
+        "ips": [
+            "208.109.230.172",
+            "74.178.76.44",
+            "23.38.111.119",
+            "23.200.86.194",
+            "40.119.249.228",
+            "72.145.35.144",
+            "20.44.239.154",
+            "199.232.58.172",
+            "23.200.87.216"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1003",
+            "T1539",
+            "T1027.002",
+            "T1055",
+            "T1573"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "12578488b1cda9fd133411804754c0940daf4abc94b638c56d58c9856c8bd849",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "34.107.243.93",
+            "184.85.78.223",
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.140.118.28",
+            "74.178.76.128",
+            "72.145.35.144",
+            "23.210.249.27"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "c8238d0185c622addf9cf3596d32e7c6095b27991551cc13cf2af99b7e660845",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "banker",
+            "trojan",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.106.86.13",
+            "199.232.58.172",
+            "74.178.76.128",
+            "72.145.35.144",
+            "151.101.62.172",
+            "23.210.249.74",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "a83c5d65d290823df8e9f9b883b9659c65d0375fef738ae1249b07a62de25c12",
+        "extension": "dll",
+        "petype": "PE32+",
+        "labels": [
+            "exploit",
+            "trojan",
+            "greyware"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "135.232.92.137",
+            "72.145.35.144",
+            "199.232.58.172",
+            "150.171.22.17",
+            "23.200.87.216"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "ac105197fc67cdb15d939f737fff90759c6b1439102eb03f14a5cc9d9c373139",
+        "extension": "dll",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "23.200.86.243",
+            "150.171.22.17",
+            "199.232.54.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "4b509d96728f9956a160ad334f436dcbb16dc48dc2e75da264d6c70be75b378d",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "injector",
+            "trojan"
+        ],
+        "ips": [
+            "185.62.56.182",
+            "74.178.76.44",
+            "23.200.86.240",
+            "23.38.111.119",
+            "52.140.118.28",
+            "20.49.150.241",
+            "72.145.35.144",
+            "23.210.249.27",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "play",
+        "hash": "83e5a03afab30834aa26988c16bef71ccb04722d02d342655dd7a836b2089805",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "ransomware",
+            "trojan"
+        ],
+        "ips": [
+            "23.200.87.216",
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.74.172",
+            "13.71.55.58",
+            "74.178.76.128",
+            "20.44.239.154",
+            "150.171.22.17",
+            "199.232.58.172"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1486",
+            "T1071",
+            "T1095",
+            "T1074",
+            "T1003"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "4e4be885d7024505e73325a80f819282f52d551ff09e7b20287f4bfc492c3a28",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "146.75.94.172",
+            "13.71.55.58",
+            "74.179.77.204",
+            "20.72.205.209",
+            "20.106.86.13",
+            "23.217.118.210",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "d5f6fe226289a3f9cb5d83db63a2fdbf0024f61ac7b893b670129813e9fa0a08",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251",
+            "65.222.202.53"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "08a3b62c77fcf87173d950f681f02381569556bc350199783baf2a750c711cb3",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.137.106.217",
+            "74.178.240.61",
+            "72.145.35.144",
+            "92.123.239.48",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "793bd5f88ebd5e0459f14b1f42868523b9b0b837c64af8476695ce9f618fbae6",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "2.21.64.146",
+            "72.145.35.144",
+            "52.137.106.217",
+            "151.101.62.172",
+            "2.21.64.187",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "7db1cdc6d9857a6b88315e22472517ba2bd6e12cce89fd6bfd16de03c18cc53e",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "74.178.240.61",
+            "72.145.35.144",
+            "52.137.106.217",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "bc2a62f0dd9b5191e99d8ffb31c348a0e818ec29a1e3a25334e265bc1adedcee",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "cryptominer",
+            "banker",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.137.106.217",
+            "74.178.240.61",
+            "72.145.35.144",
+            "151.101.62.172",
+            "2.21.64.146",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "3231855f8c61b4c39a7837ef7ce743b423e4a9edd179c902dd63b75dba613219",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "146.75.94.172",
+            "13.71.55.58",
+            "74.179.77.204",
+            "20.72.205.209",
+            "20.106.86.13",
+            "23.217.118.209",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "722c1987ec4af520ad6ae1125566035e8a9bd227bcc69d021dccbbb921fde5eb",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "banker",
+            "cryptominer",
+            "trojan"
+        ],
+        "ips": [
+            "92.123.236.186",
+            "74.178.76.44",
+            "23.38.111.119",
+            "51.11.168.232",
+            "146.75.94.172",
+            "52.191.219.104",
+            "72.153.5.112",
+            "151.101.198.172",
+            "150.171.22.17",
+            "13.71.55.58",
+            "52.167.17.97"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "8ec70144c09d14ac44a9452c8be883b7fd53e403c2780205eb362dbb85bfb2a1",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "downloader",
+            "trojan",
+            "cryptominer",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "2.21.64.146",
+            "20.44.239.154",
+            "74.179.77.204",
+            "52.137.106.217",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "7821a83250db991e21fedbd31ccbd4fd894189154931e2330555ef7fa3673b3c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "trojan",
+            "downloader",
+            "banker"
+        ],
+        "ips": [],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "96256c0157857fbd11457d71acbbadef202e5f372184dbd1488867065d1fd71f",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "cryptominer",
+            "downloader",
+            "trojan",
+            "banker"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "146.75.94.172",
+            "52.140.118.28",
+            "74.179.77.204",
+            "72.153.5.112",
+            "51.11.168.232",
+            "150.171.22.17",
+            "23.217.118.209"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "199a7fd24affcb0ca18403cd3e6ed30db3515965df3acc8fb74ca77100a352d5",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "20.44.239.154",
+            "2.21.64.146",
+            "151.101.62.172"
+        ],
+        "urls": [
+            "http://192.168.0.16:8086/push"
+        ],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1082",
+            "T1003",
+            "T1497",
+            "T1071",
+            "T1055",
+            "T1057",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "f6a6849c42e84c2efef7f49a015265ed85261997dc88e8ce40370c376af5bc98",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "74.178.240.61",
+            "52.137.106.217",
+            "2.21.64.187",
+            "72.145.35.144",
+            "2.21.64.146",
+            "199.232.58.172"
+        ],
+        "urls": [
+            "http://192.168.111.25:8081/GnDd"
+        ],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1539",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "81c6c357d325712c59273d8bfb8e9e75e94d6d7073051ad3b24c29166f37f39a",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "banker",
+            "cryptominer",
+            "downloader"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.137.106.217",
+            "2.21.64.146",
+            "150.171.22.17",
+            "2.21.64.187"
+        ],
+        "urls": [
+            "http://ns7.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns8.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books",
+            "http://ns9.softline.top:443/s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books"
+        ],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "e3c2ba86164117a7f22c6ea315c8fa212be02063e3f811a75239101359e13518",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.137.106.217",
+            "2.21.64.146",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "8379e632aaf3ac05a3b62be31a2883f9fc7f8d8f906b596194be8aa591025e4b",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "146.75.94.172",
+            "20.44.239.154",
+            "2.21.64.146",
+            "72.145.35.144",
+            "151.101.62.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1071",
+            "T1027",
+            "T1027.002"
+        ]
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "85506804b5268a99726053d879dc8465d496814a4504d44aed46d64ac0e9af5c",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "exploit",
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "151.101.62.172",
+            "20.72.205.209",
+            "72.145.35.144",
+            "92.123.239.10",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1027",
+            "T1027.002",
+            "T1071"
+        ]
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "8de0ddbbb2cbb2278b05d3034d9615b3feba797449ef2df81d3ba7290b3ddd9c",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "146.75.94.172",
+            "52.185.211.133",
+            "40.119.249.228",
+            "23.56.109.133",
+            "20.72.205.209",
+            "150.171.22.17",
+            "151.101.198.172"
+        ],
+        "urls": [
+            "http://webcdns.com:2083/static-directory/lt.mp3"
+        ],
+        "ttps": [
+            "T1202",
+            "T1057",
+            "T1071",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "aecc000d8701e0bf312866ccaafbb09c9f0770cf571ed3be87857e7d6a1816b1",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251",
+            "41.216.189.47"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "Cerber",
+        "hash": "d0aa5cc595df6a2c2eb1560a7d71317ee2eeff25e9b1a6142940c9ada83f8364",
+        "extension": "exe",
+        "petype": "PE32",
+        "labels": [
+            "backdoor",
+            "trojan"
+        ],
+        "ips": [],
+        "urls": [
+            "http://crutop.nu/index.php",
+            "http://crutop.ru/index.php",
+            "http://mazafaka.ru/index.php",
+            "http://color-bank.ru/index.php",
+            "http://asechka.ru/index.php",
+            "http://trojan.ru/index.php",
+            "http://fuck.ru/index.php",
+            "http://goldensand.ru/index.php",
+            "http://filesearch.ru/index.php",
+            "http://devx.nm.ru/index.php",
+            "http://ros-neftbank.ru/index.php",
+            "http://lovingod.host.sk/index.php",
+            "http://www.redline.ru/index.php",
+            "http://cvv.ru/index.php",
+            "http://hackers.lv/index.php",
+            "http://fethard.biz/index.php",
+            "http://ldark.nm.ru/index.htm",
+            "http://gaz-prom.ru/index.htm",
+            "http://promo.ru/index.htm",
+            "http://potleaf.chat.ru/index.htm",
+            "http://kadet.ru/index.htm",
+            "http://cvv.ru/index.htm",
+            "http://crutop.nu/index.htm",
+            "http://crutop.ru/index.htm",
+            "http://mazafaka.ru/index.htm",
+            "http://xware.cjb.net/index.htm",
+            "http://konfiskat.org/index.htm",
+            "http://parex-bank.ru/index.htm",
+            "http://kidos-bank.ru/index.htm",
+            "http://kavkaz.ru/index.htm",
+            "http://fethard.biz/index.htm"
+        ],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "ae7d31a42d707fab5436a3f7bcb9bb6b2060eee9ea7d023fd1a144c462d7cdd8",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "199.232.54.172",
+            "2.21.64.146",
+            "23.38.111.119",
+            "74.178.76.44",
+            "20.72.205.209",
+            "74.178.240.61",
+            "72.147.149.16",
+            "151.101.198.172",
+            "52.185.211.133",
+            "150.171.22.17",
+            "146.75.94.172"
+        ],
+        "urls": [
+            "http://192.168.254.129:80/G2pt"
+        ],
+        "ttps": [
+            "T1055",
+            "T1071",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "a0253608af2536be19257e6872c3b28b2a35f2722c5c84dc0a6f6940c12ec3f4",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "cobaltstrike",
+        "hash": "3d6dbf7bfa9703530c3e9ac6cdbf5e9f399d315e02ed8ecf157968ed5e8baf9b",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan",
+            "backdoor"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "52.167.17.97",
+            "74.179.77.204",
+            "72.153.5.112",
+            "13.71.55.58",
+            "20.72.205.209",
+            "20.106.86.13",
+            "146.75.94.172",
+            "150.171.22.17"
+        ],
+        "urls": [
+            "http://192.168.111.25:8081/rqG3"
+        ],
+        "ttps": [
+            "T1071",
+            "T1055",
+            "T1539"
+        ]
+    },
+    {
+        "malware_family": "Mirai",
+        "hash": "b0df3f1f89012c24faf2d501212f1a1d9daea726a6077da1ba4242c775c11374",
+        "extension": "Unknown",
+        "petype": "Unknown",
+        "labels": [
+            "virus",
+            "trojan"
+        ],
+        "ips": [
+            "224.0.0.251"
+        ],
+        "urls": [],
+        "ttps": []
+    },
+    {
+        "malware_family": "CobaltStrike",
+        "hash": "360cc27251f91ce3b7cbd9e1650c72fd0f8fde6fc702d457418eb445adb61b74",
+        "extension": "exe",
+        "petype": "PE32+",
+        "labels": [
+            "trojan"
+        ],
+        "ips": [
+            "74.178.76.44",
+            "23.38.111.119",
+            "74.179.77.204",
+            "52.185.211.133",
+            "51.11.168.232",
+            "52.191.219.104",
+            "146.75.94.172",
+            "150.171.22.17"
+        ],
+        "urls": [],
+        "ttps": [
+            "T1057",
+            "T1071",
+            "T1497",
+            "T1003",
+            "T1082",
+            "T1055",
+            "T1012"
+        ]
+    }
+]
