@@ -1,0 +1,177 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PolySwarm Malware Enrichment",
+    "description": "Custom connector to enrich file hashes with PolySwarm verdicts, PolyScore and related metadata.",
+    "version": "1.0"
+  },
+  "host": "api.polyswarm.network",
+  "basePath": "/v3",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "api_key_header": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key_header": []
+    }
+  ],
+  "paths": {
+    "/search/hash/sha256": {
+      "get": {
+        "operationId": "EnrichSha256",
+        "summary": "Enrich a SHA256 hash with PolySwarm",
+        "description": "Looks up a SHA256 hash in PolySwarm and returns polyscore, detections and related metadata.",
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "query",
+            "description": "SHA256 hash to enrich",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "community",
+            "in": "query",
+            "description": "PolySwarm community",
+            "required": false,
+            "type": "string",
+            "default": "default"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enrichment result",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "has_more": {
+                  "type": "boolean"
+                },
+                "limit": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "sha256": {
+                        "type": "string"
+                      },
+                      "polyscore": {
+                        "type": "number"
+                      },
+                      "result": {
+                        "type": "boolean",
+                        "description": "Overall malicious result, true for malicious, false for benign"
+                      },
+                      "permalink": {
+                        "type": "string"
+                      },
+                      "detections": {
+                        "type": "object",
+                        "properties": {
+                          "benign": {
+                            "type": "integer"
+                          },
+                          "malicious": {
+                            "type": "integer"
+                          },
+                          "total": {
+                            "type": "integer"
+                          }
+                        }
+                      },
+                      "assertions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "verdict": {
+                              "type": "boolean",
+                              "nullable": true
+                            },
+                            "engine": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "metadata": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "tool": {
+                              "type": "string"
+                            },
+                            "tool_metadata": {
+                              "type": "object",
+                              "properties": {
+                                "labels": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "malware_family": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hash not found"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "x-ms-visibility": "important",
+        "x-ms-summary": "Enrich SHA256 hash"
+      }
+    }
+  },
+  "definitions": {},
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "website",
+      "propertyValue": "https://polyswarm.io"
+    }
+  ]
+}

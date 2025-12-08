@@ -1,35 +1,39 @@
 # Azure Sentinel, PolySwarm Enrichment
 
 This package provides a Microsoft Sentinel playbook and optional custom connector
-that enrich file hashes in incidents with PolySwarm verdicts, PolyScore and
-malware context.
+that enrich file hashes in incidents with PolySwarm intelligence including
+PolyScore, detection counts, malicious engine names, malware family and threat labels.
 
-The goal is simple, when an incident is created, Sentinel sends any file hashes
-to PolySwarm, then writes the results back to the incident and to a custom log
-table for hunting and reporting.
+When an incident is created, Sentinel sends any file hashes to PolySwarm, the
+playbook retrieves enrichment data, and writes the results back into the
+incident as a comment (and optionally into a custom log table).
 
 ## What this integration does
 
-- Detects file hash entities in Sentinel incidents
-- Calls the PolySwarm REST API for each hash
-- Retrieves verdict, PolyScore and basic context
-- Adds a comment to the Sentinel incident
-- Optionally logs the enrichment result in a custom table
+- Detects file hash entities in Sentinel incidents  
+- Calls the PolySwarm REST API for each hash  
+- Retrieves:  
+  - PolyScore  
+  - Detection counts (malicious, benign, total)  
+  - Engine names that returned `verdict = true`  
+  - Malware family and labels from PolyUnite metadata  
+- Adds a detailed enrichment comment to the Sentinel incident  
+- Optionally logs results in a custom table for hunting and analytics  
 
 ## Components
 
 - `custom-connector/polyswarm-connector-swagger.json`  
-  Custom Logic Apps connector that wraps the PolySwarm API
+  Custom Logic Apps connector that wraps the PolySwarm Hash Search API.
 
 - `playbooks/polyswarm-enrich-hash-from-incident.json`  
-  Logic App playbook that runs on incident creation and performs enrichment
+  Logic App playbook that performs enrichment when an incident is created.
 
 ## Prerequisites
 
-- Azure subscription with Microsoft Sentinel enabled
-- Permissions to deploy Logic Apps and custom connectors
-- PolySwarm API key with access to the `default` community
-- Optional, Azure Key Vault for storing the API key
+- Azure subscription with Microsoft Sentinel enabled  
+- Permissions to deploy Logic Apps and custom connectors  
+- PolySwarm API key with access to the `default` community  
+- Optional, Azure Key Vault for storing the API key  
 
 ## PolySwarm API
 
@@ -39,74 +43,75 @@ Base URL
 `https://api.polyswarm.network/v3`
 
 Hash search endpoint  
-`GET /search/hash/sha256/{sha256}?community=default`
+`GET /search/hash/sha256?hash=<sha256>&community=default`
 
 Auth header  
 `Authorization: YOUR_API_KEY`
 
-The playbook expects a JSON response that includes:
+The playbook expects a JSON response containing:
 
-- `polyscore`
-- `verdict`
-- optional `malware_family` or `tags`
-
-You can adjust mapping if your response shape is different.
+- `result[0].polyscore`  
+- `result[0].detections` (malicious, benign, total)  
+- `result[0].assertions[].engine.name` for engines with `verdict = true`  
+- `result[0].metadata` entries where `tool = "polyunite"`  
+  - `tool_metadata.malware_family`  
+  - `tool_metadata.labels[]`  
 
 ## Deployment
 
 ### 1. Create the PolySwarm custom connector (optional but recommended)
 
-1. In the Azure portal, go to Logic Apps, Custom connectors
-2. Create a new custom connector from OpenAPI file
-3. Upload `polyswarm-connector-swagger.json`
-4. Set the `Host` field to `api.polyswarm.network`
-5. When prompted for security, enter any display name, the connector will use
-   the `Authorization` header defined in the swagger
-6. Save the connector
-
-You will enter the PolySwarm API key later when creating a connection instance.
+1. In the Azure portal, go to Logic Apps → Custom connectors  
+2. Create a new connector from OpenAPI file  
+3. Upload `polyswarm-connector-swagger.json`  
+4. Set the `Host` field to `api.polyswarm.network`  
+5. Save and then create a connection using your API key  
 
 ### 2. Deploy the playbook
 
-1. In the Azure portal, go to Deploy a custom template
-2. Upload `playbooks/polyswarm-enrich-hash-from-incident.json`
-3. Choose the resource group and region
-4. When prompted, select:
-   - The Sentinel workspace
-   - The PolySwarm connector connection (or an HTTP connection if you use raw HTTP)
-5. Deploy the template
+1. Go to **Deploy a custom template**  
+2. Upload `polyswarm-enrich-hash-from-incident.json`  
+3. Select resource group and region  
+4. Bind the playbook to:  
+   - Sentinel workspace  
+   - PolySwarm connector connection  
+5. Deploy  
 
 ### 3. Grant permissions
 
-- Ensure the playbook has permission to read incidents  
-- If you log to a custom table or use Key Vault, grant those permissions too
+- Ensure the playbook has permission to read and comment on incidents  
+- Grant Key Vault access if you store the API key there  
 
-### 4. Attach playbook to an analytic rule
+### 4. Attach the playbook to an analytic rule
 
-1. In Microsoft Sentinel, open an analytic rule that creates incidents
-2. Under the Automated response tab, add the playbook
-3. Choose the trigger parameter mapping if asked (typically Incident ARM ID)
+1. Open the analytic rule that generates incidents  
+2. Go to **Automated response**  
+3. Add the PolySwarm playbook  
+4. Map the Incident ARM ID parameter if prompted  
 
 ### 5. Test
 
-1. Generate a test incident that includes a file hash entity
-2. Confirm the playbook runs
-3. In the incident, check:
-   - A new comment from the playbook with PolySwarm verdict and PolyScore
-   - Optional entry in the custom log table
+1. Trigger or create a test incident with a file hash  
+2. Verify the playbook runs  
+3. Inspect the Sentinel incident for an enrichment comment containing:  
+   - PolyScore  
+   - Detection summary  
+   - Malicious engine list  
+   - Malware family  
+   - Threat labels  
 
 ## Extending
 
-Ideas for future versions:
+Potential enhancements:
 
-- Support URL and IP enrichment
-- Store full sandbox and IOC details in a custom table
-- Add a button in Sentinel to run the playbook on demand
-- Build a Workbook that visualises PolySwarm enrichment activity
+- URL and IP enrichment  
+- Sandbox and IOC extraction into a custom table  
+- A Sentinel Workbook visualising PolySwarm enrichment activity  
+- Buttons for analyst on-demand enrichment  
 
 ## Support and contact
 
-For PolySwarm product questions contact  
-`customer-success@polyswarm.io`
+PolySwarm Customer Success  
+customersuccess@polyswarm.io
 
-For Sentinel configuration issues refer to Azure documentation or your SIEM team.
+For Sentinel configuration assistance, refer to Azure documentation or your SIEM team.

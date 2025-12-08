@@ -1,0 +1,253 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "type": "string",
+      "defaultValue": "polyswarm-enrich-hash-from-incident"
+    },
+    "location": {
+      "type": "string"
+    },
+    "polyswarmConnectionName": {
+      "type": "string",
+      "defaultValue": "polyswarm-connection"
+    },
+    "azureSentinelConnectionName": {
+      "type": "string",
+      "defaultValue": "azuresentinel"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2019-05-01",
+      "name": "[parameters('logicAppName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "azureSentinelConnectionName": {
+              "type": "string"
+            },
+            "polyswarmConnectionName": {
+              "type": "string"
+            }
+          },
+          "triggers": {
+            "When_an_Azure_Sentinel_incident_is_created": {
+              "type": "Request",
+              "kind": "Http",
+              "inputs": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "metadata": {
+                "operationMetadataId": "sentinel_incident_created"
+              }
+            }
+          },
+          "actions": {
+            "Initialize_malicious_engines": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "malicious_engines",
+                    "type": "Array",
+                    "value": []
+                  }
+                ]
+              },
+              "runAfter": {}
+            },
+            "Initialize_polyunite_metadata": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "polyunite_metadata",
+                    "type": "Object",
+                    "value": {}
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_malicious_engines": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Get_entities": {
+              "type": "ApiConnection",
+              "inputs": {
+                "connectionName": "@parameters('azureSentinelConnectionName')",
+                "method": "post",
+                "path": "/providers/Microsoft.SecurityInsights/calculateEntities",
+                "body": {
+                  "incidentArmId": "@triggerBody()?['IncidentArmId']"
+                }
+              },
+              "runAfter": {
+                "Initialize_polyunite_metadata": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "For_each_hash": {
+              "type": "Foreach",
+              "foreach": "@body('Get_entities')?['entities']",
+              "runAfter": {
+                "Get_entities": [
+                  "Succeeded"
+                ]
+              },
+              "actions": {
+                "If_entity_is_hash": {
+                  "type": "If",
+                  "expression": {
+                    "equals": [
+                      "@item()?['kind']",
+                      "FileHash"
+                    ]
+                  },
+                  "actions": {
+                    "Reset_malicious_engines": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "malicious_engines",
+                        "value": []
+                      },
+                      "runAfter": {}
+                    },
+                    "Reset_polyunite_metadata": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "polyunite_metadata",
+                        "value": {}
+                      },
+                      "runAfter": {
+                        "Reset_malicious_engines": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Call_PolySwarm": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "connectionName": "@parameters('polyswarmConnectionName')",
+                        "method": "get",
+                        "path": "/search/hash/sha256",
+                        "queries": {
+                          "hash": "@{item()?['properties']?['hashValue']}",
+                          "community": "default"
+                        }
+                      },
+                      "runAfter": {
+                        "Reset_polyunite_metadata": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "For_each_assertion": {
+                      "type": "Foreach",
+                      "foreach": "@body('Call_PolySwarm')?['result'][0]?['assertions']",
+                      "runAfter": {
+                        "Call_PolySwarm": [
+                          "Succeeded"
+                        ]
+                      },
+                      "actions": {
+                        "If_verdict_true": {
+                          "type": "If",
+                          "expression": {
+                            "equals": [
+                              "@item()?['verdict']",
+                              true
+                            ]
+                          },
+                          "actions": {
+                            "Append_engine_name": {
+                              "type": "AppendToArrayVariable",
+                              "inputs": {
+                                "name": "malicious_engines",
+                                "value": "@item()?['engine']?['name']"
+                              },
+                              "runAfter": {}
+                            }
+                          },
+                          "else": {}
+                        }
+                      }
+                    },
+                    "For_each_metadata": {
+                      "type": "Foreach",
+                      "foreach": "@body('Call_PolySwarm')?['result'][0]?['metadata']",
+                      "runAfter": {
+                        "For_each_assertion": [
+                          "Succeeded"
+                        ]
+                      },
+                      "actions": {
+                        "If_polyunite": {
+                          "type": "If",
+                          "expression": {
+                            "equals": [
+                              "@item()?['tool']",
+                              "polyunite"
+                            ]
+                          },
+                          "actions": {
+                            "Set_polyunite_metadata": {
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "polyunite_metadata",
+                                "value": "@item()?['tool_metadata']"
+                              },
+                              "runAfter": {}
+                            }
+                          },
+                          "else": {}
+                        }
+                      }
+                    },
+                    "Add_comment_to_incident": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "connectionName": "@parameters('azureSentinelConnectionName')",
+                        "method": "post",
+                        "path": "/providers/Microsoft.SecurityInsights/incidents/@{triggerBody()?['IncidentArmId']}/comments",
+                        "body": {
+                          "message": "PolySwarm enrichment for hash @{item()?['properties']?['hashValue']}: polyscore=@{body('Call_PolySwarm')?['result'][0]?['polyscore']}, detections malicious=@{body('Call_PolySwarm')?['result'][0]?['detections']?['malicious']}, benign=@{body('Call_PolySwarm')?['result'][0]?['detections']?['benign']}, total=@{body('Call_PolySwarm')?['result'][0]?['detections']?['total']}; malicious engines=@{join(variables('malicious_engines'), ', ')}, malware_family=@{variables('polyunite_metadata')?['malware_family']}, labels=@{join(variables('polyunite_metadata')?['labels'], ', ')}"
+                        }
+                      },
+                      "runAfter": {
+                        "For_each_metadata": [
+                          "Succeeded"
+                        ]
+                      }
+                    }
+                  },
+                  "else": {}
+                }
+              }
+            }
+          },
+          "outputs": {}
+        },
+        "parameters": {
+          "azureSentinelConnectionName": {
+            "value": "[parameters('azureSentinelConnectionName')]"
+          },
+          "polyswarmConnectionName": {
+            "value": "[parameters('polyswarmConnectionName')]"
+          }
+        }
+      }
+    }
+  ]
+}
