@@ -6,3 +6,7 @@
 .LSOverride
 .Spotlight-V100
 .Trashes
+
+# Python
+__pycache__/
+*.py[cod]
