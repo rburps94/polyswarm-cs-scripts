@@ -2,8 +2,13 @@
   "swagger": "2.0",
   "info": {
     "title": "PolySwarm Malware Enrichment",
-    "description": "Custom connector to enrich file hashes with PolySwarm verdicts, PolyScore and related metadata.",
-    "version": "1.0"
+    "description": "Custom Logic Apps connector for the PolySwarm REST API v3. Enriches file hashes with PolySwarm verdicts, PolyScore, PolyUnite malware family metadata and sandbox-derived ATT&CK techniques.",
+    "version": "1.2",
+    "contact": {
+      "name": "PolySwarm Customer Success",
+      "url": "https://docs.polyswarm.io/customers/polyswarm-rest-api-v3",
+      "email": "customersuccess@polyswarm.io"
+    }
   },
   "host": "api.polyswarm.network",
   "basePath": "/v3",
@@ -20,7 +25,8 @@
     "api_key_header": {
       "type": "apiKey",
       "name": "Authorization",
-      "in": "header"
+      "in": "header",
+      "description": "PolySwarm API key, sent verbatim with no 'Bearer ' prefix."
     }
   },
   "security": [
@@ -32,146 +38,645 @@
     "/search/hash/sha256": {
       "get": {
         "operationId": "EnrichSha256",
-        "summary": "Enrich a SHA256 hash with PolySwarm",
-        "description": "Looks up a SHA256 hash in PolySwarm and returns polyscore, detections and related metadata.",
+        "summary": "Enrich a SHA256 hash",
+        "description": "Looks up a SHA256 hash in PolySwarm and returns the artifact record.",
         "parameters": [
           {
             "name": "hash",
             "in": "query",
-            "description": "SHA256 hash to enrich",
+            "description": "SHA256 hash to enrich (64 hex characters).",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "x-ms-summary": "SHA256 hash"
           },
           {
-            "name": "community",
-            "in": "query",
-            "description": "PolySwarm community",
-            "required": false,
-            "type": "string",
-            "default": "default"
+            "$ref": "#/parameters/community"
           }
         ],
         "responses": {
           "200": {
             "description": "Enrichment result",
             "schema": {
-              "type": "object",
-              "properties": {
-                "has_more": {
-                  "type": "boolean"
-                },
-                "limit": {
-                  "type": "integer"
-                },
-                "status": {
-                  "type": "string"
-                },
-                "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "sha256": {
-                        "type": "string"
-                      },
-                      "polyscore": {
-                        "type": "number"
-                      },
-                      "result": {
-                        "type": "boolean",
-                        "description": "Overall malicious result, true for malicious, false for benign"
-                      },
-                      "permalink": {
-                        "type": "string"
-                      },
-                      "detections": {
-                        "type": "object",
-                        "properties": {
-                          "benign": {
-                            "type": "integer"
-                          },
-                          "malicious": {
-                            "type": "integer"
-                          },
-                          "total": {
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      "assertions": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "verdict": {
-                              "type": "boolean",
-                              "nullable": true
-                            },
-                            "engine": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                },
-                                "description": {
-                                  "type": "string"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "metadata": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "tool": {
-                              "type": "string"
-                            },
-                            "tool_metadata": {
-                              "type": "object",
-                              "properties": {
-                                "labels": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "malware_family": {
-                                  "type": "string"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              "$ref": "#/definitions/SearchResponse"
             }
           },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
           "404": {
-            "description": "Hash not found"
+            "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
           },
           "default": {
             "description": "Error response",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
-        "x-ms-visibility": "important",
-        "x-ms-summary": "Enrich SHA256 hash"
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/hash/sha1": {
+      "get": {
+        "operationId": "EnrichSha1",
+        "summary": "Enrich a SHA1 hash",
+        "description": "Looks up a SHA1 hash in PolySwarm and returns the artifact record.",
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "query",
+            "description": "SHA1 hash to enrich (40 hex characters).",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "SHA1 hash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enrichment result",
+            "schema": {
+              "$ref": "#/definitions/SearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/hash/md5": {
+      "get": {
+        "operationId": "EnrichMd5",
+        "summary": "Enrich an MD5 hash",
+        "description": "Looks up an MD5 hash in PolySwarm and returns the artifact record.",
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "query",
+            "description": "MD5 hash to enrich (32 hex characters).",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "MD5 hash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enrichment result",
+            "schema": {
+              "$ref": "#/definitions/SearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/metadata/query": {
+      "get": {
+        "operationId": "SearchMetadata",
+        "summary": "Search artifact metadata",
+        "description": "Runs a Lucene-style metadata query against the PolySwarm artifact index, for example 'artifact.created:>now-1h AND scan.latest_scan.polyscore:>0.9'. Returns the same artifact records as the hash lookups.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Metadata query string, for example 'polyunite.malware_family:LockBit AND scan.latest_scan.polyscore:>=0.95'.",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Query"
+          },
+          {
+            "$ref": "#/parameters/community"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Page size.",
+            "required": false,
+            "type": "integer",
+            "default": 50,
+            "x-ms-summary": "Limit"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Opaque pagination token returned by a previous response. Pass back unmodified.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Offset",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching artifact records",
+            "schema": {
+              "$ref": "#/definitions/SearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "advanced"
       }
     }
   },
-  "definitions": {},
+  "parameters": {
+    "community": {
+      "name": "community",
+      "in": "query",
+      "description": "PolySwarm community to search.",
+      "required": false,
+      "type": "string",
+      "default": "default",
+      "x-ms-summary": "Community"
+    }
+  },
+  "definitions": {
+    "SearchResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Request status, for example OK."
+        },
+        "has_more": {
+          "type": "boolean",
+          "description": "True when more pages are available."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Page size used for this response."
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified to fetch the next page."
+        },
+        "result": {
+          "type": "array",
+          "description": "Matching artifact records.",
+          "items": {
+            "$ref": "#/definitions/ArtifactRecord"
+          }
+        }
+      }
+    },
+    "ArtifactRecord": {
+      "type": "object",
+      "description": "A PolySwarm artifact record. Verified against a live /search/metadata/query response. Fields marked legacy are carried for compatibility with the flatter instance-shaped payload some endpoints return; consumers should read both with a null-coalescing fallback.",
+      "properties": {
+        "artifact": {
+          "$ref": "#/definitions/Artifact"
+        },
+        "hash": {
+          "$ref": "#/definitions/HashSet"
+        },
+        "scan": {
+          "$ref": "#/definitions/Scan"
+        },
+        "polyunite": {
+          "$ref": "#/definitions/PolyUnite"
+        },
+        "families": {
+          "type": "array",
+          "description": "Normalised malware family names.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "High-level classification tags, for example Ransomware, PE32, Windows.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extension": {
+          "type": "string"
+        },
+        "meta_community": {
+          "type": "string"
+        },
+        "modified": {
+          "type": "string"
+        },
+        "cape_sandbox_v2": {
+          "$ref": "#/definitions/CapeSandbox"
+        },
+        "triage_sandbox_v0": {
+          "$ref": "#/definitions/TriageSandbox"
+        },
+        "exiftool": {
+          "type": "object",
+          "description": "ExifTool-derived file metadata."
+        },
+        "pefile": {
+          "type": "object",
+          "description": "PE header metadata, including imphash and section entropy."
+        },
+        "lief": {
+          "type": "object",
+          "description": "LIEF-derived binary metadata."
+        },
+        "polyscore": {
+          "type": "number",
+          "format": "double",
+          "description": "Legacy. PolyScore at the record root. Prefer scan.latest_scan.polyscore."
+        },
+        "result": {
+          "type": "boolean",
+          "description": "Legacy. Overall boolean verdict. Absent from artifact records; derive from PolyScore instead."
+        },
+        "permalink": {
+          "type": "string",
+          "description": "Legacy. Link to the artifact report. Absent from artifact records; construct as https://polyswarm.network/scan/results/file/{sha256}."
+        },
+        "detections": {
+          "$ref": "#/definitions/Detections"
+        },
+        "assertions": {
+          "type": "array",
+          "description": "Legacy. Array-shaped per-engine assertions. Artifact records instead expose scan.latest_scan.assertions as an object keyed by engine name.",
+          "items": {
+            "$ref": "#/definitions/Assertion"
+          }
+        },
+        "metadata": {
+          "type": "array",
+          "description": "Legacy. Tool-keyed metadata array. Artifact records instead expose polyunite at the record root.",
+          "items": {
+            "$ref": "#/definitions/MetadataEntry"
+          }
+        }
+      }
+    },
+    "Artifact": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "md5": {
+          "type": "string"
+        },
+        "sha1": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        }
+      }
+    },
+    "HashSet": {
+      "type": "object",
+      "properties": {
+        "md5": {
+          "type": "string"
+        },
+        "sha1": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "sha512": {
+          "type": "string"
+        },
+        "ssdeep": {
+          "type": "string"
+        },
+        "tlsh": {
+          "type": "string"
+        },
+        "authentihash": {
+          "type": "string"
+        }
+      }
+    },
+    "Scan": {
+      "type": "object",
+      "properties": {
+        "detections": {
+          "$ref": "#/definitions/Detections"
+        },
+        "first_seen": {
+          "type": "string"
+        },
+        "last_seen": {
+          "type": "string"
+        },
+        "countries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "filename": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mimetype": {
+          "$ref": "#/definitions/MimeType"
+        },
+        "first_scan": {
+          "$ref": "#/definitions/ScanInstance"
+        },
+        "latest_scan": {
+          "$ref": "#/definitions/ScanInstance"
+        }
+      }
+    },
+    "ScanInstance": {
+      "type": "object",
+      "properties": {
+        "artifact_instance_id": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "polyscore": {
+          "type": "number",
+          "format": "double",
+          "description": "PolySwarm confidence score between 0 and 1. Higher means more likely malicious."
+        },
+        "detections": {
+          "$ref": "#/definitions/Detections"
+        },
+        "assertions": {
+          "type": "object",
+          "description": "Per-engine assertions, keyed by engine name. Each value is an object with 'assertion' (malicious, benign or unknown) and 'metadata'. Because the keys are dynamic engine names, this cannot be enumerated by a Logic Apps expression without an Integration Account.",
+          "additionalProperties": {
+            "$ref": "#/definitions/EngineAssertion"
+          }
+        },
+        "votes": {
+          "type": "object",
+          "description": "Arbiter votes, keyed by arbiter name.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "EngineAssertion": {
+      "type": "object",
+      "properties": {
+        "assertion": {
+          "type": "string",
+          "description": "One of malicious, benign or unknown."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Engine-supplied metadata, typically containing malware_family."
+        }
+      }
+    },
+    "MimeType": {
+      "type": "object",
+      "properties": {
+        "mime": {
+          "type": "string"
+        },
+        "extended": {
+          "type": "string"
+        }
+      }
+    },
+    "Detections": {
+      "type": "object",
+      "properties": {
+        "benign": {
+          "type": "integer"
+        },
+        "malicious": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
+    "PolyUnite": {
+      "type": "object",
+      "description": "Normalised classification derived from all engine verdicts.",
+      "properties": {
+        "malware_family": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operating_system": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CapeSandbox": {
+      "type": "object",
+      "properties": {
+        "malscore": {
+          "type": "number",
+          "format": "double"
+        },
+        "ttp": {
+          "type": "array",
+          "description": "MITRE ATT&CK technique IDs.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "signature_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "signatures": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "dropped": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "network": {
+          "type": "object",
+          "description": "Observed TCP and UDP connections from detonation."
+        },
+        "platform": {
+          "type": "object"
+        }
+      }
+    },
+    "TriageSandbox": {
+      "type": "object",
+      "properties": {
+        "sample_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "malware_family": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ttp": {
+          "type": "array",
+          "description": "MITRE ATT&CK technique IDs.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "analysis": {
+          "type": "object",
+          "description": "Contains score, family and tags."
+        },
+        "extracted": {
+          "type": "array",
+          "description": "Extracted configuration and ransom notes.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Assertion": {
+      "type": "object",
+      "description": "Legacy array-shaped assertion.",
+      "properties": {
+        "verdict": {
+          "type": "boolean",
+          "description": "Engine verdict. True for malicious, false for benign, null when the engine did not assert."
+        },
+        "engine": {
+          "$ref": "#/definitions/Engine"
+        }
+      }
+    },
+    "Engine": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "MetadataEntry": {
+      "type": "object",
+      "description": "Legacy tool-keyed metadata entry.",
+      "properties": {
+        "tool": {
+          "type": "string"
+        },
+        "tool_metadata": {
+          "$ref": "#/definitions/PolyUnite"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
   "x-ms-connector-metadata": [
     {
-      "propertyName": "website",
+      "propertyName": "Website",
       "propertyValue": "https://polyswarm.io"
+    },
+    {
+      "propertyName": "Privacy policy",
+      "propertyValue": "https://polyswarm.io/privacy-policy"
+    },
+    {
+      "propertyName": "Categories",
+      "propertyValue": "Security"
     }
   ]
 }

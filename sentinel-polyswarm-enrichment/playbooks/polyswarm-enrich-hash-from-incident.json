@@ -1,238 +1,364 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "logicAppName": {
-      "type": "string",
-      "defaultValue": "polyswarm-enrich-hash-from-incident"
+  "contentVersion": "1.2.0.0",
+  "metadata": {
+    "title": "PolySwarm - FileHash Enrichment - Incident Triggered",
+    "description": "Takes every FileHash entity on a Microsoft Sentinel incident, looks it up in the PolySwarm REST API v3, and writes a PolyScore / detection / malware-family / ATT&CK summary back to the incident as a comment.",
+    "prerequisites": [
+      "A PolySwarm API key with access to the target community. Get one at https://polyswarm.network/account/api-keys"
+    ],
+    "postDeployment": [
+      "1. Assign the 'Microsoft Sentinel Responder' role on the resource group (or workspace) to this playbook's system-assigned managed identity.",
+      "2. Authorize the Microsoft Sentinel API connection if it shows as unauthorized.",
+      "3. Attach the playbook to an automation rule so it runs when an incident is created."
+    ],
+    "entities": [
+      "FileHash"
+    ],
+    "tags": [
+      "Enrichment"
+    ],
+    "support": {
+      "tier": "community"
     },
-    "location": {
-      "type": "string"
-    },
-    "polyswarmConnectionName": {
-      "type": "string",
-      "defaultValue": "polyswarm-connection"
-    },
-    "azureSentinelConnectionName": {
-      "type": "string",
-      "defaultValue": "azuresentinel"
+    "author": {
+      "name": "PolySwarm Customer Success"
     }
+  },
+  "parameters": {
+    "PlaybookName": {
+      "type": "string",
+      "defaultValue": "PolySwarm-Enrich-FileHash-IncidentTriggered",
+      "metadata": {
+        "description": "Name of the Logic App playbook resource."
+      }
+    },
+    "PolySwarmApiKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "PolySwarm API key. Sent verbatim as the Authorization header (no 'Bearer ' prefix). Prefer supplying this from Azure Key Vault at deployment time."
+      }
+    },
+    "PolySwarmCommunity": {
+      "type": "string",
+      "defaultValue": "default",
+      "metadata": {
+        "description": "PolySwarm community to search. Use 'default' unless you have a private community."
+      }
+    },
+    "PolySwarmApiBaseUrl": {
+      "type": "string",
+      "defaultValue": "https://api.polyswarm.network/v3",
+      "metadata": {
+        "description": "PolySwarm REST API v3 base URL."
+      }
+    },
+    "PolySwarmMaliciousThreshold": {
+      "type": "string",
+      "defaultValue": "0.8",
+      "metadata": {
+        "description": "PolyScore at or above which the comment reports 'Malicious'. Scores at or above half this value report 'Suspicious'. Passed as a string because ARM templates have no float parameter type."
+      }
+    }
+  },
+  "variables": {
+    "AzureSentinelConnectionName": "[concat('MicrosoftSentinel-', parameters('PlaybookName'))]"
   },
   "resources": [
     {
+      "type": "Microsoft.Web/connections",
+      "apiVersion": "2016-06-01",
+      "name": "[variables('AzureSentinelConnectionName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "V1",
+      "properties": {
+        "displayName": "[variables('AzureSentinelConnectionName')]",
+        "customParameterValues": {},
+        "parameterValueType": "Alternative",
+        "api": {
+          "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]"
+        }
+      }
+    },
+    {
       "type": "Microsoft.Logic/workflows",
-      "apiVersion": "2019-05-01",
-      "name": "[parameters('logicAppName')]",
-      "location": "[parameters('location')]",
+      "apiVersion": "2017-07-01",
+      "name": "[parameters('PlaybookName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "LogicAppsCategory": "security",
+        "hidden-SentinelTemplateName": "PolySwarm-Enrich-FileHash",
+        "hidden-SentinelTemplateVersion": "1.2"
+      },
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('AzureSentinelConnectionName'))]"
+      ],
       "properties": {
         "state": "Enabled",
         "definition": {
-          "$schema": "https://schema.management.azure.com/schemas/2016-06-01/workflowdefinition.json#",
-          "contentVersion": "1.0.0.0",
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.2.0.0",
           "parameters": {
-            "azureSentinelConnectionName": {
-              "type": "string"
+            "$connections": {
+              "type": "Object",
+              "defaultValue": {}
             },
-            "polyswarmConnectionName": {
-              "type": "string"
+            "PolySwarmApiKey": {
+              "type": "securestring"
+            },
+            "PolySwarmCommunity": {
+              "type": "string",
+              "defaultValue": "default"
+            },
+            "PolySwarmApiBaseUrl": {
+              "type": "string",
+              "defaultValue": "https://api.polyswarm.network/v3"
+            },
+            "PolySwarmMaliciousThreshold": {
+              "type": "string",
+              "defaultValue": "0.8"
             }
           },
           "triggers": {
-            "When_an_Azure_Sentinel_incident_is_created": {
-              "type": "Request",
-              "kind": "Http",
+            "Microsoft_Sentinel_incident": {
+              "type": "ApiConnectionWebhook",
               "inputs": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "metadata": {
-                "operationMetadataId": "sentinel_incident_created"
+                "body": {
+                  "callback_url": "@{listCallbackUrl()}"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "path": "/incident-creation"
               }
             }
           },
           "actions": {
-            "Initialize_malicious_engines": {
-              "type": "InitializeVariable",
+            "Entities_-_Get_FileHashes": {
+              "type": "ApiConnection",
               "inputs": {
-                "variables": [
-                  {
-                    "name": "malicious_engines",
-                    "type": "Array",
-                    "value": []
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
                   }
-                ]
+                },
+                "method": "post",
+                "path": "/entities/filehash",
+                "body": "@triggerBody()?['object']?['properties']?['relatedEntities']"
               },
               "runAfter": {}
             },
-            "Initialize_polyunite_metadata": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "polyunite_metadata",
-                    "type": "Object",
-                    "value": {}
-                  }
-                ]
-              },
+            "For_each_file_hash": {
+              "type": "Foreach",
+              "foreach": "@body('Entities_-_Get_FileHashes')?['Filehashes']",
               "runAfter": {
-                "Initialize_malicious_engines": [
+                "Entities_-_Get_FileHashes": [
                   "Succeeded"
                 ]
-              }
-            },
-            "Get_entities": {
-              "type": "ApiConnection",
-              "inputs": {
-                "connectionName": "@parameters('azureSentinelConnectionName')",
-                "method": "post",
-                "path": "/providers/Microsoft.SecurityInsights/calculateEntities",
-                "body": {
-                  "incidentArmId": "@triggerBody()?['IncidentArmId']"
+              },
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
                 }
               },
-              "runAfter": {
-                "Initialize_polyunite_metadata": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "For_each_hash": {
-              "type": "Foreach",
-              "foreach": "@body('Get_entities')?['entities']",
-              "runAfter": {
-                "Get_entities": [
-                  "Succeeded"
-                ]
-              },
               "actions": {
-                "If_entity_is_hash": {
+                "Determine_hash_type": {
+                  "type": "Compose",
+                  "inputs": "@if(equals(length(coalesce(items('For_each_file_hash')?['Value'], '')), 64), 'sha256', if(equals(length(coalesce(items('For_each_file_hash')?['Value'], '')), 40), 'sha1', if(equals(length(coalesce(items('For_each_file_hash')?['Value'], '')), 32), 'md5', 'unsupported')))",
+                  "runAfter": {}
+                },
+                "If_hash_type_is_supported": {
                   "type": "If",
                   "expression": {
-                    "equals": [
-                      "@item()?['kind']",
-                      "FileHash"
+                    "not": {
+                      "equals": [
+                        "@outputs('Determine_hash_type')",
+                        "unsupported"
+                      ]
+                    }
+                  },
+                  "runAfter": {
+                    "Determine_hash_type": [
+                      "Succeeded"
                     ]
                   },
                   "actions": {
-                    "Reset_malicious_engines": {
-                      "type": "SetVariable",
+                    "Search_PolySwarm": {
+                      "type": "Http",
                       "inputs": {
-                        "name": "malicious_engines",
-                        "value": []
+                        "method": "GET",
+                        "uri": "@{parameters('PolySwarmApiBaseUrl')}/search/hash/@{outputs('Determine_hash_type')}",
+                        "queries": {
+                          "hash": "@{toLower(trim(items('For_each_file_hash')?['Value']))}",
+                          "community": "@parameters('PolySwarmCommunity')"
+                        },
+                        "headers": {
+                          "Authorization": "@parameters('PolySwarmApiKey')",
+                          "Accept": "application/json"
+                        },
+                        "retryPolicy": {
+                          "type": "exponential",
+                          "count": 3,
+                          "interval": "PT10S"
+                        }
+                      },
+                      "runtimeConfiguration": {
+                        "secureData": {
+                          "properties": [
+                            "inputs"
+                          ]
+                        }
                       },
                       "runAfter": {}
                     },
-                    "Reset_polyunite_metadata": {
-                      "type": "SetVariable",
-                      "inputs": {
-                        "name": "polyunite_metadata",
-                        "value": {}
+                    "If_PolySwarm_returned_a_result": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "equals": [
+                              "@outputs('Search_PolySwarm')?['statusCode']",
+                              200
+                            ]
+                          },
+                          {
+                            "greater": [
+                              "@length(coalesce(body('Search_PolySwarm')?['result'], json('[]')))",
+                              0
+                            ]
+                          }
+                        ]
                       },
                       "runAfter": {
-                        "Reset_malicious_engines": [
-                          "Succeeded"
-                        ]
-                      }
-                    },
-                    "Call_PolySwarm": {
-                      "type": "ApiConnection",
-                      "inputs": {
-                        "connectionName": "@parameters('polyswarmConnectionName')",
-                        "method": "get",
-                        "path": "/search/hash/sha256",
-                        "queries": {
-                          "hash": "@{item()?['properties']?['hashValue']}",
-                          "community": "default"
-                        }
-                      },
-                      "runAfter": {
-                        "Reset_polyunite_metadata": [
-                          "Succeeded"
-                        ]
-                      }
-                    },
-                    "For_each_assertion": {
-                      "type": "Foreach",
-                      "foreach": "@body('Call_PolySwarm')?['result'][0]?['assertions']",
-                      "runAfter": {
-                        "Call_PolySwarm": [
-                          "Succeeded"
+                        "Search_PolySwarm": [
+                          "Succeeded",
+                          "Failed"
                         ]
                       },
                       "actions": {
-                        "If_verdict_true": {
-                          "type": "If",
-                          "expression": {
-                            "equals": [
-                              "@item()?['verdict']",
-                              true
-                            ]
+                        "Select_artifact_record": {
+                          "type": "Compose",
+                          "inputs": "@first(body('Search_PolySwarm')?['result'])",
+                          "runAfter": {}
+                        },
+                        "Filter_malicious_assertions": {
+                          "type": "Query",
+                          "inputs": {
+                            "from": "@coalesce(outputs('Select_artifact_record')?['assertions'], json('[]'))",
+                            "where": "@equals(item()?['verdict'], true)"
                           },
-                          "actions": {
-                            "Append_engine_name": {
-                              "type": "AppendToArrayVariable",
-                              "inputs": {
-                                "name": "malicious_engines",
-                                "value": "@item()?['engine']?['name']"
-                              },
-                              "runAfter": {}
+                          "runAfter": {
+                            "Select_artifact_record": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Select_malicious_engine_names": {
+                          "type": "Select",
+                          "inputs": {
+                            "from": "@body('Filter_malicious_assertions')",
+                            "select": "@coalesce(item()?['engine']?['name'], item()?['engine_name'])"
+                          },
+                          "runAfter": {
+                            "Filter_malicious_assertions": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Filter_polyunite_metadata": {
+                          "type": "Query",
+                          "inputs": {
+                            "from": "@coalesce(outputs('Select_artifact_record')?['metadata'], json('[]'))",
+                            "where": "@equals(item()?['tool'], 'polyunite')"
+                          },
+                          "runAfter": {
+                            "Select_malicious_engine_names": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Build_summary": {
+                          "type": "Compose",
+                          "inputs": {
+                            "sha256": "@coalesce(outputs('Select_artifact_record')?['artifact']?['sha256'], outputs('Select_artifact_record')?['hash']?['sha256'], outputs('Select_artifact_record')?['sha256'], toLower(trim(items('For_each_file_hash')?['Value'])))",
+                            "polyscore": "@coalesce(outputs('Select_artifact_record')?['scan']?['latest_scan']?['polyscore'], outputs('Select_artifact_record')?['polyscore'])",
+                            "verdictFlag": "@outputs('Select_artifact_record')?['result']",
+                            "malicious": "@coalesce(outputs('Select_artifact_record')?['scan']?['detections']?['malicious'], outputs('Select_artifact_record')?['scan']?['latest_scan']?['detections']?['malicious'], outputs('Select_artifact_record')?['detections']?['malicious'], 0)",
+                            "benign": "@coalesce(outputs('Select_artifact_record')?['scan']?['detections']?['benign'], outputs('Select_artifact_record')?['scan']?['latest_scan']?['detections']?['benign'], outputs('Select_artifact_record')?['detections']?['benign'], 0)",
+                            "total": "@coalesce(outputs('Select_artifact_record')?['scan']?['detections']?['total'], outputs('Select_artifact_record')?['scan']?['latest_scan']?['detections']?['total'], outputs('Select_artifact_record')?['detections']?['total'], 0)",
+                            "malwareFamily": "@coalesce(outputs('Select_artifact_record')?['polyunite']?['malware_family'], first(body('Filter_polyunite_metadata'))?['tool_metadata']?['malware_family'], first(coalesce(outputs('Select_artifact_record')?['families'], json('[]'))))",
+                            "labels": "@coalesce(outputs('Select_artifact_record')?['polyunite']?['labels'], first(body('Filter_polyunite_metadata'))?['tool_metadata']?['labels'], json('[]'))",
+                            "tags": "@coalesce(outputs('Select_artifact_record')?['tags'], json('[]'))",
+                            "sandboxFamilies": "@coalesce(outputs('Select_artifact_record')?['triage_sandbox_v0']?['malware_family'], json('[]'))",
+                            "ttps": "@union(coalesce(outputs('Select_artifact_record')?['cape_sandbox_v2']?['ttp'], json('[]')), coalesce(outputs('Select_artifact_record')?['triage_sandbox_v0']?['ttp'], json('[]')))",
+                            "capeScore": "@outputs('Select_artifact_record')?['cape_sandbox_v2']?['malscore']",
+                            "triageScore": "@outputs('Select_artifact_record')?['triage_sandbox_v0']?['analysis']?['score']",
+                            "firstSeen": "@coalesce(outputs('Select_artifact_record')?['scan']?['first_seen'], outputs('Select_artifact_record')?['first_seen'])",
+                            "lastSeen": "@coalesce(outputs('Select_artifact_record')?['scan']?['last_seen'], outputs('Select_artifact_record')?['last_seen'])",
+                            "fileType": "@coalesce(outputs('Select_artifact_record')?['scan']?['mimetype']?['extended'], outputs('Select_artifact_record')?['exiftool']?['filetype'], outputs('Select_artifact_record')?['extended_type'])",
+                            "size": "@coalesce(outputs('Select_artifact_record')?['artifact']?['size'], outputs('Select_artifact_record')?['size'])",
+                            "permalink": "@outputs('Select_artifact_record')?['permalink']",
+                            "engines": "@body('Select_malicious_engine_names')"
+                          },
+                          "runAfter": {
+                            "Filter_polyunite_metadata": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Add_enrichment_comment_to_incident": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connection": {
+                                "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                              }
+                            },
+                            "method": "post",
+                            "path": "/Incidents/Comment",
+                            "body": {
+                              "incidentArmId": "@triggerBody()?['object']?['id']",
+                              "message": "<p><strong>PolySwarm enrichment</strong><br>\nHash (@{toUpper(outputs('Determine_hash_type'))}): @{items('For_each_file_hash')?['Value']}<br>\nAssessment: <strong>@{if(equals(outputs('Build_summary')?['verdictFlag'], true), 'Malicious', if(equals(outputs('Build_summary')?['verdictFlag'], false), 'Benign', if(equals(outputs('Build_summary')?['polyscore'], null), 'Unknown', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], float(parameters('PolySwarmMaliciousThreshold'))), 'Malicious', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], div(float(parameters('PolySwarmMaliciousThreshold')), 2)), 'Suspicious', 'Likely benign')))))}</strong> (PolyScore @{if(equals(outputs('Build_summary')?['polyscore'], null), 'n/a', formatNumber(outputs('Build_summary')?['polyscore'], '0.0000'))})<br>\nDetections: @{outputs('Build_summary')?['malicious']} malicious / @{outputs('Build_summary')?['benign']} benign of @{outputs('Build_summary')?['total']} engines<br>\n@{if(empty(outputs('Build_summary')?['engines']), '', concat('Malicious engines: ', join(outputs('Build_summary')?['engines'], ', '), '<br>\n'))}Malware family: @{coalesce(outputs('Build_summary')?['malwareFamily'], 'n/a')}<br>\n@{if(empty(outputs('Build_summary')?['labels']), '', concat('Labels: ', join(outputs('Build_summary')?['labels'], ', '), '<br>\n'))}@{if(empty(outputs('Build_summary')?['tags']), '', concat('Tags: ', join(outputs('Build_summary')?['tags'], ', '), '<br>\n'))}@{if(empty(outputs('Build_summary')?['sandboxFamilies']), '', concat('Sandbox-reported family: ', join(outputs('Build_summary')?['sandboxFamilies'], ', '), '<br>\n'))}@{if(and(equals(outputs('Build_summary')?['capeScore'], null), equals(outputs('Build_summary')?['triageScore'], null)), '', concat('Sandbox scores: CAPE ', coalesce(string(outputs('Build_summary')?['capeScore']), 'n/a'), ' / Triage ', coalesce(string(outputs('Build_summary')?['triageScore']), 'n/a'), '<br>\n'))}@{if(empty(outputs('Build_summary')?['ttps']), '', concat('MITRE ATT&amp;CK: ', join(outputs('Build_summary')?['ttps'], ', '), '<br>\n'))}@{if(equals(outputs('Build_summary')?['fileType'], null), '', concat('File type: ', string(outputs('Build_summary')?['fileType']), '<br>\n'))}@{if(equals(outputs('Build_summary')?['firstSeen'], null), '', concat('First seen: ', string(outputs('Build_summary')?['firstSeen']), ' | Last seen: ', coalesce(string(outputs('Build_summary')?['lastSeen']), 'n/a'), '<br>\n'))}PolySwarm report: <a href=\"@{coalesce(outputs('Build_summary')?['permalink'], concat('https://polyswarm.network/scan/results/file/', outputs('Build_summary')?['sha256']))}\">@{coalesce(outputs('Build_summary')?['permalink'], concat('https://polyswarm.network/scan/results/file/', outputs('Build_summary')?['sha256']))}</a></p>"
                             }
                           },
-                          "else": {}
-                        }
-                      }
-                    },
-                    "For_each_metadata": {
-                      "type": "Foreach",
-                      "foreach": "@body('Call_PolySwarm')?['result'][0]?['metadata']",
-                      "runAfter": {
-                        "For_each_assertion": [
-                          "Succeeded"
-                        ]
-                      },
-                      "actions": {
-                        "If_polyunite": {
-                          "type": "If",
-                          "expression": {
-                            "equals": [
-                              "@item()?['tool']",
-                              "polyunite"
+                          "runAfter": {
+                            "Build_summary": [
+                              "Succeeded"
                             ]
-                          },
-                          "actions": {
-                            "Set_polyunite_metadata": {
-                              "type": "SetVariable",
-                              "inputs": {
-                                "name": "polyunite_metadata",
-                                "value": "@item()?['tool_metadata']"
-                              },
-                              "runAfter": {}
-                            }
-                          },
-                          "else": {}
-                        }
-                      }
-                    },
-                    "Add_comment_to_incident": {
-                      "type": "ApiConnection",
-                      "inputs": {
-                        "connectionName": "@parameters('azureSentinelConnectionName')",
-                        "method": "post",
-                        "path": "/providers/Microsoft.SecurityInsights/incidents/@{triggerBody()?['IncidentArmId']}/comments",
-                        "body": {
-                          "message": "PolySwarm enrichment for hash @{item()?['properties']?['hashValue']}: polyscore=@{body('Call_PolySwarm')?['result'][0]?['polyscore']}, detections malicious=@{body('Call_PolySwarm')?['result'][0]?['detections']?['malicious']}, benign=@{body('Call_PolySwarm')?['result'][0]?['detections']?['benign']}, total=@{body('Call_PolySwarm')?['result'][0]?['detections']?['total']}; malicious engines=@{join(variables('malicious_engines'), ', ')}, malware_family=@{variables('polyunite_metadata')?['malware_family']}, labels=@{join(variables('polyunite_metadata')?['labels'], ', ')}"
+                          }
                         }
                       },
-                      "runAfter": {
-                        "For_each_metadata": [
-                          "Succeeded"
-                        ]
+                      "else": {
+                        "actions": {
+                          "Add_no_result_comment_to_incident": {
+                            "type": "ApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connection": {
+                                  "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                                }
+                              },
+                              "method": "post",
+                              "path": "/Incidents/Comment",
+                              "body": {
+                                "incidentArmId": "@triggerBody()?['object']?['id']",
+                                "message": "<p><strong>PolySwarm enrichment</strong><br>\nHash (@{toUpper(outputs('Determine_hash_type'))}): @{items('For_each_file_hash')?['Value']}<br>\nNo PolySwarm result. HTTP status: @{coalesce(outputs('Search_PolySwarm')?['statusCode'], 'no response')}. A 404 means the artifact has never been scanned in the '@{parameters('PolySwarmCommunity')}' community; consider submitting the file for scanning.</p>"
+                              }
+                            },
+                            "runAfter": {}
+                          }
+                        }
                       }
                     }
                   },
-                  "else": {}
+                  "else": {
+                    "actions": {}
+                  }
                 }
               }
             }
@@ -240,14 +366,44 @@
           "outputs": {}
         },
         "parameters": {
-          "azureSentinelConnectionName": {
-            "value": "[parameters('azureSentinelConnectionName')]"
+          "$connections": {
+            "value": {
+              "azuresentinel": {
+                "connectionId": "[resourceId('Microsoft.Web/connections', variables('AzureSentinelConnectionName'))]",
+                "connectionName": "[variables('AzureSentinelConnectionName')]",
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]",
+                "connectionProperties": {
+                  "authentication": {
+                    "type": "ManagedServiceIdentity"
+                  }
+                }
+              }
+            }
           },
-          "polyswarmConnectionName": {
-            "value": "[parameters('polyswarmConnectionName')]"
+          "PolySwarmApiKey": {
+            "value": "[parameters('PolySwarmApiKey')]"
+          },
+          "PolySwarmCommunity": {
+            "value": "[parameters('PolySwarmCommunity')]"
+          },
+          "PolySwarmApiBaseUrl": {
+            "value": "[parameters('PolySwarmApiBaseUrl')]"
+          },
+          "PolySwarmMaliciousThreshold": {
+            "value": "[parameters('PolySwarmMaliciousThreshold')]"
           }
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "playbookResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Logic/workflows', parameters('PlaybookName'))]"
+    },
+    "managedIdentityPrincipalId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Logic/workflows', parameters('PlaybookName')), '2017-07-01', 'full').identity.principalId]"
+    }
+  }
 }
