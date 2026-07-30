@@ -301,19 +301,31 @@ response — without anyone hand-writing HTTP actions and expressions.
 | --- | --- | --- | --- |
 | `EnrichSha256` | `/search/hash/sha256` | Verdict, PolyScore, per-engine assertions, PolyUnite family labelling | ✅ verified live |
 | `EnrichSha1` / `EnrichMd5` | `/search/hash/{type}` | As above, for SHA1 and MD5 entities | ⚠️ inferred from SHA256 |
-| `SearchUrl` | `/search/url` | URL enrichment | ❌ **not sampled** |
+| `SearchUrl` | `/search/url` | URL enrichment, plus DNS, ASN and TLS certificate detail | ✅ verified live |
 | `SearchIoc` | `/ioc/search` | SHA256 hashes associated with an IP, domain, TTP or imphash | ✅ verified live |
-| `GetIocsForSha256` | `/ioc/sha256/{sha256}` | IPs, domains, TTPs and imphashes associated with a sample — corpus context for investigation expansion | ❌ **not sampled** |
+| `GetIocsForSha256` | `/ioc/sha256/{sha256}` | `imphash`, contacted `ips` and `urls`, and `ttps` for one sample | ✅ verified live |
 | `SearchMetadata` | `/search/metadata/query` | Tags, families, sandbox scores, MITRE ATT&CK | ✅ verified live |
 
-> **Two response schemas are unverified.** `SearchUrl` is provisionally typed as the
-> scan-instance shape and `GetIocsForSha256` is left untyped. Both have correct request
-> definitions and will work, but confirm each against a live response and type it
-> before relying on designer dynamic content for those operations.
+Only `EnrichSha1` and `EnrichMd5` remain unsampled; both are inferred from the
+verified SHA256 response and differ only in the endpoint path.
 
-Note that the two IOC operations are **inverses of each other and do not share a
-response shape**. `SearchIoc` returns a flat array of SHA256 strings (not objects);
-`GetIocsForSha256` returns the indicators associated with one sample.
+### Three envelope shapes — read before writing generic code
+
+`result` is not consistently typed across v3. All three of these are verified live:
+
+| Operation | Envelope |
+| --- | --- |
+| `/search/hash/*`, `/search/url`, `/search/metadata/query` | `{status, has_more, limit, result: [ objects ]}` |
+| `/ioc/search` | `{status, has_more, limit, offset, result: [ strings ]}` |
+| `/ioc/sha256/{sha256}` | `{status, result: { object }}` — **no pagination fields at all** |
+
+Anything that generically iterates `result[]` breaks on the third. In Logic Apps
+specifically, `first()` or a `Filter array` over `/ioc/sha256`'s `result` throws,
+because it is not a collection — address its members directly
+(`body('…')?['result']?['ips']`).
+
+The two IOC operations are also **inverses**: `SearchIoc` maps an indicator to hashes,
+`GetIocsForSha256` maps a hash to indicators.
 
 **`SearchIoc` results paginate, and volume is not a verdict.** A query for common
 infrastructure — `8.8.8.8`, for instance — returns a full page with `has_more` set,

@@ -3,7 +3,7 @@
   "info": {
     "title": "PolySwarm Malware Enrichment",
     "description": "Custom Logic Apps connector for the PolySwarm v3 API. Provides hash, URL and IOC enrichment actions for Microsoft Sentinel playbooks and automation rules. Hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata); the metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
-    "version": "1.6",
+    "version": "1.7",
     "contact": {
       "name": "PolySwarm Customer Success",
       "url": "https://docs.polyswarm.io/customers/polyswarm-rest-api-v3",
@@ -301,7 +301,7 @@
       "get": {
         "operationId": "GetIocsForSha256",
         "summary": "Get IOCs associated with a SHA256",
-        "description": "Returns IPs, domains, TTPs and imphashes associated with a sample. Supports the 'corpus context' capability for investigation expansion. Response schema is not yet typed; confirm against a live response.",
+        "description": "Returns the indicators associated with a sample: imphash, contacted IPs and URLs, and MITRE ATT&CK techniques. This is the inverse of /ioc/search. Verified against a live response - note that result is a single object rather than an array, and the response carries no pagination fields.",
         "parameters": [
           {
             "name": "sha256",
@@ -317,7 +317,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Result",
+            "description": "Associated indicators",
             "schema": {
               "$ref": "#/definitions/ArtifactIocsResponse"
             }
@@ -1120,26 +1120,43 @@
     },
     "ArtifactIocsResponse": {
       "type": "object",
-      "description": "Envelope returned by /ioc/sha256/{sha256}. This returns the inverse of /ioc/search - the IPs, domains, TTPs and imphashes associated with a sample - so it does NOT share the IocSearchResponse shape. Not yet verified against a live response; result items are left untyped rather than guessed.",
+      "description": "Envelope returned by /ioc/sha256/{sha256}. Verified against a live response. NOTE: result is a single OBJECT here, not an array, and the envelope carries no has_more, limit or offset - unlike every other v3 search operation. Code that generically iterates result[] will break on this operation.",
       "properties": {
         "status": {
           "type": "string"
         },
-        "has_more": {
-          "type": "boolean"
-        },
-        "limit": {
-          "type": "integer"
-        },
-        "offset": {
-          "type": "string",
-          "description": "Opaque pagination token. Pass back unmodified."
-        },
         "result": {
+          "$ref": "#/definitions/ArtifactIocs"
+        }
+      }
+    },
+    "ArtifactIocs": {
+      "type": "object",
+      "description": "Indicators associated with one sample. Arrays may be empty.",
+      "properties": {
+        "imphash": {
+          "type": "string",
+          "description": "PE import hash. Feed back into /ioc/search?imphash= to find structurally related samples."
+        },
+        "ips": {
           "type": "array",
-          "description": "Associated IOC records.",
+          "description": "IP addresses contacted during analysis.",
           "items": {
-            "type": "object"
+            "type": "string"
+          }
+        },
+        "urls": {
+          "type": "array",
+          "description": "URLs contacted during analysis.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ttps": {
+          "type": "array",
+          "description": "MITRE ATT&CK technique IDs.",
+          "items": {
+            "type": "string"
           }
         }
       }
