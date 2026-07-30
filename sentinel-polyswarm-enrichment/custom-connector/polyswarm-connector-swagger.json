@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "PolySwarm Malware Enrichment",
-    "description": "Custom Logic Apps connector for the PolySwarm REST API v3. The hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata). The metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
-    "version": "1.3",
+    "description": "Custom Logic Apps connector for the PolySwarm v3 API. Provides hash, URL and IOC enrichment actions for Microsoft Sentinel playbooks and automation rules. Hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata); the metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
+    "version": "1.4",
     "contact": {
       "name": "PolySwarm Customer Success",
       "url": "https://docs.polyswarm.io/customers/polyswarm-rest-api-v3",
@@ -57,7 +57,7 @@
           "200": {
             "description": "Scan instance",
             "schema": {
-              "$ref": "#/definitions/HashSearchResponse"
+              "$ref": "#/definitions/ScanSearchResponse"
             }
           },
           "401": {
@@ -101,7 +101,7 @@
           "200": {
             "description": "Scan instance",
             "schema": {
-              "$ref": "#/definitions/HashSearchResponse"
+              "$ref": "#/definitions/ScanSearchResponse"
             }
           },
           "401": {
@@ -145,7 +145,7 @@
           "200": {
             "description": "Scan instance",
             "schema": {
-              "$ref": "#/definitions/HashSearchResponse"
+              "$ref": "#/definitions/ScanSearchResponse"
             }
           },
           "401": {
@@ -153,6 +153,162 @@
           },
           "404": {
             "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/url": {
+      "get": {
+        "operationId": "SearchUrl",
+        "summary": "Enrich a URL",
+        "description": "Looks up a URL in PolySwarm and returns its scan record. Response schema is modelled on the hash lookup and should be confirmed against a live response before relying on individual field paths.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "URL to enrich, including scheme.",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "URL"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result",
+            "schema": {
+              "$ref": "#/definitions/ScanSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/ioc/search": {
+      "get": {
+        "operationId": "SearchIoc",
+        "summary": "Find artifacts associated with an IP, domain, TTP or imphash",
+        "description": "Returns artifacts observed in association with the supplied indicator. Supply exactly one of ip, domain, ttp or imphash. Response schema is not yet typed; confirm against a live response.",
+        "parameters": [
+          {
+            "name": "ip",
+            "in": "query",
+            "description": "IPv4 or IPv6 address.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "IP address"
+          },
+          {
+            "name": "domain",
+            "in": "query",
+            "description": "Domain name.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Domain"
+          },
+          {
+            "name": "ttp",
+            "in": "query",
+            "description": "MITRE ATT&CK technique ID, for example T1486.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "TTP"
+          },
+          {
+            "name": "imphash",
+            "in": "query",
+            "description": "PE import hash.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Imphash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result",
+            "schema": {
+              "$ref": "#/definitions/IocSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/ioc/sha256/{sha256}": {
+      "get": {
+        "operationId": "GetIocsForSha256",
+        "summary": "Get IOCs associated with a SHA256",
+        "description": "Returns IPs, domains, TTPs and imphashes associated with a sample. Supports the 'corpus context' capability for investigation expansion. Response schema is not yet typed; confirm against a live response.",
+        "parameters": [
+          {
+            "name": "sha256",
+            "in": "path",
+            "description": "SHA256 hash.",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "SHA256 hash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result",
+            "schema": {
+              "$ref": "#/definitions/IocSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Not found in the requested community"
           },
           "429": {
             "description": "Rate limit exceeded"
@@ -239,31 +395,6 @@
     }
   },
   "definitions": {
-    "HashSearchResponse": {
-      "type": "object",
-      "description": "Envelope returned by the /search/hash/* operations.",
-      "properties": {
-        "status": {
-          "type": "string"
-        },
-        "has_more": {
-          "type": "boolean"
-        },
-        "limit": {
-          "type": "integer"
-        },
-        "offset": {
-          "type": "string",
-          "description": "Opaque pagination token. Pass back unmodified."
-        },
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ScanInstance"
-          }
-        }
-      }
-    },
     "MetadataSearchResponse": {
       "type": "object",
       "description": "Envelope returned by /search/metadata/query.",
@@ -859,6 +990,57 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "ScanSearchResponse": {
+      "type": "object",
+      "description": "Envelope returned by the /search/hash/* and /search/url operations.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScanInstance"
+          }
+        }
+      }
+    },
+    "IocSearchResponse": {
+      "type": "object",
+      "description": "Envelope returned by the /ioc/* operations. The result item shape has not been verified against a live response, so items are left untyped deliberately rather than guessed. Type this before relying on designer dynamic content.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified."
+        },
+        "result": {
+          "type": "array",
+          "description": "Associated IOC or artifact records.",
+          "items": {
+            "type": "object"
+          }
         }
       }
     }

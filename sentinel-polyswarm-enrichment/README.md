@@ -93,12 +93,19 @@ shown rather than one being picked as authoritative.
 | Path | Purpose |
 | --- | --- |
 | `playbooks/polyswarm-enrich-hash-from-incident.json` | ARM template deploying the Logic App playbook plus its Sentinel API connection. This is the only file you need to deploy. |
-| `custom-connector/polyswarm-connector-swagger.json` | Optional Swagger 2.0 definition for a PolySwarm custom Logic Apps connector. Not required by the playbook. |
+| `custom-connector/polyswarm-connector-swagger.json` | Swagger 2.0 definition for the PolySwarm custom Logic Apps connector. Deployed independently of the playbook; see [The custom connector](#the-custom-connector). |
 
-The playbook calls PolySwarm with built-in **HTTP** actions rather than the custom
-connector. That keeps it self-contained — it deploys and runs with no prerequisite
-connector resource — and lets it switch between the MD5, SHA1 and SHA256 endpoints at
-runtime, which a single connector operation cannot do.
+These are two separate deliverables that ship together. The **connector** turns the
+PolySwarm v3 API into first-class Logic Apps actions so a security team can build
+their own playbooks and automation rules against it. The **playbook** is a worked
+reference showing one complete enrichment flow end to end.
+
+The playbook deliberately calls PolySwarm with built-in **HTTP** actions rather than
+through the connector. That keeps it self-contained — it deploys and runs with no
+prerequisite connector resource — and lets it switch between the MD5, SHA1 and SHA256
+endpoints at runtime, which a single connector operation cannot do. Teams that prefer
+the connector's typed dynamic content can swap the HTTP action for the matching
+operation; see the connector section for the trade-off.
 
 ---
 
@@ -258,12 +265,33 @@ curl -s -H "Authorization: $POLYSWARM_API_KEY" "https://api.polyswarm.network/v3
 
 ---
 
-## Optional: the custom connector
+## The custom connector
 
-`custom-connector/polyswarm-connector-swagger.json` defines a custom connector with
-four operations — `EnrichSha256`, `EnrichSha1`, `EnrichMd5` and `SearchMetadata` — and
-typed response schemas so the Logic App designer offers dynamic content for PolySwarm
-fields.
+`custom-connector/polyswarm-connector-swagger.json` wraps the PolySwarm v3 API as a
+Logic Apps custom connector, so Sentinel playbooks, automation rules and Defender
+XDR-triggered workflows can enrich an indicator inline as part of an automated
+response — without anyone hand-writing HTTP actions and expressions.
+
+| Operation | Endpoint | Purpose |
+| --- | --- | --- |
+| `EnrichSha256` / `EnrichSha1` / `EnrichMd5` | `/search/hash/{type}` | Verdict, PolyScore, per-engine assertions, PolyUnite family labelling |
+| `SearchUrl` | `/search/url` | URL enrichment |
+| `SearchIoc` | `/ioc/search` | Artifacts associated with an IP, domain, TTP or imphash |
+| `GetIocsForSha256` | `/ioc/sha256/{sha256}` | IPs, domains, TTPs and imphashes associated with a sample — corpus context for investigation expansion |
+| `SearchMetadata` | `/search/metadata/query` | Tags, families, sandbox scores, MITRE ATT&CK |
+
+> **Response schemas are typed for the hash and metadata operations only.** Those two
+> were verified against live responses. `SearchUrl`, `SearchIoc` and `GetIocsForSha256`
+> have correct request definitions but their `result[]` item shapes are deliberately
+> left untyped rather than guessed — confirm each against a live response and type it
+> before relying on designer dynamic content for those operations.
+
+**File submission is intentionally not included.** PolySwarm's submission flow is
+three steps, and the middle step uploads to a presigned S3 URL on a different host —
+which a single Swagger document, pinned to one `host`, cannot express. It would also
+need an explicit data-handling decision before being offered as a one-click action in
+any regulated environment. If submission is required, it belongs in a playbook using
+separate HTTP actions with an approval gate, not as a connector operation.
 
 To use it:
 
