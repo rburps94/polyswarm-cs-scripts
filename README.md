@@ -6,6 +6,26 @@ The API in question can be found on our documentation website at: https://docs.p
 
 ## CURRENT FOLDER STRUCTURE
 
+### /polyswarm-enrich-tool
+
+A standalone command-line tool for bulk hash enrichment. Takes hashes from an argument, a file, or stdin; auto-detects MD5/SHA1/SHA256; and outputs JSON, CSV or STIX 2.1. Python 3.10+, standard library only, no dependencies to install.
+
+Operates on hashes only and never uploads file contents, so it is safe against hash lists exported from environments where the files themselves cannot leave the network. Useful for enriching a hunting-query export from a SIEM or EDR without standing up any infrastructure.
+
+**Folder Contents:**
+1. **polyswarm_enrich.py**: the tool. `export POLYSWARM_API_KEY=...` then run it. See the folder README for options and rate-limit guidance.
+2. **test_polyswarm_enrich.py**: offline test suite, no API key or network required. `python3 -m unittest test_polyswarm_enrich -v`
+3. **README.md**: usage, output formats, exit codes.
+
+### /sentinel-polyswarm-enrichment
+
+A Microsoft Sentinel integration: a custom Logic Apps connector wrapping the PolySwarm v3 API, plus three incident-triggered playbooks that enrich file hash, URL and IP entities and write the results back onto the incident as a comment.
+
+**Folder Contents:**
+1. **custom-connector/polyswarm-connector-swagger.json**: seven operations covering hash, URL, IOC and metadata search.
+2. **playbooks/**: ARM templates for the hash, URL and IP enrichment playbooks.
+3. **README.md**: deployment steps, response-shape reference, and troubleshooting.
+
 ### /ai-model-outreach
 
 This script will use the IOC Search functionality to output a list of hashes that reach out to the top known LLMs; further research should be carried out to understand if these are malicious. Note that these samples have been sandboxed, hence have been seen to communicate with live LLM URLs.
