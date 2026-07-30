@@ -1,17 +1,18 @@
 # Microsoft Sentinel — PolySwarm Enrichment
 
-A Microsoft Sentinel playbook (Logic App) that enriches file hashes found on Sentinel
-incidents with PolySwarm threat intelligence, and writes the results back onto the
-incident as a comment.
+A custom Logic Apps connector wrapping the PolySwarm v3 API, plus three
+incident-triggered Sentinel playbooks that enrich **file hash**, **URL** and **IP**
+entities and write the results back onto the incident as a comment.
 
-An optional custom Logic Apps connector is also included for teams that prefer a
-first-class connector action over a raw HTTP call.
+The connector lets a security team build their own playbooks and automation rules
+against PolySwarm. The playbooks are worked references — one per entity type.
 
 ---
 
 ## What this integration does
 
-When an incident is created, an automation rule runs this playbook. The playbook:
+Taking the hash playbook as the worked example — an automation rule runs it when an
+incident is created, and it:
 
 1. Receives the incident (including its entities) from the **Microsoft Sentinel incident** trigger.
 2. Extracts every `FileHash` entity via the Sentinel connector's `Entities - Get FileHashes` action.
@@ -32,7 +33,7 @@ is a superset of the other:
 
 | Field | `/search/hash/*` | `/search/metadata/query` |
 | --- | --- | --- |
-| Verdict (`result`), `permalink` | yes | no |
+| `permalink`, `first_seen` / `last_seen` | yes | no |
 | PolyScore, detection counts | yes | yes |
 | Per-engine assertions with engine names | yes — an **array**, enumerable | no — an **object keyed by engine name**, which Logic Apps cannot enumerate |
 | PolyUnite family and labels | yes, under `metadata[]` | yes, at the record root |
@@ -46,9 +47,10 @@ the sandbox and ATT&CK context. So the playbook does both, and the second call i
 best-effort: if it fails, 429s or returns nothing, the comment is still posted using
 the hash-lookup data alone.
 
-The second call is contained in `Search_PolySwarm_artifact_metadata`. **Delete that
-action and `Select_artifact_metadata_record` to halve the API calls per hash** — the
-comment degrades cleanly, dropping only the tags, sandbox and ATT&CK lines.
+The second call is contained in `Search_PolySwarm_artifact_metadata`. Deleting that
+action and `Select_artifact_metadata_record` halves the API calls per hash and the
+comment degrades cleanly, dropping only the tags, sandbox and ATT&CK lines — worth
+knowing, though on an enterprise key there is no quota reason to.
 
 Every field is optional in the output: lines are omitted rather than printed as `n/a`
 when the underlying data is absent, so a sparse record still produces a clean comment.
@@ -84,7 +86,7 @@ shown rather than one being picked as authoritative.
 
 - It does not submit or upload files to PolySwarm — it only looks up artifacts PolySwarm has already seen.
 - It does not write to a custom Log Analytics table (see [Extending](#extending) for why, and what to do instead).
-- It does not enrich URL, IP or domain entities — only file hashes.
+- It does not enrich domain entities. Hash, URL and IP each have their own playbook; `DnsResolution` does not.
 
 ---
 
@@ -92,13 +94,38 @@ shown rather than one being picked as authoritative.
 
 | Path | Purpose |
 | --- | --- |
-| `playbooks/polyswarm-enrich-hash-from-incident.json` | ARM template deploying the Logic App playbook plus its Sentinel API connection. This is the only file you need to deploy. |
-| `custom-connector/polyswarm-connector-swagger.json` | Optional Swagger 2.0 definition for a PolySwarm custom Logic Apps connector. Not required by the playbook. |
+| `playbooks/polyswarm-enrich-hash-from-incident.json` | Hash enrichment. Verdict, PolyScore, engines, family, sandbox and ATT&CK. Deploy this first. |
+| `playbooks/polyswarm-enrich-url-from-incident.json` | URL enrichment. PolyScore, engines, DNS resolution, ASN and TLS certificate detail. |
+| `playbooks/polyswarm-enrich-ip-from-incident.json` | IP association. Which analysed artifacts have been seen contacting the address. |
+| `custom-connector/polyswarm-connector-swagger.json` | Swagger 2.0 definition for the PolySwarm custom Logic Apps connector. Deployed independently of the playbook; see [The custom connector](#the-custom-connector). |
 
-The playbook calls PolySwarm with built-in **HTTP** actions rather than the custom
-connector. That keeps it self-contained — it deploys and runs with no prerequisite
-connector resource — and lets it switch between the MD5, SHA1 and SHA256 endpoints at
-runtime, which a single connector operation cannot do.
+These are two separate deliverables that ship together. The **connector** turns the
+PolySwarm v3 API into first-class Logic Apps actions so a security team can build
+their own playbooks and automation rules against it. The **playbooks** are worked
+references — one per entity type — showing complete enrichment flows end to end.
+
+All three playbooks are independent: deploy any subset, each creates its own Sentinel
+connection and managed identity, and each attaches to its own automation rule. They
+share one structure, so reading the hash playbook explains all three:
+
+```
+Sentinel incident trigger
+  └─ Entities - Get {FileHashes|URLs|IPs}
+      └─ For each (sequential)
+          ├─ HTTP → PolySwarm v3
+          └─ If result → Filter/Select → Build_summary → Add comment
+                  else → "no result" comment
+```
+
+`Build_summary` is the single point of field extraction in every playbook. Add or move
+a field there; the comment body reads only from its output.
+
+The playbook deliberately calls PolySwarm with built-in **HTTP** actions rather than
+through the connector. That keeps it self-contained — it deploys and runs with no
+prerequisite connector resource — and lets it switch between the MD5, SHA1 and SHA256
+endpoints at runtime, which a single connector operation cannot do. Teams that prefer
+the connector's typed dynamic content can swap the HTTP action for the matching
+operation; see the connector section for the trade-off.
 
 ---
 
@@ -139,8 +166,7 @@ against live responses.
 
 | Path | Used for |
 | --- | --- |
-| `result[0].result` | Verdict (boolean) |
-| `result[0].polyscore` | PolyScore |
+| `result[0].polyscore` | PolyScore — **the assessment is derived from this**, against `PolySwarmMaliciousThreshold` |
 | `result[0].detections.{malicious,benign,total}` | Detection summary |
 | `result[0].assertions[]` → `.verdict`, `.engine.name` | Malicious engine list. `verdict` is `true`, `false` or **`null`** when an engine did not assert — the filter matches `true` only, so nulls are correctly excluded |
 | `result[0].metadata[]` where `tool = "polyunite"` | `tool_metadata.malware_family`, `tool_metadata.labels[]` |
@@ -157,6 +183,14 @@ against live responses.
 | `result[0].cape_sandbox_v2.malscore`, `.ttp[]` | Sandbox score, MITRE ATT&CK |
 | `result[0].scan.latest_scan.polyscore`, `result[0].scan.detections` | Fallbacks if the hash lookup is unavailable |
 | `result[0].scan.latest_scan.assertions` | **Object keyed by engine name** — not enumerable, see below |
+
+> **`result` is not a verdict — do not treat it as one.** Despite its name, and despite
+> what earlier versions of this connector definition claimed, `result[0].result` tracks
+> scan settlement, not maliciousness. A live scan of `https://polyswarm.io` returns
+> `result: true` alongside `0` of `2` engines asserting malicious and a PolyScore of
+> `0.33`. Reading it as a verdict marks known-good artifacts as Malicious. The playbook
+> derives its assessment from PolyScore only, and carries the field as `scanSettled` in
+> `Build_summary` so it cannot be mistaken for one.
 
 All extraction is centralised in the `Build_summary` Compose action, where every value
 `coalesce()`s across both records. If a field moves, that is the only action to edit —
@@ -181,7 +215,7 @@ lookup is the primary call rather than the metadata query.
 
 ### Rate limits
 
-- **PolySwarm:** community accounts are limited to 60 calls/hour; enterprise accounts to 1000 calls/second. **The playbook makes two calls per hash**, so a community key allows roughly 30 hashes per hour — not viable for a live workspace. Budget accordingly, or delete the secondary call.
+- **PolySwarm:** enterprise-tier quotas are far above anything a per-incident playbook generates. The hash playbook makes two calls per hash and the URL and IP playbooks make one each, so a busy workspace is not a quota concern in practice. Confirm your tier's published limit if you intend to drive these playbooks in bulk rather than per incident.
 - **Sentinel connector:** 600 calls per 60 seconds per connection.
 
 The hash lookup retries 3 times with exponential backoff; the secondary metadata call
@@ -258,12 +292,55 @@ curl -s -H "Authorization: $POLYSWARM_API_KEY" "https://api.polyswarm.network/v3
 
 ---
 
-## Optional: the custom connector
+## The custom connector
 
-`custom-connector/polyswarm-connector-swagger.json` defines a custom connector with
-four operations — `EnrichSha256`, `EnrichSha1`, `EnrichMd5` and `SearchMetadata` — and
-typed response schemas so the Logic App designer offers dynamic content for PolySwarm
-fields.
+`custom-connector/polyswarm-connector-swagger.json` wraps the PolySwarm v3 API as a
+Logic Apps custom connector, so Sentinel playbooks, automation rules and Defender
+XDR-triggered workflows can enrich an indicator inline as part of an automated
+response — without anyone hand-writing HTTP actions and expressions.
+
+| Operation | Endpoint | Purpose | Response typed |
+| --- | --- | --- | --- |
+| `EnrichSha256` | `/search/hash/sha256` | Verdict, PolyScore, per-engine assertions, PolyUnite family labelling | ✅ verified live |
+| `EnrichSha1` / `EnrichMd5` | `/search/hash/{type}` | As above, for SHA1 and MD5 entities | ⚠️ inferred from SHA256 |
+| `SearchUrl` | `/search/url` | URL enrichment, plus DNS, ASN and TLS certificate detail | ✅ verified live |
+| `SearchIoc` | `/ioc/search` | SHA256 hashes associated with an IP, domain, TTP or imphash | ✅ verified live |
+| `GetIocsForSha256` | `/ioc/sha256/{sha256}` | `imphash`, contacted `ips` and `urls`, and `ttps` for one sample | ✅ verified live |
+| `SearchMetadata` | `/search/metadata/query` | Tags, families, sandbox scores, MITRE ATT&CK | ✅ verified live |
+
+Only `EnrichSha1` and `EnrichMd5` remain unsampled; both are inferred from the
+verified SHA256 response and differ only in the endpoint path.
+
+### Three envelope shapes — read before writing generic code
+
+`result` is not consistently typed across v3. All three of these are verified live:
+
+| Operation | Envelope |
+| --- | --- |
+| `/search/hash/*`, `/search/url`, `/search/metadata/query` | `{status, has_more, limit, result: [ objects ]}` |
+| `/ioc/search` | `{status, has_more, limit, offset, result: [ strings ]}` |
+| `/ioc/sha256/{sha256}` | `{status, result: { object }}` — **no pagination fields at all** |
+
+Anything that generically iterates `result[]` breaks on the third. In Logic Apps
+specifically, `first()` or a `Filter array` over `/ioc/sha256`'s `result` throws,
+because it is not a collection — address its members directly
+(`body('…')?['result']?['ips']`).
+
+The two IOC operations are also **inverses**: `SearchIoc` maps an indicator to hashes,
+`GetIocsForSha256` maps a hash to indicators.
+
+**`SearchIoc` results paginate, and volume is not a verdict.** A query for common
+infrastructure — `8.8.8.8`, for instance — returns a full page with `has_more` set,
+because a great deal of malware talks to public DNS. Treat the association as a pivot
+lead, not as evidence the indicator is malicious, and page with the returned `offset`
+token rather than assuming one call is the whole answer.
+
+**File submission is intentionally not included.** PolySwarm's submission flow is
+three steps, and the middle step uploads to a presigned S3 URL on a different host —
+which a single Swagger document, pinned to one `host`, cannot express. It would also
+need an explicit data-handling decision before being offered as a one-click action in
+any regulated environment. If submission is required, it belongs in a playbook using
+separate HTTP actions with an approval gate, not as a connector operation.
 
 To use it:
 
@@ -321,7 +398,7 @@ separate operation, swapping to the connector means adding a `Switch` on
 | "Run trigger" on the Logic App blade errors | Expected. Sentinel triggers need an incident payload — see step 4. |
 | Comment posted, but no Tags / Sandbox / ATT&CK lines | The secondary metadata call failed, was rate-limited, or returned nothing. Check `Search_PolySwarm_artifact_metadata` in the run history — it is allowed to fail by design. |
 | "No PolySwarm result" with status 401 | Bad or missing API key. |
-| "No PolySwarm result" with status 429 | PolySwarm rate limit reached. Remember it is two calls per hash. |
+| "No PolySwarm result" with status 429 | PolySwarm rate limit reached. Unexpected on an enterprise key from per-incident traffic — check whether something else is driving the same key hard. |
 | "No PolySwarm result" with status 404 | The artifact has never been scanned in that community. A normal outcome, not an error. |
 | Comment shows `Malware family: n/a` | No PolyUnite classification and no `families[]`. Common for benign or rarely-seen files. |
 | Hashes silently skipped | The hash was not 32, 40 or 64 characters. Check the entity in the incident. |

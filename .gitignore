@@ -1,0 +1,12 @@
+# macOS Finder metadata
+.DS_Store
+.DS_Store?
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Python
+__pycache__/
+*.py[cod]

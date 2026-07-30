@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "PolySwarm Malware Enrichment",
-    "description": "Custom Logic Apps connector for the PolySwarm REST API v3. The hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata). The metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
-    "version": "1.3",
+    "description": "Custom Logic Apps connector for the PolySwarm v3 API. Provides hash, URL and IOC enrichment actions for Microsoft Sentinel playbooks and automation rules. Hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata); the metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
+    "version": "1.7",
     "contact": {
       "name": "PolySwarm Customer Success",
       "url": "https://docs.polyswarm.io/customers/polyswarm-rest-api-v3",
@@ -57,7 +57,7 @@
           "200": {
             "description": "Scan instance",
             "schema": {
-              "$ref": "#/definitions/HashSearchResponse"
+              "$ref": "#/definitions/ScanSearchResponse"
             }
           },
           "401": {
@@ -101,7 +101,7 @@
           "200": {
             "description": "Scan instance",
             "schema": {
-              "$ref": "#/definitions/HashSearchResponse"
+              "$ref": "#/definitions/ScanSearchResponse"
             }
           },
           "401": {
@@ -145,7 +145,7 @@
           "200": {
             "description": "Scan instance",
             "schema": {
-              "$ref": "#/definitions/HashSearchResponse"
+              "$ref": "#/definitions/ScanSearchResponse"
             }
           },
           "401": {
@@ -153,6 +153,180 @@
           },
           "404": {
             "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/url": {
+      "get": {
+        "operationId": "SearchUrl",
+        "summary": "Enrich a URL",
+        "description": "Looks up a URL in PolySwarm and returns its scan record. Verified against a live response: shares the ScanInstance shape with the hash lookups, with type set to URL, filename set to the submitted URL, and an additional 'ip' metadata entry carrying DNS, WHOIS and TLS certificate detail. URL scans are assessed by far fewer engines than files, so read PolyScore rather than raw detection counts.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "URL to enrich, including scheme.",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "URL"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scan instance",
+            "schema": {
+              "$ref": "#/definitions/ScanSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/ioc/search": {
+      "get": {
+        "operationId": "SearchIoc",
+        "summary": "Find artifacts associated with an IP, domain, TTP or imphash",
+        "description": "Returns the SHA256 hashes of artifacts observed in association with the supplied indicator. Supply exactly one of ip, domain, ttp or imphash. Results are a flat array of hash strings and are paginated. Note that common infrastructure returns very large result sets - 8.8.8.8 returns a full page with has_more set - so the number of associated hashes is not by itself a maliciousness signal.",
+        "parameters": [
+          {
+            "name": "ip",
+            "in": "query",
+            "description": "IPv4 or IPv6 address.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "IP address"
+          },
+          {
+            "name": "domain",
+            "in": "query",
+            "description": "Domain name.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Domain"
+          },
+          {
+            "name": "ttp",
+            "in": "query",
+            "description": "MITRE ATT&CK technique ID, for example T1486.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "TTP"
+          },
+          {
+            "name": "imphash",
+            "in": "query",
+            "description": "PE import hash.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Imphash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Page size.",
+            "required": false,
+            "type": "integer",
+            "default": 50,
+            "x-ms-summary": "Limit"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Opaque pagination token from a previous response. Pass back unmodified.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Offset",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result",
+            "schema": {
+              "$ref": "#/definitions/IocSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/ioc/sha256/{sha256}": {
+      "get": {
+        "operationId": "GetIocsForSha256",
+        "summary": "Get IOCs associated with a SHA256",
+        "description": "Returns the indicators associated with a sample: imphash, contacted IPs and URLs, and MITRE ATT&CK techniques. This is the inverse of /ioc/search. Verified against a live response - note that result is a single object rather than an array, and the response carries no pagination fields.",
+        "parameters": [
+          {
+            "name": "sha256",
+            "in": "path",
+            "description": "SHA256 hash.",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "SHA256 hash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Associated indicators",
+            "schema": {
+              "$ref": "#/definitions/ArtifactIocsResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Not found in the requested community"
           },
           "429": {
             "description": "Rate limit exceeded"
@@ -239,31 +413,6 @@
     }
   },
   "definitions": {
-    "HashSearchResponse": {
-      "type": "object",
-      "description": "Envelope returned by the /search/hash/* operations.",
-      "properties": {
-        "status": {
-          "type": "string"
-        },
-        "has_more": {
-          "type": "boolean"
-        },
-        "limit": {
-          "type": "integer"
-        },
-        "offset": {
-          "type": "string",
-          "description": "Opaque pagination token. Pass back unmodified."
-        },
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ScanInstance"
-          }
-        }
-      }
-    },
     "MetadataSearchResponse": {
       "type": "object",
       "description": "Envelope returned by /search/metadata/query.",
@@ -291,7 +440,7 @@
     },
     "ScanInstance": {
       "type": "object",
-      "description": "A single scan of an artifact, as returned by the hash lookups. Verified against a live response.",
+      "description": "A single scan of an artifact, as returned by the hash lookups and the URL search. Verified against live responses for both FILE and URL artifact types.",
       "properties": {
         "id": {
           "type": "string"
@@ -300,7 +449,8 @@
           "type": "string"
         },
         "sha256": {
-          "type": "string"
+          "type": "string",
+          "description": "For URL artifacts this is the hash of the URL string, not of any downloaded content."
         },
         "sha1": {
           "type": "string"
@@ -312,7 +462,8 @@
           "type": "integer"
         },
         "filename": {
-          "type": "string"
+          "type": "string",
+          "description": "For URL artifacts this is the submitted URL itself."
         },
         "mimetype": {
           "type": "string"
@@ -328,7 +479,7 @@
         },
         "result": {
           "type": "boolean",
-          "description": "Overall verdict. True for malicious, false for benign."
+          "description": "NOT a maliciousness verdict. This tracks scan settlement and is true for benign artifacts too - a live scan of https://polyswarm.io returns result true with 0 of 2 engines asserting malicious and a PolyScore of 0.33. Derive the verdict from polyscore and detections instead."
         },
         "permalink": {
           "type": "string",
@@ -389,6 +540,10 @@
         },
         "window_closed": {
           "type": "boolean"
+        },
+        "upload_url": {
+          "type": "string",
+          "description": "Presigned storage URL. Null on most lookups."
         }
       }
     },
@@ -487,7 +642,7 @@
     },
     "ToolMetadata": {
       "type": "object",
-      "description": "Shape depends on the producing tool. Common fields across polyunite, pefile and hash entries are listed here.",
+      "description": "Shape depends on the producing tool. polyunite, pefile and hash entries appear on file artifacts; an 'ip' entry appears on URL artifacts carrying DNS resolution, WHOIS/RDAP registration and TLS certificate detail. Common fields are listed here; the objects also contain large free-form members (raw, whois_text, entities, pem) that are deliberately left untyped.",
       "properties": {
         "malware_family": {
           "type": "string",
@@ -534,6 +689,54 @@
         },
         "authentihash": {
           "type": "string"
+        },
+        "resolved_ip": {
+          "type": "string",
+          "description": "ip tool: address the URL resolved to."
+        },
+        "asn": {
+          "type": "integer",
+          "description": "ip tool: autonomous system number."
+        },
+        "asn_org": {
+          "type": "string",
+          "description": "ip tool: autonomous system organisation, for example CLOUDFLARENET."
+        },
+        "network_name": {
+          "type": "string",
+          "description": "ip tool: registered network name."
+        },
+        "range": {
+          "type": "string",
+          "description": "ip tool: allocated address range."
+        },
+        "target": {
+          "type": "string",
+          "description": "ip tool: hostname the certificate and lookup apply to."
+        },
+        "subject": {
+          "type": "string",
+          "description": "ip tool: TLS certificate subject."
+        },
+        "issuer": {
+          "type": "string",
+          "description": "ip tool: TLS certificate issuer."
+        },
+        "whois_server": {
+          "type": "string",
+          "description": "ip tool: authoritative WHOIS server."
+        },
+        "country_code": {
+          "type": "string",
+          "description": "ip tool: geolocated country, often null behind a CDN."
+        },
+        "validity": {
+          "type": "object",
+          "description": "ip tool: certificate not_before and not_after."
+        },
+        "thumbprint": {
+          "type": "object",
+          "description": "ip tool: certificate sha1 and sha256 thumbprints."
         }
       }
     },
@@ -859,6 +1062,102 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "ScanSearchResponse": {
+      "type": "object",
+      "description": "Envelope returned by the /search/hash/* and /search/url operations.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScanInstance"
+          }
+        }
+      }
+    },
+    "IocSearchResponse": {
+      "type": "object",
+      "description": "Envelope returned by /ioc/search. Verified against a live response: result is a flat array of SHA256 strings, not objects. Results are paginated - a truthy has_more with an offset token means more pages are available.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean",
+          "description": "True when more pages are available."
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified as the offset parameter to fetch the next page."
+        },
+        "result": {
+          "type": "array",
+          "description": "SHA256 hashes of artifacts associated with the supplied indicator.",
+          "items": {
+            "type": "string",
+            "description": "SHA256 hash."
+          }
+        }
+      }
+    },
+    "ArtifactIocsResponse": {
+      "type": "object",
+      "description": "Envelope returned by /ioc/sha256/{sha256}. Verified against a live response. NOTE: result is a single OBJECT here, not an array, and the envelope carries no has_more, limit or offset - unlike every other v3 search operation. Code that generically iterates result[] will break on this operation.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/ArtifactIocs"
+        }
+      }
+    },
+    "ArtifactIocs": {
+      "type": "object",
+      "description": "Indicators associated with one sample. Arrays may be empty.",
+      "properties": {
+        "imphash": {
+          "type": "string",
+          "description": "PE import hash. Feed back into /ioc/search?imphash= to find structurally related samples."
+        },
+        "ips": {
+          "type": "array",
+          "description": "IP addresses contacted during analysis.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "urls": {
+          "type": "array",
+          "description": "URLs contacted during analysis.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ttps": {
+          "type": "array",
+          "description": "MITRE ATT&CK technique IDs.",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }

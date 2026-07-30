@@ -1,0 +1,397 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "title": "PolySwarm - URL Enrichment - Incident Triggered",
+    "description": "Takes every URL entity on a Microsoft Sentinel incident, looks it up in the PolySwarm REST API v3, and writes a PolyScore, engine, DNS and TLS certificate summary back to the incident as a comment.",
+    "prerequisites": [
+      "A PolySwarm API key with access to the target community. Get one at https://polyswarm.network/account/api-keys"
+    ],
+    "postDeployment": [
+      "1. Assign the 'Microsoft Sentinel Responder' role on the resource group (or workspace) to this playbook's system-assigned managed identity.",
+      "2. Authorize the Microsoft Sentinel API connection if it shows as unauthorized.",
+      "3. Attach the playbook to an automation rule so it runs when an incident is created."
+    ],
+    "entities": [
+      "Url"
+    ],
+    "tags": [
+      "Enrichment"
+    ],
+    "support": {
+      "tier": "community"
+    },
+    "author": {
+      "name": "PolySwarm Customer Success"
+    }
+  },
+  "parameters": {
+    "PlaybookName": {
+      "type": "string",
+      "defaultValue": "PolySwarm-Enrich-URL-IncidentTriggered",
+      "metadata": {
+        "description": "Name of the Logic App playbook resource."
+      }
+    },
+    "PolySwarmApiKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "PolySwarm API key. Sent verbatim as the Authorization header (no 'Bearer ' prefix)."
+      }
+    },
+    "PolySwarmCommunity": {
+      "type": "string",
+      "defaultValue": "default",
+      "metadata": {
+        "description": "PolySwarm community to search."
+      }
+    },
+    "PolySwarmApiBaseUrl": {
+      "type": "string",
+      "defaultValue": "https://api.polyswarm.network/v3",
+      "metadata": {
+        "description": "PolySwarm REST API v3 base URL."
+      }
+    },
+    "PolySwarmMaliciousThreshold": {
+      "type": "string",
+      "defaultValue": "0.8",
+      "metadata": {
+        "description": "PolyScore at or above which the comment reports 'Malicious'. At or above half this value reports 'Suspicious'. URL artifacts are assessed by far fewer engines than files, so PolyScore is the signal to read rather than raw detection counts. A string, because ARM templates have no float parameter type."
+      }
+    }
+  },
+  "variables": {
+    "AzureSentinelConnectionName": "[concat('MicrosoftSentinel-', parameters('PlaybookName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/connections",
+      "apiVersion": "2016-06-01",
+      "name": "[variables('AzureSentinelConnectionName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "V1",
+      "properties": {
+        "displayName": "[variables('AzureSentinelConnectionName')]",
+        "customParameterValues": {},
+        "parameterValueType": "Alternative",
+        "api": {
+          "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2017-07-01",
+      "name": "[parameters('PlaybookName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "LogicAppsCategory": "security",
+        "hidden-SentinelTemplateName": "PolySwarm-Enrich-URL",
+        "hidden-SentinelTemplateVersion": "1.0"
+      },
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('AzureSentinelConnectionName'))]"
+      ],
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "$connections": {
+              "type": "Object",
+              "defaultValue": {}
+            },
+            "PolySwarmApiKey": {
+              "type": "securestring"
+            },
+            "PolySwarmCommunity": {
+              "type": "string",
+              "defaultValue": "default"
+            },
+            "PolySwarmApiBaseUrl": {
+              "type": "string",
+              "defaultValue": "https://api.polyswarm.network/v3"
+            },
+            "PolySwarmMaliciousThreshold": {
+              "type": "string",
+              "defaultValue": "0.8"
+            }
+          },
+          "triggers": {
+            "Microsoft_Sentinel_incident": {
+              "type": "ApiConnectionWebhook",
+              "inputs": {
+                "body": {
+                  "callback_url": "@{listCallbackUrl()}"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "path": "/incident-creation"
+              }
+            }
+          },
+          "actions": {
+            "Entities_-_Get_URLs": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/entities/url",
+                "body": "@triggerBody()?['object']?['properties']?['relatedEntities']"
+              },
+              "runAfter": {}
+            },
+            "For_each_url": {
+              "type": "Foreach",
+              "foreach": "@body('Entities_-_Get_URLs')?['URLs']",
+              "runAfter": {
+                "Entities_-_Get_URLs": [
+                  "Succeeded"
+                ]
+              },
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              },
+              "actions": {
+                "Search_PolySwarm_url": {
+                  "type": "Http",
+                  "description": "Returns the URL's scan record: PolyScore, detections, per-engine assertions, plus an 'ip' metadata entry carrying DNS resolution, WHOIS registration and TLS certificate detail.",
+                  "inputs": {
+                    "method": "GET",
+                    "uri": "@{parameters('PolySwarmApiBaseUrl')}/search/url",
+                    "queries": {
+                      "url": "@{trim(items('For_each_url')?['Url'])}",
+                      "community": "@parameters('PolySwarmCommunity')"
+                    },
+                    "headers": {
+                      "Authorization": "@parameters('PolySwarmApiKey')",
+                      "Accept": "application/json"
+                    },
+                    "retryPolicy": {
+                      "type": "exponential",
+                      "count": 3,
+                      "interval": "PT10S"
+                    }
+                  },
+                  "runtimeConfiguration": {
+                    "secureData": {
+                      "properties": [
+                        "inputs"
+                      ]
+                    }
+                  },
+                  "runAfter": {}
+                },
+                "If_PolySwarm_returned_a_result": {
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "equals": [
+                          "@outputs('Search_PolySwarm_url')?['statusCode']",
+                          200
+                        ]
+                      },
+                      {
+                        "greater": [
+                          "@length(coalesce(body('Search_PolySwarm_url')?['result'], json('[]')))",
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  "runAfter": {
+                    "Search_PolySwarm_url": [
+                      "Succeeded",
+                      "Failed"
+                    ]
+                  },
+                  "actions": {
+                    "Select_scan_record": {
+                      "type": "Compose",
+                      "inputs": "@first(body('Search_PolySwarm_url')?['result'])",
+                      "runAfter": {}
+                    },
+                    "Filter_malicious_assertions": {
+                      "type": "Query",
+                      "inputs": {
+                        "from": "@coalesce(outputs('Select_scan_record')?['assertions'], json('[]'))",
+                        "where": "@equals(item()?['verdict'], true)"
+                      },
+                      "runAfter": {
+                        "Select_scan_record": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Select_malicious_engine_names": {
+                      "type": "Select",
+                      "inputs": {
+                        "from": "@body('Filter_malicious_assertions')",
+                        "select": "@coalesce(item()?['engine']?['name'], item()?['author_name'])"
+                      },
+                      "runAfter": {
+                        "Filter_malicious_assertions": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Filter_polyunite_metadata": {
+                      "type": "Query",
+                      "inputs": {
+                        "from": "@coalesce(outputs('Select_scan_record')?['metadata'], json('[]'))",
+                        "where": "@equals(item()?['tool'], 'polyunite')"
+                      },
+                      "runAfter": {
+                        "Select_malicious_engine_names": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Filter_ip_metadata": {
+                      "type": "Query",
+                      "description": "URL artifacts carry an 'ip' metadata entry with DNS resolution, ASN registration and TLS certificate detail. Absent on file artifacts.",
+                      "inputs": {
+                        "from": "@coalesce(outputs('Select_scan_record')?['metadata'], json('[]'))",
+                        "where": "@equals(item()?['tool'], 'ip')"
+                      },
+                      "runAfter": {
+                        "Filter_polyunite_metadata": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Build_summary": {
+                      "type": "Compose",
+                      "description": "Single point of truth for field extraction. Note that the scan record's 'result' field is NOT a maliciousness verdict - it tracks scan settlement and is true for benign URLs - so the assessment is derived from PolyScore only.",
+                      "inputs": {
+                        "url": "@coalesce(outputs('Select_scan_record')?['filename'], items('For_each_url')?['Url'])",
+                        "polyscore": "@outputs('Select_scan_record')?['polyscore']",
+                        "scanSettled": "@outputs('Select_scan_record')?['result']",
+                        "malicious": "@coalesce(outputs('Select_scan_record')?['detections']?['malicious'], 0)",
+                        "benign": "@coalesce(outputs('Select_scan_record')?['detections']?['benign'], 0)",
+                        "total": "@coalesce(outputs('Select_scan_record')?['detections']?['total'], 0)",
+                        "engines": "@body('Select_malicious_engine_names')",
+                        "malwareFamily": "@first(body('Filter_polyunite_metadata'))?['tool_metadata']?['malware_family']",
+                        "labels": "@coalesce(first(body('Filter_polyunite_metadata'))?['tool_metadata']?['labels'], json('[]'))",
+                        "resolvedIp": "@first(body('Filter_ip_metadata'))?['tool_metadata']?['resolved_ip']",
+                        "asnOrg": "@first(body('Filter_ip_metadata'))?['tool_metadata']?['asn_org']",
+                        "asn": "@first(body('Filter_ip_metadata'))?['tool_metadata']?['asn']",
+                        "certSubject": "@first(body('Filter_ip_metadata'))?['tool_metadata']?['subject']",
+                        "certIssuer": "@first(body('Filter_ip_metadata'))?['tool_metadata']?['issuer']",
+                        "certNotAfter": "@first(body('Filter_ip_metadata'))?['tool_metadata']?['validity']?['not_after']",
+                        "firstSeen": "@outputs('Select_scan_record')?['first_seen']",
+                        "lastSeen": "@outputs('Select_scan_record')?['last_seen']",
+                        "permalink": "@outputs('Select_scan_record')?['permalink']"
+                      },
+                      "runAfter": {
+                        "Filter_ip_metadata": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Add_enrichment_comment_to_incident": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                          }
+                        },
+                        "method": "post",
+                        "path": "/Incidents/Comment",
+                        "body": {
+                          "incidentArmId": "@triggerBody()?['object']?['id']",
+                          "message": "<p><strong>PolySwarm URL enrichment</strong><br>\nURL: @{items('For_each_url')?['Url']}<br>\nAssessment: <strong>@{if(equals(outputs('Build_summary')?['polyscore'], null), 'Unknown', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], float(parameters('PolySwarmMaliciousThreshold'))), 'Malicious', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], div(float(parameters('PolySwarmMaliciousThreshold')), 2)), 'Suspicious', 'Likely benign')))}</strong> (PolyScore @{if(equals(outputs('Build_summary')?['polyscore'], null), 'n/a', formatNumber(outputs('Build_summary')?['polyscore'], '0.0000'))})<br>\nDetections: @{outputs('Build_summary')?['malicious']} malicious / @{outputs('Build_summary')?['benign']} benign of @{outputs('Build_summary')?['total']} engines<br>\n@{if(empty(outputs('Build_summary')?['engines']), '', concat('Malicious engines: ', join(outputs('Build_summary')?['engines'], ', '), '<br>\n'))}@{if(equals(outputs('Build_summary')?['malwareFamily'], null), '', concat('Malware family: ', string(outputs('Build_summary')?['malwareFamily']), '<br>\n'))}@{if(empty(outputs('Build_summary')?['labels']), '', concat('Labels: ', join(outputs('Build_summary')?['labels'], ', '), '<br>\n'))}@{if(equals(outputs('Build_summary')?['resolvedIp'], null), '', concat('Resolved IP: ', string(outputs('Build_summary')?['resolvedIp']), if(equals(outputs('Build_summary')?['asnOrg'], null), '', concat(' (AS', coalesce(string(outputs('Build_summary')?['asn']), '?'), ' ', string(outputs('Build_summary')?['asnOrg']), ')')), '<br>\n'))}@{if(equals(outputs('Build_summary')?['certSubject'], null), '', concat('TLS certificate: ', string(outputs('Build_summary')?['certSubject']), if(equals(outputs('Build_summary')?['certIssuer'], null), '', concat(' issued by ', string(outputs('Build_summary')?['certIssuer']))), if(equals(outputs('Build_summary')?['certNotAfter'], null), '', concat(', expires ', string(outputs('Build_summary')?['certNotAfter']))), '<br>\n'))}@{if(equals(outputs('Build_summary')?['firstSeen'], null), '', concat('First seen: ', string(outputs('Build_summary')?['firstSeen']), ' | Last seen: ', coalesce(string(outputs('Build_summary')?['lastSeen']), 'n/a'), '<br>\n'))}@{if(equals(outputs('Build_summary')?['permalink'], null), '', concat('PolySwarm report: <a href=\"', string(outputs('Build_summary')?['permalink']), '\">', string(outputs('Build_summary')?['permalink']), '</a>'))}</p>"
+                        }
+                      },
+                      "runAfter": {
+                        "Build_summary": [
+                          "Succeeded"
+                        ]
+                      }
+                    }
+                  },
+                  "else": {
+                    "actions": {
+                      "Add_no_result_comment_to_incident": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "path": "/Incidents/Comment",
+                          "body": {
+                            "incidentArmId": "@triggerBody()?['object']?['id']",
+                            "message": "<p><strong>PolySwarm URL enrichment</strong><br>\nURL: @{items('For_each_url')?['Url']}<br>\nNo PolySwarm result. HTTP status: @{coalesce(outputs('Search_PolySwarm_url')?['statusCode'], 'no response')}. A 404 means this URL has never been scanned in the '@{parameters('PolySwarmCommunity')}' community.</p>"
+                          }
+                        },
+                        "runAfter": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "outputs": {}
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "azuresentinel": {
+                "connectionId": "[resourceId('Microsoft.Web/connections', variables('AzureSentinelConnectionName'))]",
+                "connectionName": "[variables('AzureSentinelConnectionName')]",
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]",
+                "connectionProperties": {
+                  "authentication": {
+                    "type": "ManagedServiceIdentity"
+                  }
+                }
+              }
+            }
+          },
+          "PolySwarmApiKey": {
+            "value": "[parameters('PolySwarmApiKey')]"
+          },
+          "PolySwarmCommunity": {
+            "value": "[parameters('PolySwarmCommunity')]"
+          },
+          "PolySwarmApiBaseUrl": {
+            "value": "[parameters('PolySwarmApiBaseUrl')]"
+          },
+          "PolySwarmMaliciousThreshold": {
+            "value": "[parameters('PolySwarmMaliciousThreshold')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "playbookResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Logic/workflows', parameters('PlaybookName'))]"
+    },
+    "managedIdentityPrincipalId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Logic/workflows', parameters('PlaybookName')), '2017-07-01', 'full').identity.principalId]"
+    }
+  }
+}
