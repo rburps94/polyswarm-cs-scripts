@@ -2,8 +2,13 @@
   "swagger": "2.0",
   "info": {
     "title": "PolySwarm Malware Enrichment",
-    "description": "Custom connector to enrich file hashes with PolySwarm verdicts, PolyScore and related metadata.",
-    "version": "1.0"
+    "description": "Custom Logic Apps connector for the PolySwarm REST API v3. The hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata). The metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
+    "version": "1.3",
+    "contact": {
+      "name": "PolySwarm Customer Success",
+      "url": "https://docs.polyswarm.io/customers/polyswarm-rest-api-v3",
+      "email": "customersuccess@polyswarm.io"
+    }
   },
   "host": "api.polyswarm.network",
   "basePath": "/v3",
@@ -20,7 +25,8 @@
     "api_key_header": {
       "type": "apiKey",
       "name": "Authorization",
-      "in": "header"
+      "in": "header",
+      "description": "PolySwarm API key, sent verbatim with no 'Bearer ' prefix."
     }
   },
   "security": [
@@ -32,146 +38,843 @@
     "/search/hash/sha256": {
       "get": {
         "operationId": "EnrichSha256",
-        "summary": "Enrich a SHA256 hash with PolySwarm",
-        "description": "Looks up a SHA256 hash in PolySwarm and returns polyscore, detections and related metadata.",
+        "summary": "Enrich a SHA256 hash",
+        "description": "Looks up a SHA256 hash and returns the scan instance, including the enumerable per-engine assertions array.",
         "parameters": [
           {
             "name": "hash",
             "in": "query",
-            "description": "SHA256 hash to enrich",
+            "description": "SHA256 hash to enrich (64 hex characters).",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "x-ms-summary": "SHA256 hash"
           },
           {
-            "name": "community",
-            "in": "query",
-            "description": "PolySwarm community",
-            "required": false,
-            "type": "string",
-            "default": "default"
+            "$ref": "#/parameters/community"
           }
         ],
         "responses": {
           "200": {
-            "description": "Enrichment result",
+            "description": "Scan instance",
             "schema": {
-              "type": "object",
-              "properties": {
-                "has_more": {
-                  "type": "boolean"
-                },
-                "limit": {
-                  "type": "integer"
-                },
-                "status": {
-                  "type": "string"
-                },
-                "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "sha256": {
-                        "type": "string"
-                      },
-                      "polyscore": {
-                        "type": "number"
-                      },
-                      "result": {
-                        "type": "boolean",
-                        "description": "Overall malicious result, true for malicious, false for benign"
-                      },
-                      "permalink": {
-                        "type": "string"
-                      },
-                      "detections": {
-                        "type": "object",
-                        "properties": {
-                          "benign": {
-                            "type": "integer"
-                          },
-                          "malicious": {
-                            "type": "integer"
-                          },
-                          "total": {
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      "assertions": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "verdict": {
-                              "type": "boolean",
-                              "nullable": true
-                            },
-                            "engine": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                },
-                                "description": {
-                                  "type": "string"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "metadata": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "tool": {
-                              "type": "string"
-                            },
-                            "tool_metadata": {
-                              "type": "object",
-                              "properties": {
-                                "labels": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "malware_family": {
-                                  "type": "string"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              "$ref": "#/definitions/HashSearchResponse"
             }
           },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
           "404": {
-            "description": "Hash not found"
+            "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
           },
           "default": {
             "description": "Error response",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         },
-        "x-ms-visibility": "important",
-        "x-ms-summary": "Enrich SHA256 hash"
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/hash/sha1": {
+      "get": {
+        "operationId": "EnrichSha1",
+        "summary": "Enrich a SHA1 hash",
+        "description": "Looks up a SHA1 hash and returns the scan instance, including the enumerable per-engine assertions array.",
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "query",
+            "description": "SHA1 hash to enrich (40 hex characters).",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "SHA1 hash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scan instance",
+            "schema": {
+              "$ref": "#/definitions/HashSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/hash/md5": {
+      "get": {
+        "operationId": "EnrichMd5",
+        "summary": "Enrich an MD5 hash",
+        "description": "Looks up an MD5 hash and returns the scan instance, including the enumerable per-engine assertions array.",
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "query",
+            "description": "MD5 hash to enrich (32 hex characters).",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "MD5 hash"
+          },
+          {
+            "$ref": "#/parameters/community"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scan instance",
+            "schema": {
+              "$ref": "#/definitions/HashSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "404": {
+            "description": "Hash not found in the requested community"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/search/metadata/query": {
+      "get": {
+        "operationId": "SearchMetadata",
+        "summary": "Search artifact metadata",
+        "description": "Runs a Lucene-style query against the artifact index and returns artifact records. Use 'artifact.sha256:<hash>' to enrich a single sample with tags, families and sandbox intelligence. Returns HTTP 200 with an empty result array when nothing matches.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Metadata query, for example 'artifact.sha256:5da5a1e...' or 'polyunite.malware_family:LockBit AND scan.latest_scan.polyscore:>=0.95'.",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Query"
+          },
+          {
+            "$ref": "#/parameters/community"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Page size.",
+            "required": false,
+            "type": "integer",
+            "default": 50,
+            "x-ms-summary": "Limit"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Opaque pagination token returned by a previous response. Pass back unmodified.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Offset",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artifact records",
+            "schema": {
+              "$ref": "#/definitions/MetadataSearchResponse"
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
       }
     }
   },
-  "definitions": {},
+  "parameters": {
+    "community": {
+      "name": "community",
+      "in": "query",
+      "description": "PolySwarm community to search.",
+      "required": false,
+      "type": "string",
+      "default": "default",
+      "x-ms-summary": "Community"
+    }
+  },
+  "definitions": {
+    "HashSearchResponse": {
+      "type": "object",
+      "description": "Envelope returned by the /search/hash/* operations.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScanInstance"
+          }
+        }
+      }
+    },
+    "MetadataSearchResponse": {
+      "type": "object",
+      "description": "Envelope returned by /search/metadata/query.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArtifactRecord"
+          }
+        }
+      }
+    },
+    "ScanInstance": {
+      "type": "object",
+      "description": "A single scan of an artifact, as returned by the hash lookups. Verified against a live response.",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "artifact_id": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "sha1": {
+          "type": "string"
+        },
+        "md5": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "mimetype": {
+          "type": "string"
+        },
+        "extended_type": {
+          "type": "string",
+          "description": "Human-readable file type, for example 'PE32 executable (GUI) Intel 80386, for MS Windows'."
+        },
+        "polyscore": {
+          "type": "number",
+          "format": "double",
+          "description": "PolySwarm confidence score between 0 and 1. Higher means more likely malicious."
+        },
+        "result": {
+          "type": "boolean",
+          "description": "Overall verdict. True for malicious, false for benign."
+        },
+        "permalink": {
+          "type": "string",
+          "description": "Link to this scan on polyswarm.network."
+        },
+        "detections": {
+          "$ref": "#/definitions/Detections"
+        },
+        "assertions": {
+          "type": "array",
+          "description": "Per-engine assertions. An array, so it can be filtered and projected by Logic Apps expressions.",
+          "items": {
+            "$ref": "#/definitions/Assertion"
+          }
+        },
+        "votes": {
+          "type": "array",
+          "description": "Arbiter votes.",
+          "items": {
+            "$ref": "#/definitions/Vote"
+          }
+        },
+        "metadata": {
+          "type": "array",
+          "description": "Tool-keyed metadata. Entries include polyunite, pefile, exiftool, lief and hash.",
+          "items": {
+            "$ref": "#/definitions/MetadataEntry"
+          }
+        },
+        "first_seen": {
+          "type": "string"
+        },
+        "last_seen": {
+          "type": "string"
+        },
+        "last_scanned": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "community": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "description": "Bounty state, for example SETTLED."
+        },
+        "type": {
+          "type": "string",
+          "description": "FILE or URL."
+        },
+        "failed": {
+          "type": "boolean"
+        },
+        "window_closed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Assertion": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "author_name": {
+          "type": "string"
+        },
+        "bid": {
+          "type": "string"
+        },
+        "mask": {
+          "type": "boolean"
+        },
+        "verdict": {
+          "type": "boolean",
+          "description": "True for malicious, false for benign. Null when the engine did not assert, so match on true explicitly rather than treating non-false as malicious."
+        },
+        "engine": {
+          "$ref": "#/definitions/Engine"
+        },
+        "metadata": {
+          "$ref": "#/definitions/EngineMetadata"
+        }
+      }
+    },
+    "Vote": {
+      "type": "object",
+      "properties": {
+        "arbiter": {
+          "type": "string"
+        },
+        "arbiter_name": {
+          "type": "string"
+        },
+        "vote": {
+          "type": "boolean",
+          "description": "True for malicious, false for benign, null when the arbiter abstained."
+        },
+        "engine": {
+          "$ref": "#/definitions/Engine"
+        },
+        "metadata": {
+          "$ref": "#/definitions/EngineMetadata"
+        }
+      }
+    },
+    "Engine": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "EngineMetadata": {
+      "type": "object",
+      "properties": {
+        "malware_family": {
+          "type": "string",
+          "description": "Vendor-specific family string. May be an empty string."
+        },
+        "product": {
+          "type": "string"
+        },
+        "scanner": {
+          "type": "object",
+          "description": "Engine version and environment detail."
+        }
+      }
+    },
+    "MetadataEntry": {
+      "type": "object",
+      "properties": {
+        "tool": {
+          "type": "string",
+          "description": "Metadata producer: polyunite, pefile, exiftool, lief or hash."
+        },
+        "tool_metadata": {
+          "$ref": "#/definitions/ToolMetadata"
+        },
+        "created": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string"
+        }
+      }
+    },
+    "ToolMetadata": {
+      "type": "object",
+      "description": "Shape depends on the producing tool. Common fields across polyunite, pefile and hash entries are listed here.",
+      "properties": {
+        "malware_family": {
+          "type": "string",
+          "description": "polyunite: normalised malware family."
+        },
+        "labels": {
+          "type": "array",
+          "description": "polyunite: normalised threat labels.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operating_system": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "imphash": {
+          "type": "string",
+          "description": "pefile: import hash, usable with /v3/ioc/search?imphash=."
+        },
+        "peid": {
+          "type": "string",
+          "description": "pefile: detected packer or protector."
+        },
+        "is_probably_packed": {
+          "type": "boolean"
+        },
+        "compile_date": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "ssdeep": {
+          "type": "string"
+        },
+        "tlsh": {
+          "type": "string"
+        },
+        "authentihash": {
+          "type": "string"
+        }
+      }
+    },
+    "ArtifactRecord": {
+      "type": "object",
+      "description": "An artifact record, as returned by /search/metadata/query. Verified against a live response. Carries tags, families and sandbox intelligence that the scan instance does not.",
+      "properties": {
+        "artifact": {
+          "$ref": "#/definitions/Artifact"
+        },
+        "hash": {
+          "$ref": "#/definitions/HashSet"
+        },
+        "scan": {
+          "$ref": "#/definitions/Scan"
+        },
+        "polyunite": {
+          "$ref": "#/definitions/PolyUnite"
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Classification tags, for example Ransomware, PE32, Windows.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extension": {
+          "type": "string"
+        },
+        "meta_community": {
+          "type": "string"
+        },
+        "modified": {
+          "type": "string"
+        },
+        "cape_sandbox_v2": {
+          "$ref": "#/definitions/CapeSandbox"
+        },
+        "triage_sandbox_v0": {
+          "$ref": "#/definitions/TriageSandbox"
+        },
+        "exiftool": {
+          "type": "object"
+        },
+        "pefile": {
+          "type": "object"
+        },
+        "lief": {
+          "type": "object"
+        }
+      }
+    },
+    "Artifact": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "md5": {
+          "type": "string"
+        },
+        "sha1": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        }
+      }
+    },
+    "HashSet": {
+      "type": "object",
+      "properties": {
+        "md5": {
+          "type": "string"
+        },
+        "sha1": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "sha512": {
+          "type": "string"
+        },
+        "ssdeep": {
+          "type": "string"
+        },
+        "tlsh": {
+          "type": "string"
+        },
+        "authentihash": {
+          "type": "string"
+        }
+      }
+    },
+    "Scan": {
+      "type": "object",
+      "properties": {
+        "detections": {
+          "$ref": "#/definitions/Detections"
+        },
+        "first_seen": {
+          "type": "string"
+        },
+        "last_seen": {
+          "type": "string"
+        },
+        "countries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "filename": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mimetype": {
+          "$ref": "#/definitions/MimeType"
+        },
+        "first_scan": {
+          "$ref": "#/definitions/ScanSummary"
+        },
+        "latest_scan": {
+          "$ref": "#/definitions/ScanSummary"
+        }
+      }
+    },
+    "ScanSummary": {
+      "type": "object",
+      "properties": {
+        "artifact_instance_id": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "polyscore": {
+          "type": "number",
+          "format": "double"
+        },
+        "detections": {
+          "$ref": "#/definitions/Detections"
+        },
+        "assertions": {
+          "type": "object",
+          "description": "Per-engine assertions keyed by engine name. Unlike the scan instance's array form this cannot be enumerated by a Logic Apps expression, because engine names are dynamic keys and often contain spaces. Take engine names from the hash lookup instead.",
+          "additionalProperties": {
+            "$ref": "#/definitions/KeyedAssertion"
+          }
+        },
+        "votes": {
+          "type": "object",
+          "description": "Arbiter votes keyed by arbiter name.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "KeyedAssertion": {
+      "type": "object",
+      "properties": {
+        "assertion": {
+          "type": "string",
+          "description": "One of malicious, benign or unknown."
+        },
+        "metadata": {
+          "type": "object"
+        }
+      }
+    },
+    "MimeType": {
+      "type": "object",
+      "properties": {
+        "mime": {
+          "type": "string"
+        },
+        "extended": {
+          "type": "string"
+        }
+      }
+    },
+    "Detections": {
+      "type": "object",
+      "properties": {
+        "benign": {
+          "type": "integer"
+        },
+        "malicious": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
+    "PolyUnite": {
+      "type": "object",
+      "description": "Normalised classification derived from all engine verdicts.",
+      "properties": {
+        "malware_family": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operating_system": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CapeSandbox": {
+      "type": "object",
+      "properties": {
+        "malscore": {
+          "type": "number",
+          "format": "double"
+        },
+        "ttp": {
+          "type": "array",
+          "description": "MITRE ATT&CK technique IDs.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "signature_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "signatures": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "dropped": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "network": {
+          "type": "object",
+          "description": "Observed TCP and UDP connections. Includes sandbox-internal and OS telemetry addresses; not safe to treat as IOCs without filtering."
+        },
+        "platform": {
+          "type": "object"
+        }
+      }
+    },
+    "TriageSandbox": {
+      "type": "object",
+      "properties": {
+        "sample_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "malware_family": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ttp": {
+          "type": "array",
+          "description": "MITRE ATT&CK technique IDs.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "analysis": {
+          "type": "object",
+          "description": "Contains score, family and tags."
+        },
+        "extracted": {
+          "type": "array",
+          "description": "Extracted configuration and ransom notes.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
   "x-ms-connector-metadata": [
     {
-      "propertyName": "website",
+      "propertyName": "Website",
       "propertyValue": "https://polyswarm.io"
+    },
+    {
+      "propertyName": "Privacy policy",
+      "propertyValue": "https://polyswarm.io/privacy-policy"
+    },
+    {
+      "propertyName": "Categories",
+      "propertyValue": "Security"
     }
   ]
 }
