@@ -1,9 +1,9 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.2.0.0",
+  "contentVersion": "1.3.0.0",
   "metadata": {
     "title": "PolySwarm - FileHash Enrichment - Incident Triggered",
-    "description": "Takes every FileHash entity on a Microsoft Sentinel incident, looks it up in the PolySwarm REST API v3, and writes a PolyScore / detection / malware-family / ATT&CK summary back to the incident as a comment.",
+    "description": "Takes every FileHash entity on a Microsoft Sentinel incident, looks it up in the PolySwarm REST API v3, and writes a verdict / PolyScore / engine / malware-family / sandbox / ATT&CK summary back to the incident as a comment.",
     "prerequisites": [
       "A PolySwarm API key with access to the target community. Get one at https://polyswarm.network/account/api-keys"
     ],
@@ -57,7 +57,7 @@
       "type": "string",
       "defaultValue": "0.8",
       "metadata": {
-        "description": "PolyScore at or above which the comment reports 'Malicious'. Scores at or above half this value report 'Suspicious'. Passed as a string because ARM templates have no float parameter type."
+        "description": "PolyScore at or above which the comment reports 'Malicious', used only when the API returns no explicit verdict. Scores at or above half this value report 'Suspicious'. Passed as a string because ARM templates have no float parameter type."
       }
     }
   },
@@ -88,7 +88,7 @@
       "tags": {
         "LogicAppsCategory": "security",
         "hidden-SentinelTemplateName": "PolySwarm-Enrich-FileHash",
-        "hidden-SentinelTemplateVersion": "1.2"
+        "hidden-SentinelTemplateVersion": "1.3"
       },
       "identity": {
         "type": "SystemAssigned"
@@ -100,7 +100,7 @@
         "state": "Enabled",
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-          "contentVersion": "1.2.0.0",
+          "contentVersion": "1.3.0.0",
           "parameters": {
             "$connections": {
               "type": "Object",
@@ -188,8 +188,9 @@
                     ]
                   },
                   "actions": {
-                    "Search_PolySwarm": {
+                    "Search_PolySwarm_hash": {
                       "type": "Http",
+                      "description": "Primary lookup. Returns the scan instance: verdict, PolyScore, detection counts, the full per-engine assertions array, arbiter votes, PolyUnite classification, PE metadata and a permalink.",
                       "inputs": {
                         "method": "GET",
                         "uri": "@{parameters('PolySwarmApiBaseUrl')}/search/hash/@{outputs('Determine_hash_type')}",
@@ -222,38 +223,82 @@
                         "and": [
                           {
                             "equals": [
-                              "@outputs('Search_PolySwarm')?['statusCode']",
+                              "@outputs('Search_PolySwarm_hash')?['statusCode']",
                               200
                             ]
                           },
                           {
                             "greater": [
-                              "@length(coalesce(body('Search_PolySwarm')?['result'], json('[]')))",
+                              "@length(coalesce(body('Search_PolySwarm_hash')?['result'], json('[]')))",
                               0
                             ]
                           }
                         ]
                       },
                       "runAfter": {
-                        "Search_PolySwarm": [
+                        "Search_PolySwarm_hash": [
                           "Succeeded",
                           "Failed"
                         ]
                       },
                       "actions": {
-                        "Select_artifact_record": {
+                        "Select_scan_record": {
                           "type": "Compose",
-                          "inputs": "@first(body('Search_PolySwarm')?['result'])",
+                          "inputs": "@first(body('Search_PolySwarm_hash')?['result'])",
                           "runAfter": {}
+                        },
+                        "Search_PolySwarm_artifact_metadata": {
+                          "type": "Http",
+                          "description": "Best-effort secondary lookup against the artifact index. Adds classification tags, normalised families and sandbox intelligence (CAPE and Triage scores, MITRE ATT&CK techniques) that the hash lookup does not carry. Failures are tolerated: the enrichment comment is still posted using the hash-lookup data alone. Delete this action and Select_artifact_metadata_record to halve the API calls per hash.",
+                          "inputs": {
+                            "method": "GET",
+                            "uri": "@{parameters('PolySwarmApiBaseUrl')}/search/metadata/query",
+                            "queries": {
+                              "query": "artifact.@{outputs('Determine_hash_type')}:@{toLower(trim(items('For_each_file_hash')?['Value']))}",
+                              "community": "@parameters('PolySwarmCommunity')",
+                              "limit": "1"
+                            },
+                            "headers": {
+                              "Authorization": "@parameters('PolySwarmApiKey')",
+                              "Accept": "application/json"
+                            },
+                            "retryPolicy": {
+                              "type": "exponential",
+                              "count": 2,
+                              "interval": "PT10S"
+                            }
+                          },
+                          "runtimeConfiguration": {
+                            "secureData": {
+                              "properties": [
+                                "inputs"
+                              ]
+                            }
+                          },
+                          "runAfter": {
+                            "Select_scan_record": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Select_artifact_metadata_record": {
+                          "type": "Compose",
+                          "inputs": "@first(coalesce(body('Search_PolySwarm_artifact_metadata')?['result'], json('[]')))",
+                          "runAfter": {
+                            "Search_PolySwarm_artifact_metadata": [
+                              "Succeeded",
+                              "Failed"
+                            ]
+                          }
                         },
                         "Filter_malicious_assertions": {
                           "type": "Query",
                           "inputs": {
-                            "from": "@coalesce(outputs('Select_artifact_record')?['assertions'], json('[]'))",
+                            "from": "@coalesce(outputs('Select_scan_record')?['assertions'], json('[]'))",
                             "where": "@equals(item()?['verdict'], true)"
                           },
                           "runAfter": {
-                            "Select_artifact_record": [
+                            "Select_artifact_metadata_record": [
                               "Succeeded"
                             ]
                           }
@@ -262,7 +307,7 @@
                           "type": "Select",
                           "inputs": {
                             "from": "@body('Filter_malicious_assertions')",
-                            "select": "@coalesce(item()?['engine']?['name'], item()?['engine_name'])"
+                            "select": "@coalesce(item()?['engine']?['name'], item()?['author_name'])"
                           },
                           "runAfter": {
                             "Filter_malicious_assertions": [
@@ -273,7 +318,7 @@
                         "Filter_polyunite_metadata": {
                           "type": "Query",
                           "inputs": {
-                            "from": "@coalesce(outputs('Select_artifact_record')?['metadata'], json('[]'))",
+                            "from": "@coalesce(outputs('Select_scan_record')?['metadata'], json('[]'))",
                             "where": "@equals(item()?['tool'], 'polyunite')"
                           },
                           "runAfter": {
@@ -282,31 +327,46 @@
                             ]
                           }
                         },
-                        "Build_summary": {
-                          "type": "Compose",
+                        "Filter_pefile_metadata": {
+                          "type": "Query",
                           "inputs": {
-                            "sha256": "@coalesce(outputs('Select_artifact_record')?['artifact']?['sha256'], outputs('Select_artifact_record')?['hash']?['sha256'], outputs('Select_artifact_record')?['sha256'], toLower(trim(items('For_each_file_hash')?['Value'])))",
-                            "polyscore": "@coalesce(outputs('Select_artifact_record')?['scan']?['latest_scan']?['polyscore'], outputs('Select_artifact_record')?['polyscore'])",
-                            "verdictFlag": "@outputs('Select_artifact_record')?['result']",
-                            "malicious": "@coalesce(outputs('Select_artifact_record')?['scan']?['detections']?['malicious'], outputs('Select_artifact_record')?['scan']?['latest_scan']?['detections']?['malicious'], outputs('Select_artifact_record')?['detections']?['malicious'], 0)",
-                            "benign": "@coalesce(outputs('Select_artifact_record')?['scan']?['detections']?['benign'], outputs('Select_artifact_record')?['scan']?['latest_scan']?['detections']?['benign'], outputs('Select_artifact_record')?['detections']?['benign'], 0)",
-                            "total": "@coalesce(outputs('Select_artifact_record')?['scan']?['detections']?['total'], outputs('Select_artifact_record')?['scan']?['latest_scan']?['detections']?['total'], outputs('Select_artifact_record')?['detections']?['total'], 0)",
-                            "malwareFamily": "@coalesce(outputs('Select_artifact_record')?['polyunite']?['malware_family'], first(body('Filter_polyunite_metadata'))?['tool_metadata']?['malware_family'], first(coalesce(outputs('Select_artifact_record')?['families'], json('[]'))))",
-                            "labels": "@coalesce(outputs('Select_artifact_record')?['polyunite']?['labels'], first(body('Filter_polyunite_metadata'))?['tool_metadata']?['labels'], json('[]'))",
-                            "tags": "@coalesce(outputs('Select_artifact_record')?['tags'], json('[]'))",
-                            "sandboxFamilies": "@coalesce(outputs('Select_artifact_record')?['triage_sandbox_v0']?['malware_family'], json('[]'))",
-                            "ttps": "@union(coalesce(outputs('Select_artifact_record')?['cape_sandbox_v2']?['ttp'], json('[]')), coalesce(outputs('Select_artifact_record')?['triage_sandbox_v0']?['ttp'], json('[]')))",
-                            "capeScore": "@outputs('Select_artifact_record')?['cape_sandbox_v2']?['malscore']",
-                            "triageScore": "@outputs('Select_artifact_record')?['triage_sandbox_v0']?['analysis']?['score']",
-                            "firstSeen": "@coalesce(outputs('Select_artifact_record')?['scan']?['first_seen'], outputs('Select_artifact_record')?['first_seen'])",
-                            "lastSeen": "@coalesce(outputs('Select_artifact_record')?['scan']?['last_seen'], outputs('Select_artifact_record')?['last_seen'])",
-                            "fileType": "@coalesce(outputs('Select_artifact_record')?['scan']?['mimetype']?['extended'], outputs('Select_artifact_record')?['exiftool']?['filetype'], outputs('Select_artifact_record')?['extended_type'])",
-                            "size": "@coalesce(outputs('Select_artifact_record')?['artifact']?['size'], outputs('Select_artifact_record')?['size'])",
-                            "permalink": "@outputs('Select_artifact_record')?['permalink']",
-                            "engines": "@body('Select_malicious_engine_names')"
+                            "from": "@coalesce(outputs('Select_scan_record')?['metadata'], json('[]'))",
+                            "where": "@equals(item()?['tool'], 'pefile')"
                           },
                           "runAfter": {
                             "Filter_polyunite_metadata": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Build_summary": {
+                          "type": "Compose",
+                          "description": "Single point of truth for field extraction. Every value coalesces across the hash-lookup scan record and the artifact-metadata record, so the comment degrades cleanly if either source is missing a field.",
+                          "inputs": {
+                            "sha256": "@coalesce(outputs('Select_scan_record')?['sha256'], outputs('Select_artifact_metadata_record')?['artifact']?['sha256'], toLower(trim(items('For_each_file_hash')?['Value'])))",
+                            "polyscore": "@coalesce(outputs('Select_scan_record')?['polyscore'], outputs('Select_artifact_metadata_record')?['scan']?['latest_scan']?['polyscore'])",
+                            "verdictFlag": "@outputs('Select_scan_record')?['result']",
+                            "malicious": "@coalesce(outputs('Select_scan_record')?['detections']?['malicious'], outputs('Select_artifact_metadata_record')?['scan']?['detections']?['malicious'], 0)",
+                            "benign": "@coalesce(outputs('Select_scan_record')?['detections']?['benign'], outputs('Select_artifact_metadata_record')?['scan']?['detections']?['benign'], 0)",
+                            "total": "@coalesce(outputs('Select_scan_record')?['detections']?['total'], outputs('Select_artifact_metadata_record')?['scan']?['detections']?['total'], 0)",
+                            "engines": "@body('Select_malicious_engine_names')",
+                            "malwareFamily": "@coalesce(first(body('Filter_polyunite_metadata'))?['tool_metadata']?['malware_family'], outputs('Select_artifact_metadata_record')?['polyunite']?['malware_family'], first(coalesce(outputs('Select_artifact_metadata_record')?['families'], json('[]'))))",
+                            "labels": "@coalesce(first(body('Filter_polyunite_metadata'))?['tool_metadata']?['labels'], outputs('Select_artifact_metadata_record')?['polyunite']?['labels'], json('[]'))",
+                            "tags": "@coalesce(outputs('Select_artifact_metadata_record')?['tags'], json('[]'))",
+                            "sandboxFamilies": "@coalesce(outputs('Select_artifact_metadata_record')?['triage_sandbox_v0']?['malware_family'], json('[]'))",
+                            "ttps": "@union(coalesce(outputs('Select_artifact_metadata_record')?['cape_sandbox_v2']?['ttp'], json('[]')), coalesce(outputs('Select_artifact_metadata_record')?['triage_sandbox_v0']?['ttp'], json('[]')))",
+                            "capeScore": "@outputs('Select_artifact_metadata_record')?['cape_sandbox_v2']?['malscore']",
+                            "triageScore": "@outputs('Select_artifact_metadata_record')?['triage_sandbox_v0']?['analysis']?['score']",
+                            "imphash": "@first(body('Filter_pefile_metadata'))?['tool_metadata']?['imphash']",
+                            "packer": "@first(body('Filter_pefile_metadata'))?['tool_metadata']?['peid']",
+                            "fileType": "@coalesce(outputs('Select_scan_record')?['extended_type'], outputs('Select_artifact_metadata_record')?['scan']?['mimetype']?['extended'], outputs('Select_artifact_metadata_record')?['exiftool']?['filetype'])",
+                            "size": "@coalesce(outputs('Select_scan_record')?['size'], outputs('Select_artifact_metadata_record')?['artifact']?['size'])",
+                            "firstSeen": "@coalesce(outputs('Select_scan_record')?['first_seen'], outputs('Select_artifact_metadata_record')?['scan']?['first_seen'])",
+                            "lastSeen": "@coalesce(outputs('Select_scan_record')?['last_seen'], outputs('Select_artifact_metadata_record')?['scan']?['last_seen'])",
+                            "permalink": "@outputs('Select_scan_record')?['permalink']"
+                          },
+                          "runAfter": {
+                            "Filter_pefile_metadata": [
                               "Succeeded"
                             ]
                           }
@@ -323,7 +383,7 @@
                             "path": "/Incidents/Comment",
                             "body": {
                               "incidentArmId": "@triggerBody()?['object']?['id']",
-                              "message": "<p><strong>PolySwarm enrichment</strong><br>\nHash (@{toUpper(outputs('Determine_hash_type'))}): @{items('For_each_file_hash')?['Value']}<br>\nAssessment: <strong>@{if(equals(outputs('Build_summary')?['verdictFlag'], true), 'Malicious', if(equals(outputs('Build_summary')?['verdictFlag'], false), 'Benign', if(equals(outputs('Build_summary')?['polyscore'], null), 'Unknown', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], float(parameters('PolySwarmMaliciousThreshold'))), 'Malicious', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], div(float(parameters('PolySwarmMaliciousThreshold')), 2)), 'Suspicious', 'Likely benign')))))}</strong> (PolyScore @{if(equals(outputs('Build_summary')?['polyscore'], null), 'n/a', formatNumber(outputs('Build_summary')?['polyscore'], '0.0000'))})<br>\nDetections: @{outputs('Build_summary')?['malicious']} malicious / @{outputs('Build_summary')?['benign']} benign of @{outputs('Build_summary')?['total']} engines<br>\n@{if(empty(outputs('Build_summary')?['engines']), '', concat('Malicious engines: ', join(outputs('Build_summary')?['engines'], ', '), '<br>\n'))}Malware family: @{coalesce(outputs('Build_summary')?['malwareFamily'], 'n/a')}<br>\n@{if(empty(outputs('Build_summary')?['labels']), '', concat('Labels: ', join(outputs('Build_summary')?['labels'], ', '), '<br>\n'))}@{if(empty(outputs('Build_summary')?['tags']), '', concat('Tags: ', join(outputs('Build_summary')?['tags'], ', '), '<br>\n'))}@{if(empty(outputs('Build_summary')?['sandboxFamilies']), '', concat('Sandbox-reported family: ', join(outputs('Build_summary')?['sandboxFamilies'], ', '), '<br>\n'))}@{if(and(equals(outputs('Build_summary')?['capeScore'], null), equals(outputs('Build_summary')?['triageScore'], null)), '', concat('Sandbox scores: CAPE ', coalesce(string(outputs('Build_summary')?['capeScore']), 'n/a'), ' / Triage ', coalesce(string(outputs('Build_summary')?['triageScore']), 'n/a'), '<br>\n'))}@{if(empty(outputs('Build_summary')?['ttps']), '', concat('MITRE ATT&amp;CK: ', join(outputs('Build_summary')?['ttps'], ', '), '<br>\n'))}@{if(equals(outputs('Build_summary')?['fileType'], null), '', concat('File type: ', string(outputs('Build_summary')?['fileType']), '<br>\n'))}@{if(equals(outputs('Build_summary')?['firstSeen'], null), '', concat('First seen: ', string(outputs('Build_summary')?['firstSeen']), ' | Last seen: ', coalesce(string(outputs('Build_summary')?['lastSeen']), 'n/a'), '<br>\n'))}PolySwarm report: <a href=\"@{coalesce(outputs('Build_summary')?['permalink'], concat('https://polyswarm.network/scan/results/file/', outputs('Build_summary')?['sha256']))}\">@{coalesce(outputs('Build_summary')?['permalink'], concat('https://polyswarm.network/scan/results/file/', outputs('Build_summary')?['sha256']))}</a></p>"
+                              "message": "<p><strong>PolySwarm enrichment</strong><br>\nHash (@{toUpper(outputs('Determine_hash_type'))}): @{items('For_each_file_hash')?['Value']}<br>\nAssessment: <strong>@{if(equals(outputs('Build_summary')?['verdictFlag'], true), 'Malicious', if(equals(outputs('Build_summary')?['verdictFlag'], false), 'Benign', if(equals(outputs('Build_summary')?['polyscore'], null), 'Unknown', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], float(parameters('PolySwarmMaliciousThreshold'))), 'Malicious', if(greaterOrEquals(outputs('Build_summary')?['polyscore'], div(float(parameters('PolySwarmMaliciousThreshold')), 2)), 'Suspicious', 'Likely benign')))))}</strong> (PolyScore @{if(equals(outputs('Build_summary')?['polyscore'], null), 'n/a', formatNumber(outputs('Build_summary')?['polyscore'], '0.0000'))})<br>\nDetections: @{outputs('Build_summary')?['malicious']} malicious / @{outputs('Build_summary')?['benign']} benign of @{outputs('Build_summary')?['total']} engines<br>\n@{if(empty(outputs('Build_summary')?['engines']), '', concat('Malicious engines: ', join(outputs('Build_summary')?['engines'], ', '), '<br>\n'))}Malware family: @{coalesce(outputs('Build_summary')?['malwareFamily'], 'n/a')}<br>\n@{if(empty(outputs('Build_summary')?['labels']), '', concat('Labels: ', join(outputs('Build_summary')?['labels'], ', '), '<br>\n'))}@{if(empty(outputs('Build_summary')?['tags']), '', concat('Tags: ', join(outputs('Build_summary')?['tags'], ', '), '<br>\n'))}@{if(empty(outputs('Build_summary')?['sandboxFamilies']), '', concat('Sandbox-reported family: ', join(outputs('Build_summary')?['sandboxFamilies'], ', '), '<br>\n'))}@{if(and(equals(outputs('Build_summary')?['capeScore'], null), equals(outputs('Build_summary')?['triageScore'], null)), '', concat('Sandbox scores: CAPE ', coalesce(string(outputs('Build_summary')?['capeScore']), 'n/a'), ' / Triage ', coalesce(string(outputs('Build_summary')?['triageScore']), 'n/a'), '<br>\n'))}@{if(empty(outputs('Build_summary')?['ttps']), '', concat('MITRE ATT&amp;CK: ', join(outputs('Build_summary')?['ttps'], ', '), '<br>\n'))}@{if(equals(outputs('Build_summary')?['fileType'], null), '', concat('File type: ', string(outputs('Build_summary')?['fileType']), '<br>\n'))}@{if(equals(outputs('Build_summary')?['imphash'], null), '', concat('Imphash: ', string(outputs('Build_summary')?['imphash']), '<br>\n'))}@{if(equals(outputs('Build_summary')?['packer'], null), '', concat('Packer: ', string(outputs('Build_summary')?['packer']), '<br>\n'))}@{if(equals(outputs('Build_summary')?['firstSeen'], null), '', concat('First seen: ', string(outputs('Build_summary')?['firstSeen']), ' | Last seen: ', coalesce(string(outputs('Build_summary')?['lastSeen']), 'n/a'), '<br>\n'))}PolySwarm report: <a href=\"@{coalesce(outputs('Build_summary')?['permalink'], concat('https://polyswarm.network/scan/results/file/', outputs('Build_summary')?['sha256']))}\">@{coalesce(outputs('Build_summary')?['permalink'], concat('https://polyswarm.network/scan/results/file/', outputs('Build_summary')?['sha256']))}</a></p>"
                             }
                           },
                           "runAfter": {
@@ -347,7 +407,7 @@
                               "path": "/Incidents/Comment",
                               "body": {
                                 "incidentArmId": "@triggerBody()?['object']?['id']",
-                                "message": "<p><strong>PolySwarm enrichment</strong><br>\nHash (@{toUpper(outputs('Determine_hash_type'))}): @{items('For_each_file_hash')?['Value']}<br>\nNo PolySwarm result. HTTP status: @{coalesce(outputs('Search_PolySwarm')?['statusCode'], 'no response')}. A 404 means the artifact has never been scanned in the '@{parameters('PolySwarmCommunity')}' community; consider submitting the file for scanning.</p>"
+                                "message": "<p><strong>PolySwarm enrichment</strong><br>\nHash (@{toUpper(outputs('Determine_hash_type'))}): @{items('For_each_file_hash')?['Value']}<br>\nNo PolySwarm result. HTTP status: @{coalesce(outputs('Search_PolySwarm_hash')?['statusCode'], 'no response')}. A 404 means the artifact has never been scanned in the '@{parameters('PolySwarmCommunity')}' community; consider submitting the file for scanning.</p>"
                               }
                             },
                             "runAfter": {}
