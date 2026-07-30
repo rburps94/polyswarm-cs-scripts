@@ -92,13 +92,31 @@ shown rather than one being picked as authoritative.
 
 | Path | Purpose |
 | --- | --- |
-| `playbooks/polyswarm-enrich-hash-from-incident.json` | ARM template deploying the Logic App playbook plus its Sentinel API connection. This is the only file you need to deploy. |
+| `playbooks/polyswarm-enrich-hash-from-incident.json` | Hash enrichment. Verdict, PolyScore, engines, family, sandbox and ATT&CK. Deploy this first. |
+| `playbooks/polyswarm-enrich-url-from-incident.json` | URL enrichment. PolyScore, engines, DNS resolution, ASN and TLS certificate detail. |
+| `playbooks/polyswarm-enrich-ip-from-incident.json` | IP association. Which analysed artifacts have been seen contacting the address. |
 | `custom-connector/polyswarm-connector-swagger.json` | Swagger 2.0 definition for the PolySwarm custom Logic Apps connector. Deployed independently of the playbook; see [The custom connector](#the-custom-connector). |
 
 These are two separate deliverables that ship together. The **connector** turns the
 PolySwarm v3 API into first-class Logic Apps actions so a security team can build
-their own playbooks and automation rules against it. The **playbook** is a worked
-reference showing one complete enrichment flow end to end.
+their own playbooks and automation rules against it. The **playbooks** are worked
+references — one per entity type — showing complete enrichment flows end to end.
+
+All three playbooks are independent: deploy any subset, each creates its own Sentinel
+connection and managed identity, and each attaches to its own automation rule. They
+share one structure, so reading the hash playbook explains all three:
+
+```
+Sentinel incident trigger
+  └─ Entities - Get {FileHashes|URLs|IPs}
+      └─ For each (sequential)
+          ├─ HTTP → PolySwarm v3
+          └─ If result → Filter/Select → Build_summary → Add comment
+                  else → "no result" comment
+```
+
+`Build_summary` is the single point of field extraction in every playbook. Add or move
+a field there; the comment body reads only from its output.
 
 The playbook deliberately calls PolySwarm with built-in **HTTP** actions rather than
 through the connector. That keeps it self-contained — it deploys and runs with no
