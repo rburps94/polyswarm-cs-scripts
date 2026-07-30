@@ -272,19 +272,29 @@ Logic Apps custom connector, so Sentinel playbooks, automation rules and Defende
 XDR-triggered workflows can enrich an indicator inline as part of an automated
 response — without anyone hand-writing HTTP actions and expressions.
 
-| Operation | Endpoint | Purpose |
-| --- | --- | --- |
-| `EnrichSha256` / `EnrichSha1` / `EnrichMd5` | `/search/hash/{type}` | Verdict, PolyScore, per-engine assertions, PolyUnite family labelling |
-| `SearchUrl` | `/search/url` | URL enrichment |
-| `SearchIoc` | `/ioc/search` | Artifacts associated with an IP, domain, TTP or imphash |
-| `GetIocsForSha256` | `/ioc/sha256/{sha256}` | IPs, domains, TTPs and imphashes associated with a sample — corpus context for investigation expansion |
-| `SearchMetadata` | `/search/metadata/query` | Tags, families, sandbox scores, MITRE ATT&CK |
+| Operation | Endpoint | Purpose | Response typed |
+| --- | --- | --- | --- |
+| `EnrichSha256` | `/search/hash/sha256` | Verdict, PolyScore, per-engine assertions, PolyUnite family labelling | ✅ verified live |
+| `EnrichSha1` / `EnrichMd5` | `/search/hash/{type}` | As above, for SHA1 and MD5 entities | ⚠️ inferred from SHA256 |
+| `SearchUrl` | `/search/url` | URL enrichment | ❌ **not sampled** |
+| `SearchIoc` | `/ioc/search` | SHA256 hashes associated with an IP, domain, TTP or imphash | ✅ verified live |
+| `GetIocsForSha256` | `/ioc/sha256/{sha256}` | IPs, domains, TTPs and imphashes associated with a sample — corpus context for investigation expansion | ❌ **not sampled** |
+| `SearchMetadata` | `/search/metadata/query` | Tags, families, sandbox scores, MITRE ATT&CK | ✅ verified live |
 
-> **Response schemas are typed for the hash and metadata operations only.** Those two
-> were verified against live responses. `SearchUrl`, `SearchIoc` and `GetIocsForSha256`
-> have correct request definitions but their `result[]` item shapes are deliberately
-> left untyped rather than guessed — confirm each against a live response and type it
+> **Two response schemas are unverified.** `SearchUrl` is provisionally typed as the
+> scan-instance shape and `GetIocsForSha256` is left untyped. Both have correct request
+> definitions and will work, but confirm each against a live response and type it
 > before relying on designer dynamic content for those operations.
+
+Note that the two IOC operations are **inverses of each other and do not share a
+response shape**. `SearchIoc` returns a flat array of SHA256 strings (not objects);
+`GetIocsForSha256` returns the indicators associated with one sample.
+
+**`SearchIoc` results paginate, and volume is not a verdict.** A query for common
+infrastructure — `8.8.8.8`, for instance — returns a full page with `has_more` set,
+because a great deal of malware talks to public DNS. Treat the association as a pivot
+lead, not as evidence the indicator is malicious, and page with the returned `offset`
+token rather than assuming one call is the whole answer.
 
 **File submission is intentionally not included.** PolySwarm's submission flow is
 three steps, and the middle step uploads to a presigned S3 URL on a different host —

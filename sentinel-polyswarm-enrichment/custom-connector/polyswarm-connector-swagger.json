@@ -3,7 +3,7 @@
   "info": {
     "title": "PolySwarm Malware Enrichment",
     "description": "Custom Logic Apps connector for the PolySwarm v3 API. Provides hash, URL and IOC enrichment actions for Microsoft Sentinel playbooks and automation rules. Hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata); the metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
-    "version": "1.4",
+    "version": "1.5",
     "contact": {
       "name": "PolySwarm Customer Success",
       "url": "https://docs.polyswarm.io/customers/polyswarm-rest-api-v3",
@@ -215,7 +215,7 @@
       "get": {
         "operationId": "SearchIoc",
         "summary": "Find artifacts associated with an IP, domain, TTP or imphash",
-        "description": "Returns artifacts observed in association with the supplied indicator. Supply exactly one of ip, domain, ttp or imphash. Response schema is not yet typed; confirm against a live response.",
+        "description": "Returns the SHA256 hashes of artifacts observed in association with the supplied indicator. Supply exactly one of ip, domain, ttp or imphash. Results are a flat array of hash strings and are paginated. Note that common infrastructure returns very large result sets - 8.8.8.8 returns a full page with has_more set - so the number of associated hashes is not by itself a maliciousness signal.",
         "parameters": [
           {
             "name": "ip",
@@ -251,6 +251,24 @@
           },
           {
             "$ref": "#/parameters/community"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Page size.",
+            "required": false,
+            "type": "integer",
+            "default": 50,
+            "x-ms-summary": "Limit"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Opaque pagination token from a previous response. Pass back unmodified.",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Offset",
+            "x-ms-visibility": "advanced"
           }
         ],
         "responses": {
@@ -301,7 +319,7 @@
           "200": {
             "description": "Result",
             "schema": {
-              "$ref": "#/definitions/IocSearchResponse"
+              "$ref": "#/definitions/ArtifactIocsResponse"
             }
           },
           "401": {
@@ -1020,7 +1038,35 @@
     },
     "IocSearchResponse": {
       "type": "object",
-      "description": "Envelope returned by the /ioc/* operations. The result item shape has not been verified against a live response, so items are left untyped deliberately rather than guessed. Type this before relying on designer dynamic content.",
+      "description": "Envelope returned by /ioc/search. Verified against a live response: result is a flat array of SHA256 strings, not objects. Results are paginated - a truthy has_more with an offset token means more pages are available.",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean",
+          "description": "True when more pages are available."
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "string",
+          "description": "Opaque pagination token. Pass back unmodified as the offset parameter to fetch the next page."
+        },
+        "result": {
+          "type": "array",
+          "description": "SHA256 hashes of artifacts associated with the supplied indicator.",
+          "items": {
+            "type": "string",
+            "description": "SHA256 hash."
+          }
+        }
+      }
+    },
+    "ArtifactIocsResponse": {
+      "type": "object",
+      "description": "Envelope returned by /ioc/sha256/{sha256}. This returns the inverse of /ioc/search - the IPs, domains, TTPs and imphashes associated with a sample - so it does NOT share the IocSearchResponse shape. Not yet verified against a live response; result items are left untyped rather than guessed.",
       "properties": {
         "status": {
           "type": "string"
@@ -1037,7 +1083,7 @@
         },
         "result": {
           "type": "array",
-          "description": "Associated IOC or artifact records.",
+          "description": "Associated IOC records.",
           "items": {
             "type": "object"
           }
