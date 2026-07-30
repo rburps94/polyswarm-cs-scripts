@@ -43,8 +43,8 @@ prefer the environment variable or a mode-600 key file.
 # a column piped from a hunting export, to STIX
 cut -d, -f3 defender-export.csv | ./polyswarm_enrich.py - --format stix -o iocs.json
 
-# a community-tier key: 60 requests per HOUR, so throttle to 1 per minute
-./polyswarm_enrich.py -i hashes.txt --rate-limit 1 --verbose
+# large batch, unthrottled
+./polyswarm_enrich.py -i hashes.txt --rate-limit 0 --verbose
 ```
 
 MD5, SHA1 and SHA256 are auto-detected from length and routed to the matching
@@ -60,14 +60,18 @@ preserved — a 5,000-row export with repeats costs one lookup per distinct hash
 | `-o`, `--output` | stdout | Write to a file instead |
 | `-c`, `--community` | `default` | Set this if you use a private community |
 | `-t`, `--threshold` | `0.8` | PolyScore at or above which an artifact is assessed malicious; half this value is "suspicious" |
-| `-r`, `--rate-limit` | `60` | Max requests per minute. `0` disables throttling |
+| `-r`, `--rate-limit` | `600` | Max requests per minute. `0` disables throttling |
 | `--retries` | `3` | Retries on 429, 5xx and timeouts, with exponential backoff |
 | `--timeout` | `30` | Per-request timeout in seconds |
 | `-v`, `--verbose` | off | Progress and a summary line to stderr |
 
-**Rate limits.** Community-tier keys allow **60 requests per hour**, so the default of
-60/minute exhausts that quota in one minute. Use `--rate-limit 1`. Enterprise keys
-allow far more and can raise it or set `0`.
+**Rate limits.** The default of 600 requests/minute is a deliberately conservative
+enterprise-tier setting — comfortably inside the quota while leaving headroom for
+anything else using the same key. Raise it or pass `--rate-limit 0` to disable
+throttling if your quota allows.
+
+Throttling is client-side only: it paces requests, it does not know your actual quota.
+If you see `429`s, lower it. The tool retries `429` with exponential backoff regardless.
 
 ## Exit codes
 

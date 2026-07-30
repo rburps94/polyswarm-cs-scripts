@@ -38,7 +38,7 @@ from typing import Any, Iterable, Iterator
 DEFAULT_BASE_URL = "https://api.polyswarm.network/v3"
 DEFAULT_COMMUNITY = "default"
 DEFAULT_THRESHOLD = 0.8
-DEFAULT_RATE_LIMIT = 60  # requests per minute
+DEFAULT_RATE_LIMIT = 600  # requests per minute; enterprise-tier default
 DEFAULT_RETRIES = 3
 DEFAULT_TIMEOUT = 30
 USER_AGENT = "polyswarm-enrich/1.0 (+https://polyswarm.io)"
@@ -133,9 +133,8 @@ def resolve_api_key(args: argparse.Namespace) -> str:
 class PolySwarmClient:
     """Minimal v3 client with throttling and retry.
 
-    Community-tier accounts are limited to 60 requests per hour, so the default
-    of 60/minute will exhaust that quota in one minute. Pass --rate-limit 1 on a
-    community key.
+    The default of 600/minute is a conservative enterprise-tier setting. Raise it
+    or pass --rate-limit 0 to disable throttling entirely if your quota allows.
     """
 
     def __init__(
@@ -420,8 +419,8 @@ def build_parser() -> argparse.ArgumentParser:
         description="Bulk-enrich file hashes with PolySwarm threat intelligence.",
         epilog=(
             "Operates on hashes only. Never reads or uploads file contents.\n\n"
-            "Community-tier keys allow 60 requests per HOUR: use --rate-limit 1.\n"
-            "Enterprise keys can use the default of 60 per minute or higher."
+            "The default of 600 requests/minute suits an enterprise key. Raise it, or\n"
+            "pass --rate-limit 0 to disable throttling, if your quota allows."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

@@ -1,17 +1,18 @@
 # Microsoft Sentinel — PolySwarm Enrichment
 
-A Microsoft Sentinel playbook (Logic App) that enriches file hashes found on Sentinel
-incidents with PolySwarm threat intelligence, and writes the results back onto the
-incident as a comment.
+A custom Logic Apps connector wrapping the PolySwarm v3 API, plus three
+incident-triggered Sentinel playbooks that enrich **file hash**, **URL** and **IP**
+entities and write the results back onto the incident as a comment.
 
-An optional custom Logic Apps connector is also included for teams that prefer a
-first-class connector action over a raw HTTP call.
+The connector lets a security team build their own playbooks and automation rules
+against PolySwarm. The playbooks are worked references — one per entity type.
 
 ---
 
 ## What this integration does
 
-When an incident is created, an automation rule runs this playbook. The playbook:
+Taking the hash playbook as the worked example — an automation rule runs it when an
+incident is created, and it:
 
 1. Receives the incident (including its entities) from the **Microsoft Sentinel incident** trigger.
 2. Extracts every `FileHash` entity via the Sentinel connector's `Entities - Get FileHashes` action.
@@ -32,7 +33,7 @@ is a superset of the other:
 
 | Field | `/search/hash/*` | `/search/metadata/query` |
 | --- | --- | --- |
-| Verdict (`result`), `permalink` | yes | no |
+| `permalink`, `first_seen` / `last_seen` | yes | no |
 | PolyScore, detection counts | yes | yes |
 | Per-engine assertions with engine names | yes — an **array**, enumerable | no — an **object keyed by engine name**, which Logic Apps cannot enumerate |
 | PolyUnite family and labels | yes, under `metadata[]` | yes, at the record root |
@@ -46,9 +47,10 @@ the sandbox and ATT&CK context. So the playbook does both, and the second call i
 best-effort: if it fails, 429s or returns nothing, the comment is still posted using
 the hash-lookup data alone.
 
-The second call is contained in `Search_PolySwarm_artifact_metadata`. **Delete that
-action and `Select_artifact_metadata_record` to halve the API calls per hash** — the
-comment degrades cleanly, dropping only the tags, sandbox and ATT&CK lines.
+The second call is contained in `Search_PolySwarm_artifact_metadata`. Deleting that
+action and `Select_artifact_metadata_record` halves the API calls per hash and the
+comment degrades cleanly, dropping only the tags, sandbox and ATT&CK lines — worth
+knowing, though on an enterprise key there is no quota reason to.
 
 Every field is optional in the output: lines are omitted rather than printed as `n/a`
 when the underlying data is absent, so a sparse record still produces a clean comment.
@@ -84,7 +86,7 @@ shown rather than one being picked as authoritative.
 
 - It does not submit or upload files to PolySwarm — it only looks up artifacts PolySwarm has already seen.
 - It does not write to a custom Log Analytics table (see [Extending](#extending) for why, and what to do instead).
-- It does not enrich URL, IP or domain entities — only file hashes.
+- It does not enrich domain entities. Hash, URL and IP each have their own playbook; `DnsResolution` does not.
 
 ---
 
@@ -213,7 +215,7 @@ lookup is the primary call rather than the metadata query.
 
 ### Rate limits
 
-- **PolySwarm:** community accounts are limited to 60 calls/hour; enterprise accounts to 1000 calls/second. **The playbook makes two calls per hash**, so a community key allows roughly 30 hashes per hour — not viable for a live workspace. Budget accordingly, or delete the secondary call.
+- **PolySwarm:** enterprise-tier quotas are far above anything a per-incident playbook generates. The hash playbook makes two calls per hash and the URL and IP playbooks make one each, so a busy workspace is not a quota concern in practice. Confirm your tier's published limit if you intend to drive these playbooks in bulk rather than per incident.
 - **Sentinel connector:** 600 calls per 60 seconds per connection.
 
 The hash lookup retries 3 times with exponential backoff; the secondary metadata call
@@ -396,7 +398,7 @@ separate operation, swapping to the connector means adding a `Switch` on
 | "Run trigger" on the Logic App blade errors | Expected. Sentinel triggers need an incident payload — see step 4. |
 | Comment posted, but no Tags / Sandbox / ATT&CK lines | The secondary metadata call failed, was rate-limited, or returned nothing. Check `Search_PolySwarm_artifact_metadata` in the run history — it is allowed to fail by design. |
 | "No PolySwarm result" with status 401 | Bad or missing API key. |
-| "No PolySwarm result" with status 429 | PolySwarm rate limit reached. Remember it is two calls per hash. |
+| "No PolySwarm result" with status 429 | PolySwarm rate limit reached. Unexpected on an enterprise key from per-incident traffic — check whether something else is driving the same key hard. |
 | "No PolySwarm result" with status 404 | The artifact has never been scanned in that community. A normal outcome, not an error. |
 | Comment shows `Malware family: n/a` | No PolyUnite classification and no `families[]`. Common for benign or rarely-seen files. |
 | Hashes silently skipped | The hash was not 32, 40 or 64 characters. Check the entity in the incident. |
