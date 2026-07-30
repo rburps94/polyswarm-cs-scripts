@@ -146,8 +146,7 @@ against live responses.
 
 | Path | Used for |
 | --- | --- |
-| `result[0].result` | Verdict (boolean) |
-| `result[0].polyscore` | PolyScore |
+| `result[0].polyscore` | PolyScore — **the assessment is derived from this**, against `PolySwarmMaliciousThreshold` |
 | `result[0].detections.{malicious,benign,total}` | Detection summary |
 | `result[0].assertions[]` → `.verdict`, `.engine.name` | Malicious engine list. `verdict` is `true`, `false` or **`null`** when an engine did not assert — the filter matches `true` only, so nulls are correctly excluded |
 | `result[0].metadata[]` where `tool = "polyunite"` | `tool_metadata.malware_family`, `tool_metadata.labels[]` |
@@ -164,6 +163,14 @@ against live responses.
 | `result[0].cape_sandbox_v2.malscore`, `.ttp[]` | Sandbox score, MITRE ATT&CK |
 | `result[0].scan.latest_scan.polyscore`, `result[0].scan.detections` | Fallbacks if the hash lookup is unavailable |
 | `result[0].scan.latest_scan.assertions` | **Object keyed by engine name** — not enumerable, see below |
+
+> **`result` is not a verdict — do not treat it as one.** Despite its name, and despite
+> what earlier versions of this connector definition claimed, `result[0].result` tracks
+> scan settlement, not maliciousness. A live scan of `https://polyswarm.io` returns
+> `result: true` alongside `0` of `2` engines asserting malicious and a PolyScore of
+> `0.33`. Reading it as a verdict marks known-good artifacts as Malicious. The playbook
+> derives its assessment from PolyScore only, and carries the field as `scanSettled` in
+> `Build_summary` so it cannot be mistaken for one.
 
 All extraction is centralised in the `Build_summary` Compose action, where every value
 `coalesce()`s across both records. If a field moves, that is the only action to edit —

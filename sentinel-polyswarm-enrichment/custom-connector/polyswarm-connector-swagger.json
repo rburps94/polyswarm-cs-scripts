@@ -3,7 +3,7 @@
   "info": {
     "title": "PolySwarm Malware Enrichment",
     "description": "Custom Logic Apps connector for the PolySwarm v3 API. Provides hash, URL and IOC enrichment actions for Microsoft Sentinel playbooks and automation rules. Hash lookups return a scan instance (verdict, PolyScore, per-engine assertions, PolyUnite classification, PE metadata); the metadata query returns an artifact record (tags, families, sandbox scores, MITRE ATT&CK). The two shapes differ; see each operation's response schema.",
-    "version": "1.5",
+    "version": "1.6",
     "contact": {
       "name": "PolySwarm Customer Success",
       "url": "https://docs.polyswarm.io/customers/polyswarm-rest-api-v3",
@@ -171,7 +171,7 @@
       "get": {
         "operationId": "SearchUrl",
         "summary": "Enrich a URL",
-        "description": "Looks up a URL in PolySwarm and returns its scan record. Response schema is modelled on the hash lookup and should be confirmed against a live response before relying on individual field paths.",
+        "description": "Looks up a URL in PolySwarm and returns its scan record. Verified against a live response: shares the ScanInstance shape with the hash lookups, with type set to URL, filename set to the submitted URL, and an additional 'ip' metadata entry carrying DNS, WHOIS and TLS certificate detail. URL scans are assessed by far fewer engines than files, so read PolyScore rather than raw detection counts.",
         "parameters": [
           {
             "name": "url",
@@ -187,7 +187,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Result",
+            "description": "Scan instance",
             "schema": {
               "$ref": "#/definitions/ScanSearchResponse"
             }
@@ -440,7 +440,7 @@
     },
     "ScanInstance": {
       "type": "object",
-      "description": "A single scan of an artifact, as returned by the hash lookups. Verified against a live response.",
+      "description": "A single scan of an artifact, as returned by the hash lookups and the URL search. Verified against live responses for both FILE and URL artifact types.",
       "properties": {
         "id": {
           "type": "string"
@@ -449,7 +449,8 @@
           "type": "string"
         },
         "sha256": {
-          "type": "string"
+          "type": "string",
+          "description": "For URL artifacts this is the hash of the URL string, not of any downloaded content."
         },
         "sha1": {
           "type": "string"
@@ -461,7 +462,8 @@
           "type": "integer"
         },
         "filename": {
-          "type": "string"
+          "type": "string",
+          "description": "For URL artifacts this is the submitted URL itself."
         },
         "mimetype": {
           "type": "string"
@@ -477,7 +479,7 @@
         },
         "result": {
           "type": "boolean",
-          "description": "Overall verdict. True for malicious, false for benign."
+          "description": "NOT a maliciousness verdict. This tracks scan settlement and is true for benign artifacts too - a live scan of https://polyswarm.io returns result true with 0 of 2 engines asserting malicious and a PolyScore of 0.33. Derive the verdict from polyscore and detections instead."
         },
         "permalink": {
           "type": "string",
@@ -538,6 +540,10 @@
         },
         "window_closed": {
           "type": "boolean"
+        },
+        "upload_url": {
+          "type": "string",
+          "description": "Presigned storage URL. Null on most lookups."
         }
       }
     },
@@ -636,7 +642,7 @@
     },
     "ToolMetadata": {
       "type": "object",
-      "description": "Shape depends on the producing tool. Common fields across polyunite, pefile and hash entries are listed here.",
+      "description": "Shape depends on the producing tool. polyunite, pefile and hash entries appear on file artifacts; an 'ip' entry appears on URL artifacts carrying DNS resolution, WHOIS/RDAP registration and TLS certificate detail. Common fields are listed here; the objects also contain large free-form members (raw, whois_text, entities, pem) that are deliberately left untyped.",
       "properties": {
         "malware_family": {
           "type": "string",
@@ -683,6 +689,54 @@
         },
         "authentihash": {
           "type": "string"
+        },
+        "resolved_ip": {
+          "type": "string",
+          "description": "ip tool: address the URL resolved to."
+        },
+        "asn": {
+          "type": "integer",
+          "description": "ip tool: autonomous system number."
+        },
+        "asn_org": {
+          "type": "string",
+          "description": "ip tool: autonomous system organisation, for example CLOUDFLARENET."
+        },
+        "network_name": {
+          "type": "string",
+          "description": "ip tool: registered network name."
+        },
+        "range": {
+          "type": "string",
+          "description": "ip tool: allocated address range."
+        },
+        "target": {
+          "type": "string",
+          "description": "ip tool: hostname the certificate and lookup apply to."
+        },
+        "subject": {
+          "type": "string",
+          "description": "ip tool: TLS certificate subject."
+        },
+        "issuer": {
+          "type": "string",
+          "description": "ip tool: TLS certificate issuer."
+        },
+        "whois_server": {
+          "type": "string",
+          "description": "ip tool: authoritative WHOIS server."
+        },
+        "country_code": {
+          "type": "string",
+          "description": "ip tool: geolocated country, often null behind a CDN."
+        },
+        "validity": {
+          "type": "object",
+          "description": "ip tool: certificate not_before and not_after."
+        },
+        "thumbprint": {
+          "type": "object",
+          "description": "ip tool: certificate sha1 and sha256 thumbprints."
         }
       }
     },
